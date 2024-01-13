@@ -11,6 +11,8 @@
     Title="C-Sharp Quiz"
     Width="800"
     Height="450"
+    MinWidth="675"
+    MinHeight="450"
     ExtendsContentIntoTitleBar="True"
     Icon="{StaticResource IconImage}"
     mc:Ignorable="d">

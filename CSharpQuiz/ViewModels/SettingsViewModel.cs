@@ -30,6 +30,8 @@ internal partial class SettingsViewModel : ObservableObject
         this.mainWindow = mainWindow;
 
         IsDarkMode = ApplicationThemeManager.GetAppTheme() == ApplicationTheme.Dark;
+
+        logger.LogInformation("SettingsViewModel wurde initialisiert.");
     }
 
 
@@ -40,26 +42,28 @@ internal partial class SettingsViewModel : ObservableObject
         ApplicationThemeManager.Apply(ApplicationThemeManager.GetAppTheme(), updateAccent: false);
 
         mainWindow.TitleBar.Icon = new ImageIcon() { Source = Elements.IconImage };
+
+        logger.LogInformation($"Akkzent Farbe wurde zu '{color}' aktualisiert.");
     }
 
     [RelayCommand]
     async Task ChangeAccentColorAsync()
     {
-        logger.LogInformation("lol");
-
         SquarePicker picker = new()
         {
             SelectedColor = (Color)Application.Current.Resources["SystemAccentColor"]
         };
 
         if (await dialogService.ShowSimpleDialogAsync(new()
-            {
-                CloseButtonText = "Abrechen",
-                Title = "Wähle eine Farbe aus",
-                PrimaryButtonText = "Okay",
-                Content = picker
-            }) == ContentDialogResult.Primary)
-            SetAccentColor(picker.SelectedColor);
+        {
+            CloseButtonText = "Abrechen",
+            Title = "Wähle eine Farbe aus",
+            PrimaryButtonText = "Okay",
+            Content = picker
+        }) != ContentDialogResult.Primary)
+            return;
+
+        SetAccentColor(picker.SelectedColor);
     }
 
 
@@ -74,6 +78,7 @@ internal partial class SettingsViewModel : ObservableObject
             return;
 
         ApplicationThemeManager.Apply(requestedTheme, updateAccent: false);
+        logger.LogInformation($"Dunkelmodus wurde zu '{value}' aktualisiert.");
     }
 
 
@@ -119,6 +124,5 @@ internal partial class SettingsViewModel : ObservableObject
         App.LoggerWindow.Show();
 
         logger.LogInformation("[HomeViewModel-CreateLoggerWindow] Neues LoggerWindow wurde erstellt und log-handler wurden gehooked.");
-
     }
 }

@@ -6,10 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
-using System.Windows; 
-using System.Windows.Media;
+using System.Windows;
 using Wpf.Ui;
-using Wpf.Ui.Controls;
 
 namespace CSharpQuiz;
 
@@ -34,6 +32,7 @@ public partial class App : Application
                 // Services
                 services.AddSingleton<ContentDialogService>();
                 services.AddSingleton<Navigation>();
+                services.AddSingleton<AppStartupHandler>();
 
                 // ViewModels
                 services.AddSingleton<HomeViewModel>();
@@ -49,18 +48,6 @@ public partial class App : Application
     }
 
 
-    protected override void OnStartup(StartupEventArgs _)
-    {
-        ShellView mainWindow = Provider.GetRequiredService<ShellView>();
-        SettingsViewModel settings = Provider.GetRequiredService<SettingsViewModel>();
-        ContentDialogService dialogService = Provider.GetRequiredService<ContentDialogService>();
-        Navigation navigation = Provider.GetRequiredService<Navigation>();
-
-        settings.SetAccentColor(Color.FromArgb(255, 181, 141, 240));
-        dialogService.SetContentPresenter(mainWindow.DialogPresenter);
-        mainWindow.Show();
-        mainWindow.TitleBar.Icon = new ImageIcon() { Source = Elements.IconImage };
-        navigation.Navigate("Home");
-        navigation.SetPaneOpen(false);
-    }
+    protected override void OnStartup(StartupEventArgs _) =>
+        Provider.GetRequiredService<AppStartupHandler>();
 }

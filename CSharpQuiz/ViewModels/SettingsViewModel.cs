@@ -51,7 +51,9 @@ internal partial class SettingsViewModel : ObservableObject
     {
         SquarePicker picker = new()
         {
-            SelectedColor = (Color)Application.Current.Resources["SystemAccentColor"]
+            SelectedColor = (Color)Application.Current.Resources["SystemAccentColor"],
+            Height = 198,
+            Margin = new(12, 0, 0, 0)
         };
 
         if (await dialogService.ShowSimpleDialogAsync(new()
@@ -78,6 +80,7 @@ internal partial class SettingsViewModel : ObservableObject
             return;
 
         ApplicationThemeManager.Apply(requestedTheme, updateAccent: false);
+
         logger.LogInformation($"Dunkelmodus wurde zu '{value}' aktualisiert.");
     }
 

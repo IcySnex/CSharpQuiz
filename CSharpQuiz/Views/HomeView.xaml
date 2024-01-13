@@ -20,8 +20,9 @@
 
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel.Effect>
-                <DropShadowEffect Opacity="0.7"
+                <DropShadowEffect
                     BlurRadius="200"
+                    Opacity="0.7"
                     ShadowDepth="0"
                     Color="{DynamicResource SystemAccentColor}" />
             </StackPanel.Effect>

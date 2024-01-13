@@ -36,6 +36,7 @@ public partial class App : Application
 
                 // ViewModels
                 services.AddSingleton<HomeViewModel>();
+                services.AddSingleton<QuizViewModel>();
                 services.AddSingleton<SettingsViewModel>();
 
                 // Main Window

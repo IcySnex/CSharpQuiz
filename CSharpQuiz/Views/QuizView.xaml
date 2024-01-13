@@ -14,7 +14,109 @@
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
 
-    <StackPanel Margin="12">
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
         <TextBlock Style="{StaticResource Header}" Text="Quiz" />
-    </StackPanel>
+
+        <Border
+            Grid.Row="1"
+            Padding="12"
+            CornerRadius="4"
+            Visibility="{Binding IsQuizRunning, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Border.Background>
+                <SolidColorBrush Opacity="1" Color="{StaticResource ControlAltFillColorSecondary}" />
+            </Border.Background>
+
+            <UserControl Content="{Binding CurrentQuestion}" />
+        </Border>
+
+        <StackPanel Grid.Row="1" Visibility="{Binding IsQuizRunning, Mode=OneWay, Converter={StaticResource InversedBooleanToVisibilityConverter}}">
+            <ui:Card Padding="12">
+                <TextBlock TextWrapping="Wrap">
+                    <Run Text="Wilkommen beim C#-Quiz! Hier sind ein paar Infos:" />
+                    <LineBreak />
+                    <LineBreak />
+                    <Run Text="Unten links kannst du zur nächsten und vorherigen Frage wechseln. Außerdem siehst du dort allgemeine Infos, wie die jetzige Frage, oder wie lange du bereits im Quiz bist." />
+                    <LineBreak />
+                    <LineBreak />
+                    <Run Text="Um das Quiz zu beenden kannst du den 'Quiz beenden' Knopf unten rechts drücken und falls du bei einer Frage nicht weiter kommst, kannst du den 'Tipp anzeigen' Knopf drücken" />
+                </TextBlock>
+            </ui:Card>
+
+            <ui:Button
+                Margin="0,12,0,0"
+                Padding="24,12"
+                HorizontalAlignment="Center"
+                Appearance="Primary"
+                Command="{Binding StartCommand}"
+                Content="Starte das Quiz">
+                <ui:Button.Effect>
+                    <DropShadowEffect
+                        BlurRadius="200"
+                        Opacity="0.7"
+                        ShadowDepth="0"
+                        Color="{DynamicResource SystemAccentColor}" />
+                </ui:Button.Effect>
+            </ui:Button>
+        </StackPanel>
+
+        <Grid
+            Grid.Row="2"
+            Margin="0,24,0,0"
+            IsEnabled="{Binding IsQuizRunning, Mode=OneWay}"
+            Opacity="{Binding IsQuizRunning, Mode=OneWay, Converter={StaticResource BooleanToOpacityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="4" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <ui:Button
+                Width="32"
+                Height="32"
+                Padding="0"
+                Command="{Binding GoBackCommand}"
+                Content="&#129144;" />
+            <ui:Button
+                Grid.Column="1"
+                Width="32"
+                Height="32"
+                Padding="0"
+                Command="{Binding GoNextCommand}"
+                Content="&#129146;" />
+
+            <TextBlock Grid.Column="3" VerticalAlignment="Center">
+                <Run Text="Frage" />
+                <Run Text="{Binding CurrentQuestionIndex, Mode=OneWay, FallbackValue='?', TargetNullValue='?', Converter={StaticResource AddOneToInt}}" /><Run Text="/" /><Run Text="{Binding QuestionCount, Mode=OneWay, FallbackValue='?', TargetNullValue='?'}" />
+                <Run Foreground="{DynamicResource TextFillColorDisabledBrush}" Text=" - " />
+                <Run Text="Tipps verwendet:" />
+                <Run Text="{Binding HintCount, Mode=OneWay, FallbackValue='?', TargetNullValue='?'}" />
+                <Run Foreground="{DynamicResource TextFillColorDisabledBrush}" Text=" - " />
+                <Run Text="Zeit:" />
+                <Run Text="{Binding TimeEvolved, Mode=OneWay, FallbackValue='00:00', TargetNullValue='00:00'}" />
+
+            </TextBlock>
+
+            <ui:Button
+                Grid.Column="5"
+                Command="{Binding HintCommand}"
+                Content="Tipp anziegen" />
+
+            <ui:Button
+                Grid.Column="7"
+                Appearance="{Binding IsLastQuestion, Mode=OneWay, Converter={StaticResource BooleanToAppearanceConverter}}"
+                Command="{Binding StopCommand}"
+                Content="Quiz beenden" />
+        </Grid>
+    </Grid>
 </Page>

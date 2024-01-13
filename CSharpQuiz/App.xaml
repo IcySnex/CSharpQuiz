@@ -74,7 +74,8 @@
             <!--  Styles  -->
             <Style x:Key="Header" TargetType="TextBlock">
                 <Style.Setters>
-                    <Setter Property="FontSize" Value="24" />
+                    <Setter Property="Opacity" Value="0.7" />
+                    <Setter Property="FontSize" Value="22" />
                     <Setter Property="FontWeight" Value="DemiBold" />
                     <Setter Property="Margin" Value="0,0,0,12" />
                 </Style.Setters>

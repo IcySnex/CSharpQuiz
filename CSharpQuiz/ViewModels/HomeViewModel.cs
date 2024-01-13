@@ -20,6 +20,6 @@ internal partial class HomeViewModel
     [RelayCommand]
     void Start()
     {
-        navigation.Navigate("Settings");
+        navigation.Navigate("Quiz");
     }
 }

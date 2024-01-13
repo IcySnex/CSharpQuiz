@@ -6,6 +6,7 @@ using CSharpQuiz.Views;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;
@@ -73,5 +74,51 @@ internal partial class SettingsViewModel : ObservableObject
             return;
 
         ApplicationThemeManager.Apply(requestedTheme, updateAccent: false);
+    }
+
+
+    [RelayCommand]
+    void CreateLoggerWindow()
+    {
+        if (App.LoggerWindow is not null)
+        {
+            App.LoggerWindow.Activate();
+            return;
+        }
+
+        System.Windows.Controls.TextBlock textBlock = new()
+        {
+            VerticalAlignment = VerticalAlignment.Top,
+            HorizontalAlignment = HorizontalAlignment.Left,
+            Margin = new(4)
+        };
+
+        App.LoggerWindow = new()
+        {
+            Title = "CSharp Quiz (Logger)",
+            Width = 600,
+            Height = 300,
+            Content = new DynamicScrollViewer()
+            {
+                HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
+                VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+                Content = textBlock
+            }
+        };
+
+        void handler(object? s, string e) =>
+            textBlock.Text += e;
+
+        App.Sink.OnNewLog += handler;
+        App.LoggerWindow.Closed += (s, e) =>
+        {
+            App.Sink.OnNewLog -= handler;
+            App.LoggerWindow = null;
+        };
+
+        App.LoggerWindow.Show();
+
+        logger.LogInformation("[HomeViewModel-CreateLoggerWindow] Neues LoggerWindow wurde erstellt und log-handler wurden gehooked.");
+
     }
 }

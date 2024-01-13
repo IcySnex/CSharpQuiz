@@ -19,6 +19,7 @@ public partial class App : Application
 
     public static IServiceProvider Provider { get; private set; } = default!;
     public static InMemorySink Sink { get; } = new();
+    public static Window? LoggerWindow { get; set; }
 
     public App()
     {
@@ -55,7 +56,7 @@ public partial class App : Application
         ContentDialogService dialogService = Provider.GetRequiredService<ContentDialogService>();
         Navigation navigation = Provider.GetRequiredService<Navigation>();
 
-        settings.SetAccentColor(Color.FromArgb(255, 161, 121, 220));
+        settings.SetAccentColor(Color.FromArgb(255, 181, 141, 240));
         dialogService.SetContentPresenter(mainWindow.DialogPresenter);
         mainWindow.Show();
         mainWindow.TitleBar.Icon = new ImageIcon() { Source = Elements.IconImage };

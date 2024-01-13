@@ -24,7 +24,7 @@ internal class Navigation
     public bool Navigate(
         string page)
     {
-        logger.LogInformation($"Navigating to page: {page}");
+        logger.LogInformation($"Navigiert zur '{page}' Seite");
 
         return mainWindow.Navigation.Navigate(page);
     }

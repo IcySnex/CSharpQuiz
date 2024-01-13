@@ -15,7 +15,7 @@
     mc:Ignorable="d">
 
     <StackPanel Margin="12">
-        <TextBlock Style="{StaticResource Header}" Text="Settings" />
+        <TextBlock Style="{StaticResource Header}" Text="Einstellungen" />
 
         <ContentControl
             Uid="Akzent Farbe"
@@ -46,6 +46,17 @@
             </ContentControl.Tag>
 
             <ui:ToggleSwitch IsChecked="{Binding IsDarkMode, Mode=TwoWay}" />
+        </ContentControl>
+
+        <ContentControl
+            Uid="Debug Logger"
+            ContentStringFormat="Zeige ein Fenster mit allen neuen Log-Benachrichtigungen"
+            Template="{StaticResource SettingsCard}">
+            <ContentControl.Tag>
+                <ui:SymbolIcon Symbol="CodeBlock20" />
+            </ContentControl.Tag>
+
+            <ui:Button Command="{Binding CreateLoggerWindowCommand}" Content="Erstelle Fenster" />
         </ContentControl>
     </StackPanel>
 </Page>

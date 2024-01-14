@@ -10,25 +10,25 @@ public partial class SingleChoiceQuestion : Question
         string text,
         string hint,
         int points,
-        int correctIndex,
+        string correctAnswer,
         params string[] choices) : base(text, "Single-Choice-Frage: Wähle einer der folgenden Antworten aus.", hint, points)
     {
-        CorrectIndex = correctIndex;
+        CorrectAnswer = correctAnswer;
         Choices = new ObservableCollection<string>(choices);
     }
 
 
-    public int CorrectIndex { get; }
+    public string CorrectAnswer { get; }
 
     public ObservableCollection<string> Choices { get; }
 
     [ObservableProperty]
-    int selectedIndex = 0;
+    string? selectedItem = null;
 
 
     public override int EvaluatePoints()
     {
-        if (SelectedIndex == CorrectIndex)
+        if (SelectedItem == CorrectAnswer)
             return Points;
 
         return 0;

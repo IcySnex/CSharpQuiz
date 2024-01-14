@@ -37,7 +37,7 @@
                         Text="{Binding TypeNote}"
                         TextWrapping="Wrap" />
 
-                    <ListView ItemsSource="{Binding Choices}" SelectedIndex="{Binding SelectedIndex}">
+                    <ListView ItemsSource="{Binding Choices}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock

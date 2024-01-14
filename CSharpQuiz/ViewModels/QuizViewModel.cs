@@ -48,13 +48,13 @@ internal partial class QuizViewModel : ObservableObject
             text: "Test Question",
             hint: "Nothing at all lol",
             points: 3,
-            correctIndex: 0,
+            correctAnswer: "Second",
             "First", "Second", "Third"),
         new SingleChoiceQuestion(
             text: "This is another question LOLLLL",
             hint: "Fortnite",
             points: 3,
-            correctIndex: 0,
+            correctAnswer: "223534fgd",
             "sddsdsds", "223534fgd", "fddfdf")
     };
 

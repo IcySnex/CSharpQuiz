@@ -16,7 +16,10 @@
     mc:Ignorable="d">
 
     <Grid Margin="12">
-        <TextBlock Style="{StaticResource Header}" Text="Startseite" />
+        <TextBlock
+            Margin="0,0,0,12"
+            Style="{StaticResource Header}"
+            Text="Startseite" />
 
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel.Effect>

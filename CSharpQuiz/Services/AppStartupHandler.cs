@@ -24,7 +24,7 @@ internal class AppStartupHandler
         mainWindow.Show();
         mainWindow.TitleBar.Icon = new ImageIcon() { Source = Elements.IconImage };
 
-        navigation.Navigate("Home");
+        navigation.Navigate("Startseite");
         navigation.SetPaneOpen(false);
 
         logger.LogInformation("App wurde vollsändig gestartet.");

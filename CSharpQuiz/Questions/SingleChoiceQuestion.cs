@@ -11,7 +11,7 @@ public partial class SingleChoiceQuestion : Question
         string hint,
         int points,
         string correctAnswer,
-        params string[] choices) : base(text, "Single-Choice-Frage: Wähle einer der folgenden Antworten aus.", hint, points)
+        params string[] choices) : base(text, "Single-Choice-Frage: Wähle eine der folgenden Antworten aus.", hint, points)
     {
         CorrectAnswer = correctAnswer;
         Choices = new ObservableCollection<string>(choices);

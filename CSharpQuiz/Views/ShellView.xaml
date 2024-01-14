@@ -9,7 +9,7 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:v="clr-namespace:CSharpQuiz.Views"
     Title="C-Sharp Quiz"
-    Width="800"
+    Width="870"
     Height="450"
     MinWidth="675"
     MinHeight="450"
@@ -36,9 +36,9 @@
             x:FieldModifier="public"
             AlwaysShowHeader="true"
             IsBackButtonVisible="Collapsed"
-            OpenPaneLength="150">
+            OpenPaneLength="170">
             <ui:NavigationView.MenuItems>
-                <ui:NavigationViewItem Content="Home" TargetPageType="{x:Type v:HomeView}">
+                <ui:NavigationViewItem Content="Startseite" TargetPageType="{x:Type v:HomeView}">
                     <ui:NavigationViewItem.Icon>
                         <ui:SymbolIcon Symbol="Home24" />
                     </ui:NavigationViewItem.Icon>
@@ -51,7 +51,7 @@
             </ui:NavigationView.MenuItems>
 
             <ui:NavigationView.FooterMenuItems>
-                <ui:NavigationViewItem Content="Settings" TargetPageType="{x:Type v:SettingsView}">
+                <ui:NavigationViewItem Content="Einstellungen" TargetPageType="{x:Type v:SettingsView}">
                     <ui:NavigationViewItem.Icon>
                         <ui:SymbolIcon Symbol="Settings24" />
                     </ui:NavigationViewItem.Icon>

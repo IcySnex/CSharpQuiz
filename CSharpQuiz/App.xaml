@@ -64,47 +64,73 @@
                 </DrawingImage.Drawing>
             </DrawingImage>
 
-            <ControlTemplate x:Key="SettingsCard" TargetType="ContentControl">
-                <ui:Card
-                    Margin="4"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
+            <Style x:Key="SettingsCardStyle" TargetType="{x:Type ContentControl}">
+                <Setter Property="Focusable" Value="False" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ContentControl}">
+                            <ui:Card
+                                Margin="4"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
 
-                        <Viewbox
-                            Width="32"
-                            Height="32"
-                            Margin="0,0,8,0">
-                            <ContentPresenter Content="{TemplateBinding Tag}" />
-                        </Viewbox>
+                                    <Viewbox
+                                        Width="32"
+                                        Height="32"
+                                        Margin="0,0,8,0">
+                                        <ContentPresenter Content="{TemplateBinding Tag}" />
+                                    </Viewbox>
 
-                        <StackPanel Grid.Column="1">
-                            <ui:TextBlock
-                                Margin="0"
-                                FontTypography="BodyStrong"
-                                Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-                                Text="{TemplateBinding Uid}"
-                                TextWrapping="WrapWithOverflow" />
-                            <ui:TextBlock
-                                Appearance="Secondary"
-                                Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                                Text="{TemplateBinding ContentStringFormat}"
-                                TextWrapping="WrapWithOverflow" />
-                        </StackPanel>
+                                    <StackPanel Grid.Column="1">
+                                        <ui:TextBlock
+                                            Margin="0"
+                                            FontTypography="BodyStrong"
+                                            Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                                            Text="{TemplateBinding Uid}"
+                                            TextWrapping="WrapWithOverflow" />
+                                        <ui:TextBlock
+                                            Appearance="Secondary"
+                                            Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                            Text="{TemplateBinding ContentStringFormat}"
+                                            TextWrapping="WrapWithOverflow" />
+                                    </StackPanel>
 
-                        <ContentPresenter
-                            Grid.Column="2"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center" />
-                    </Grid>
-                </ui:Card>
+                                    <ContentPresenter
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center" />
+                                </Grid>
+                            </ui:Card>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
 
-            </ControlTemplate>
+            <Style x:Key="InfoCardStyle" TargetType="{x:Type ContentControl}">
+                <Setter Property="Focusable" Value="False" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ContentControl}">
+                            <ui:Card Padding="8">
+                                <ui:Card.Effect>
+                                    <DropShadowEffect
+                                        BlurRadius="200"
+                                        ShadowDepth="0"
+                                        Color="{DynamicResource SystemAccentColor}" />
+                                </ui:Card.Effect>
+
+                                <ContentPresenter HorizontalAlignment="Center" />
+                            </ui:Card>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
 
 
             <!--  Styles  -->
@@ -113,12 +139,9 @@
                     <Setter Property="Opacity" Value="0.7" />
                     <Setter Property="FontSize" Value="22" />
                     <Setter Property="FontWeight" Value="DemiBold" />
-                    <Setter Property="Margin" Value="0,0,0,12" />
                 </Style.Setters>
             </Style>
 
-
-            <!--  Fix ContentDialog vertical sizing  -->
             <Style TargetType="{x:Type ui:ContentDialog}">
                 <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
                 <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
@@ -305,6 +328,63 @@
                                 </Trigger>
                                 <Trigger Property="SecondaryButtonText" Value="">
                                     <Setter Property="IsSecondaryButtonEnabled" Value="False" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="AnswerListViewItemStyle" TargetType="{x:Type ListViewItem}">
+                <Setter Property="Foreground" Value="{DynamicResource ListViewItemForeground}" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Border.CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+                <Setter Property="Margin" Value="0,0,0,2" />
+                <Setter Property="Padding" Value="4" />
+                <Setter Property="IsEnabled" Value="False" />
+                <Setter Property="OverridesDefaultStyle" Value="True" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                            <Border
+                                x:Name="Border"
+                                Margin="0"
+                                Padding="0"
+                                Background="Transparent"
+                                BorderThickness="1"
+                                CornerRadius="{TemplateBinding Border.CornerRadius}">
+                                <Grid>
+                                    <Border
+                                        Background="{TemplateBinding Background}"
+                                        BorderThickness="1"
+                                        CornerRadius="{TemplateBinding Border.CornerRadius}"
+                                        Opacity="0.2" />
+                                    <ContentPresenter Margin="{TemplateBinding Padding}" />
+                                    <Rectangle
+                                        x:Name="ActiveRectangle"
+                                        Width="3"
+                                        Height="18"
+                                        Margin="0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Fill="{DynamicResource ListViewItemPillFillBrush}"
+                                        RadiusX="2"
+                                        RadiusY="2"
+                                        Visibility="Collapsed" />
+                                </Grid>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsEnabled" Value="True" />
+                                        <Condition Property="IsMouseOver" Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource ListViewItemBackgroundPointerOver}" />
+
+                                </MultiTrigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter TargetName="ActiveRectangle" Property="Visibility" Value="Visible" />
+                                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource ListViewItemBackgroundPointerOver}" />
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>

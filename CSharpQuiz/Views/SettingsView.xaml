@@ -15,12 +15,15 @@
     mc:Ignorable="d">
 
     <StackPanel Margin="12">
-        <TextBlock Style="{StaticResource Header}" Text="Einstellungen" />
+        <TextBlock
+            Margin="0,0,0,12"
+            Style="{StaticResource Header}"
+            Text="Einstellungen" />
 
         <ContentControl
             Uid="Akzent Farbe"
             ContentStringFormat="Ändere die Akzent Farbe für alle Elemente"
-            Template="{StaticResource SettingsCard}">
+            Style="{StaticResource SettingsCardStyle}">
             <ContentControl.Tag>
                 <ui:SymbolIcon Symbol="Color20" />
             </ContentControl.Tag>
@@ -40,7 +43,7 @@
         <ContentControl
             Uid="Dunkler Modus"
             ContentStringFormat="Ändere den Hintergrund zu dunkel oder hell"
-            Template="{StaticResource SettingsCard}">
+            Style="{StaticResource SettingsCardStyle}">
             <ContentControl.Tag>
                 <ui:SymbolIcon Symbol="PaintBrush20" />
             </ContentControl.Tag>
@@ -51,7 +54,7 @@
         <ContentControl
             Uid="Debug Logger"
             ContentStringFormat="Zeige ein Fenster mit allen neuen Log-Benachrichtigungen"
-            Template="{StaticResource SettingsCard}">
+            Style="{StaticResource SettingsCardStyle}">
             <ContentControl.Tag>
                 <ui:SymbolIcon Symbol="CodeBlock20" />
             </ContentControl.Tag>

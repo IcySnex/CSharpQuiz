@@ -1,18 +1,21 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CSharpQuiz.Questions;
+using CSharpQuiz.Views.Questions;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Threading;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
 
 namespace CSharpQuiz.ViewModels;
 
-internal partial class QuizViewModel : ObservableObject
+public partial class QuizViewModel : ObservableObject
 {
     readonly ILogger<QuizViewModel> logger;
     readonly ContentDialogService dialogService;
@@ -29,59 +32,84 @@ internal partial class QuizViewModel : ObservableObject
             TimeEvolved = stopwatch.Elapsed.ToString("mm\\:ss");
         };
 
+        Questions = GenerateQuestions();
+        CurrentView = new WelcomeView(this);
+
         logger.LogInformation("QuizViewModel wurde initialisiert.");
     }
 
 
     [ObservableProperty]
-    Question? currentQuestion = null;
+    [NotifyPropertyChangedFor(nameof(IsResultEvaluated))]
+
+    UserControl currentView;
+
+    public bool IsResultEvaluated =>
+        CurrentView.GetType() == typeof(ResultView);
+
+
+    List<Question> GenerateQuestions()
+    {
+        return new()
+        { 
+            new SingleChoiceQuestion(
+                text: "Test QuesSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSStion",
+                hint: "Nothing at all lol",
+                points: 3,
+                correctAnswer: "Second",
+                "First", "Second", "Third"),
+            new SingleChoiceQuestion(
+                text: "This is another question LOLLLL",
+                hint: "Fortnite",
+                points: 3,
+                correctAnswer: "223534fgd",
+                "sddsdsds", "223534fgd", "fddfdf")
+        };
+    }
+
+
+    public List<Question> Questions { get; private set; }
+
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(CurrentQuestion))]
+    [NotifyPropertyChangedFor(nameof(IsLastQuestion))]
     [NotifyCanExecuteChangedFor(nameof(GoNextCommand))]
     [NotifyCanExecuteChangedFor(nameof(GoBackCommand))]
-    [NotifyPropertyChangedFor(nameof(IsLastQuestion))]
     int? currentQuestionIndex = null;
 
-    List<Question> questions = new()
-    {
-        new SingleChoiceQuestion(
-            text: "Test Question",
-            hint: "Nothing at all lol",
-            points: 3,
-            correctAnswer: "Second",
-            "First", "Second", "Third"),
-        new SingleChoiceQuestion(
-            text: "This is another question LOLLLL",
-            hint: "Fortnite",
-            points: 3,
-            correctAnswer: "223534fgd",
-            "sddsdsds", "223534fgd", "fddfdf")
-    };
+    public Question? CurrentQuestion =>
+        Questions is null || CurrentQuestionIndex is null ? null : Questions[CurrentQuestionIndex.Value];
+
+    public bool IsLastQuestion =>
+        CurrentQuestionIndex is not null && CurrentQuestionIndex == Questions.Count - 1;
 
     public bool CanGoNext =>
-        CurrentQuestionIndex is not null && CurrentQuestionIndex < questions.Count - 1;
+        CurrentQuestionIndex is not null && CurrentQuestionIndex < Questions.Count - 1;
 
     public bool CanGoBack =>
         CurrentQuestionIndex is not null && CurrentQuestionIndex > 0;
-
-    public bool IsLastQuestion =>
-        CurrentQuestionIndex is not null && CurrentQuestionIndex == questions.Count - 1;
 
 
     [ObservableProperty]
     bool isQuizRunning = false;
 
-    public int QuestionCount => questions.Count;
+    [ObservableProperty]
+    int hintCount = 0;
 
     [ObservableProperty]
-    int? hintCount = null;
-
-    [ObservableProperty]
-    string? timeEvolved = null;
+    string timeEvolved = "00:00";
 
 
     readonly Stopwatch stopwatch = new();
     readonly DispatcherTimer timeEvolvedTimer = new() { Interval = TimeSpan.FromSeconds(1) };
+
+
+    [ObservableProperty]
+    int points = 0;
+
+    [ObservableProperty]
+    int correctAnswersCount = 0;
 
 
     [RelayCommand(CanExecute = nameof(CanGoNext))]
@@ -91,7 +119,6 @@ internal partial class QuizViewModel : ObservableObject
             return;
 
         CurrentQuestionIndex++;
-        CurrentQuestion = questions[CurrentQuestionIndex.Value];
 
         logger.LogInformation($"Es wurde zur nächsten Frage gewechselt.");
     }
@@ -103,7 +130,6 @@ internal partial class QuizViewModel : ObservableObject
             return;
 
         CurrentQuestionIndex--;
-        CurrentQuestion = questions[CurrentQuestionIndex.Value];
 
         logger.LogInformation($"Es wurde zur letzten Frage gewechselt.");
     }
@@ -113,13 +139,12 @@ internal partial class QuizViewModel : ObservableObject
     void Start()
     {
         IsQuizRunning = true;
-        HintCount = 0;
-        TimeEvolved = "00:00";
         stopwatch.Start();
         timeEvolvedTimer.Start();
 
         CurrentQuestionIndex = 0;
-        CurrentQuestion = questions[CurrentQuestionIndex.Value];
+
+        CurrentView = new QuestionsView(this);
 
         logger.LogInformation($"Quiz wurde gestartet.");
     }
@@ -137,18 +162,28 @@ internal partial class QuizViewModel : ObservableObject
             return;
 
         IsQuizRunning = false;
-        HintCount = null;
-        TimeEvolved = null;
         stopwatch.Stop();
-        stopwatch.Reset();
         timeEvolvedTimer.Stop();
-
         CurrentQuestionIndex = null;
-        CurrentQuestion = null;
 
         logger.LogInformation($"Quiz wurde beendet.");
 
         EvaluateResult();
+    }
+
+    [RelayCommand]
+    void Reset()
+    {
+        Points = 0;
+        CorrectAnswersCount = 0;
+        HintCount = 0;
+        TimeEvolved = "00:00";
+        stopwatch.Reset();
+
+        Questions = GenerateQuestions();
+        CurrentView = new WelcomeView(this);
+
+        logger.LogInformation($"Quiz wurde zurück gesetzt.");
     }
 
 
@@ -174,6 +209,16 @@ internal partial class QuizViewModel : ObservableObject
 
     void EvaluateResult()
     {
+        foreach (Question question in Questions)
+        {
+            int newPoints = question.EvaluatePoints();
+            Points += newPoints;
+
+            if (newPoints == question.Points)
+                CorrectAnswersCount++;
+        }
+
+        CurrentView = new ResultView(this);
 
         logger.LogInformation($"Quiz Ergebnisse wurden ausgewertet.");
     }

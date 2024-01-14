@@ -12,6 +12,7 @@
     ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
     ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    ScrollViewer.CanContentScroll="False"
     mc:Ignorable="d">
 
     <Grid Margin="12">
@@ -23,53 +24,28 @@
 
         <TextBlock Style="{StaticResource Header}" Text="Quiz" />
 
-        <Border
+        <ui:DynamicScrollViewer
+            Name="ScrollContent"
             Grid.Row="1"
-            Padding="12"
-            CornerRadius="4"
-            Visibility="{Binding IsQuizRunning, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Border.Background>
-                <SolidColorBrush Opacity="1" Color="{StaticResource ControlAltFillColorSecondary}" />
-            </Border.Background>
+            Margin="0,0,-12,0">
+            <ui:DynamicScrollViewer.OpacityMask>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Offset="0" Color="#00000000" />
+                    <GradientStop Offset="{Binding ActualHeight, Mode=OneWay, ElementName=ScrollContent, Converter={StaticResource AbsoluteToRelativeConverter}, ConverterParameter=12}" Color="#ff000000" />
+                    <GradientStop Offset="{Binding ActualHeight, Mode=OneWay, ElementName=ScrollContent, Converter={StaticResource InvertedAbsoluteToRelativeConverter}, ConverterParameter=12}" Color="#ff000000" />
+                    <GradientStop Offset="1" Color="#00000000" />
+                </LinearGradientBrush>
+            </ui:DynamicScrollViewer.OpacityMask>
 
-            <UserControl Content="{Binding CurrentQuestion}" />
-        </Border>
-
-        <StackPanel Grid.Row="1" Visibility="{Binding IsQuizRunning, Mode=OneWay, Converter={StaticResource InversedBooleanToVisibilityConverter}}">
-            <ui:Card Padding="12">
-                <TextBlock TextWrapping="Wrap">
-                    <Run Text="Wilkommen beim C#-Quiz! Hier sind ein paar Infos:" />
-                    <LineBreak />
-                    <LineBreak />
-                    <Run Text="Unten links kannst du zur nächsten und vorherigen Frage wechseln. Außerdem siehst du dort allgemeine Infos, wie die jetzige Frage, oder wie lange du bereits im Quiz bist." />
-                    <LineBreak />
-                    <LineBreak />
-                    <Run Text="Um das Quiz zu beenden kannst du den 'Quiz beenden' Knopf unten rechts drücken und falls du bei einer Frage nicht weiter kommst, kannst du den 'Tipp anzeigen' Knopf drücken" />
-                </TextBlock>
-            </ui:Card>
-
-            <ui:Button
-                Margin="0,12,0,0"
-                Padding="24,12"
-                HorizontalAlignment="Center"
-                Appearance="Primary"
-                Command="{Binding StartCommand}"
-                Content="Starte das Quiz">
-                <ui:Button.Effect>
-                    <DropShadowEffect
-                        BlurRadius="200"
-                        Opacity="0.7"
-                        ShadowDepth="0"
-                        Color="{DynamicResource SystemAccentColor}" />
-                </ui:Button.Effect>
-            </ui:Button>
-        </StackPanel>
+            <UserControl Margin="0,12,12,12" Content="{Binding CurrentView, Mode=OneWay}" />
+        </ui:DynamicScrollViewer>
 
         <Grid
             Grid.Row="2"
-            Margin="0,24,0,0"
+            d:Visibility="Collapsed"
             IsEnabled="{Binding IsQuizRunning, Mode=OneWay}"
-            Opacity="{Binding IsQuizRunning, Mode=OneWay, Converter={StaticResource BooleanToOpacityConverter}}">
+            Opacity="{Binding IsQuizRunning, Mode=OneWay, Converter={StaticResource BooleanToOpacityConverter}}"
+            Visibility="{Binding IsResultEvaluated, Mode=OneWay, Converter={StaticResource InversedBooleanToVisibilityConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -97,7 +73,7 @@
 
             <TextBlock Grid.Column="3" VerticalAlignment="Center">
                 <Run Text="Frage" />
-                <Run Text="{Binding CurrentQuestionIndex, Mode=OneWay, FallbackValue='?', TargetNullValue='?', Converter={StaticResource AddOneToInt}}" /><Run Text="/" /><Run Text="{Binding QuestionCount, Mode=OneWay, FallbackValue='?', TargetNullValue='?'}" />
+                <Run Text="{Binding CurrentQuestionIndex, Mode=OneWay, FallbackValue='?', TargetNullValue='?', Converter={StaticResource AddOneToInt}}" /><Run Text="/" /><Run Text="{Binding Questions.Count, Mode=OneWay, FallbackValue='?', TargetNullValue='?'}" />
                 <Run Foreground="{DynamicResource TextFillColorDisabledBrush}" Text=" - " />
                 <Run Text="Tipps verwendet:" />
                 <Run Text="{Binding HintCount, Mode=OneWay, FallbackValue='?', TargetNullValue='?'}" />
@@ -118,5 +94,87 @@
                 Command="{Binding StopCommand}"
                 Content="Quiz beenden" />
         </Grid>
+        <Grid
+            Grid.Row="2"
+            d:Visibility="Visible"
+            Visibility="{Binding IsResultEvaluated, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="4" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="4" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="4" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+
+            <ui:Card Padding="8" VerticalAlignment="Stretch">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap">
+                    <Run
+                        FontWeight="DemiBold"
+                        Foreground="{DynamicResource SystemAccentBrush}"
+                        Text="Punkte:" />
+                    <Run Text="{Binding Points, Mode=OneWay, FallbackValue='?', TargetNullValue='?'}" />
+                </TextBlock>
+            </ui:Card>
+            <ui:Card
+                Grid.Column="2"
+                Padding="8"
+                VerticalAlignment="Stretch">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap">
+                    <Run
+                        FontWeight="DemiBold"
+                        Foreground="{DynamicResource SystemAccentBrush}"
+                        Text="Richtige Antworten:" />
+                    <Run Text="{Binding CorrectAnswersCount, Mode=OneWay, FallbackValue='?', TargetNullValue='?'}" /><Run Text="/" /><Run Text="{Binding Questions.Count, Mode=OneWay, FallbackValue='?', TargetNullValue='?'}" />
+                </TextBlock>
+            </ui:Card>
+            <ui:Card
+                Grid.Column="4"
+                Padding="8"
+                VerticalAlignment="Stretch">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap">
+                    <Run
+                        FontWeight="DemiBold"
+                        Foreground="{DynamicResource SystemAccentBrush}"
+                        Text="Tipps verwendet:" />
+                    <Run Text="{Binding HintCount, Mode=OneWay, FallbackValue='?', TargetNullValue='?'}" />
+                </TextBlock>
+            </ui:Card>
+            <ui:Card
+                Grid.Column="6"
+                Padding="8"
+                VerticalAlignment="Stretch">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap">
+                    <Run
+                        FontWeight="DemiBold"
+                        Foreground="{DynamicResource SystemAccentBrush}"
+                        Text="Benötigte Zeit:" />
+                    <Run Text="{Binding TimeEvolved, Mode=OneWay, FallbackValue='00:00', TargetNullValue='00:00'}" />
+                </TextBlock>
+            </ui:Card>
+
+            <ui:Button
+                Grid.Column="8"
+                Appearance="Primary"
+                Command="{Binding ResetCommand}"
+                Content="Zurück" />
+        </Grid>
+
     </Grid>
 </Page>

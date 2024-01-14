@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:conv="clr-namespace:CSharpQuiz.Converter"
     xmlns:local="clr-namespace:CSharpQuiz"
+    xmlns:mconv="clr-namespace:CSharpQuiz.MultiConverter"
     xmlns:que="clr-namespace:CSharpQuiz.Questions"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
     <Application.Resources>
@@ -16,39 +17,17 @@
 
             <!--  Converters  -->
             <BrushConverter x:Key="BrushConverter" />
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <conv:BooleanToAppearanceConverter x:Key="BooleanToAppearanceConverter" />
             <conv:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter" />
             <conv:InversedBooleanToVisibilityConverter x:Key="InversedBooleanToVisibilityConverter" />
             <conv:AddOneToInt x:Key="AddOneToInt" />
+            <conv:AbsoluteToRelativeConverter x:Key="AbsoluteToRelativeConverter" />
+            <conv:InvertedAbsoluteToRelativeConverter x:Key="InvertedAbsoluteToRelativeConverter" />
 
-
-            <!--  DataTemplates  -->
-            <DataTemplate DataType="{x:Type que:SingleChoiceQuestion}">
-                <StackPanel>
-                    <TextBlock
-                        FontSize="17"
-                        Text="{Binding Text}"
-                        TextDecorations="Underline"
-                        TextWrapping="Wrap" />
-                    <TextBlock
-                        Margin="0,2,0,12"
-                        FontSize="13"
-                        Opacity="0.5"
-                        Text="{Binding TypeNote}"
-                        TextWrapping="Wrap" />
-
-                    <ListView ItemsSource="{Binding Choices}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock
-                                    Margin="12,8"
-                                    Opacity="0.8"
-                                    Text="{Binding}" />
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </StackPanel>
-            </DataTemplate>
+            <!--  MultiConverters  -->
+            <mconv:IsSingleChoiceQuestionCorrect x:Key="IsSingleChoiceQuestionCorrect" />
+            <mconv:IsSingleChoiceQuestionWrong x:Key="IsSingleChoiceQuestionWrong" />
 
 
             <!--  Controls  -->
@@ -106,26 +85,6 @@
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center" />
                                 </Grid>
-                            </ui:Card>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-
-            <Style x:Key="InfoCardStyle" TargetType="{x:Type ContentControl}">
-                <Setter Property="Focusable" Value="False" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type ContentControl}">
-                            <ui:Card Padding="8">
-                                <ui:Card.Effect>
-                                    <DropShadowEffect
-                                        BlurRadius="200"
-                                        ShadowDepth="0"
-                                        Color="{DynamicResource SystemAccentColor}" />
-                                </ui:Card.Effect>
-
-                                <ContentPresenter HorizontalAlignment="Center" />
                             </ui:Card>
                         </ControlTemplate>
                     </Setter.Value>
@@ -392,6 +351,161 @@
                 </Setter>
             </Style>
 
+
+
+            <!--  DataTemplates  -->
+            <DataTemplate DataType="{x:Type que:SingleChoiceQuestion}">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="12" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            FontSize="17"
+                            Text="{Binding Text, Mode=OneTime}"
+                            TextDecorations="Underline"
+                            TextWrapping="Wrap" />
+                        <Border
+                            Grid.Column="2"
+                            Padding="4"
+                            VerticalAlignment="Top"
+                            Background="{DynamicResource CardBackgroundPointerOver}"
+                            CornerRadius="4">
+                            <TextBlock
+                                FontSize="14"
+                                FontWeight="DemiBold"
+                                Opacity="0.7">
+                                <Run Text="{Binding Points, Mode=OneTime}" />
+                                <Run Text="Punkte" />
+                            </TextBlock>
+                        </Border>
+                    </Grid>
+                    <TextBlock
+                        Margin="0,2,0,12"
+                        FontSize="13"
+                        Opacity="0.5"
+                        Text="{Binding TypeNote, Mode=OneTime}"
+                        TextWrapping="Wrap" />
+
+                    <ListView ItemsSource="{Binding Choices}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    Margin="12,8"
+                                    Opacity="0.8"
+                                    Text="{Binding}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate x:Key="SingleChoiceAnswerTemplate" DataType="{x:Type que:SingleChoiceQuestion}">
+                <ui:Card Margin="0,0,0,4" Padding="12">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="12" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                FontSize="17"
+                                Text="{Binding Text, Mode=OneTime}"
+                                TextDecorations="Underline"
+                                TextWrapping="Wrap" />
+                            <Border
+                                Grid.Column="2"
+                                Padding="4"
+                                VerticalAlignment="Top"
+                                Background="{DynamicResource CardBackgroundPointerOver}"
+                                CornerRadius="4">
+                                <TextBlock
+                                    FontSize="14"
+                                    FontWeight="DemiBold"
+                                    Opacity="0.7">
+                                    <Run Text="{Binding Points, Mode=OneTime}" />
+                                    <Run Text="Punkte" />
+                                </TextBlock>
+                            </Border>
+                        </Grid>
+
+                        <ListView
+                            ItemContainerStyle="{StaticResource AnswerListViewItemStyle}"
+                            ItemsSource="{Binding Choices}"
+                            SelectedItem="{Binding SelectedItem, Mode=OneWay}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="12" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Border
+                                            Name="BackgroundBorder"
+                                            Grid.ColumnSpan="3"
+                                            Margin="-4"
+                                            CornerRadius="4"
+                                            Opacity="0.25" />
+
+                                        <TextBlock
+                                            Margin="12,8"
+                                            Opacity="0.8"
+                                            Text="{Binding}" />
+                                        <Border
+                                            Name="SelectedIndicator"
+                                            Grid.Column="2"
+                                            Padding="4"
+                                            VerticalAlignment="Center"
+                                            Background="{DynamicResource CardBackgroundPointerOver}"
+                                            CornerRadius="4"
+                                            Visibility="Collapsed">
+                                            <TextBlock
+                                                FontSize="14"
+                                                FontWeight="DemiBold"
+                                                Opacity="0.7"
+                                                Text="Deine Antwort" />
+                                        </Border>
+                                    </Grid>
+
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Value="True">
+                                            <DataTrigger.Binding>
+                                                <MultiBinding Converter="{StaticResource IsSingleChoiceQuestionWrong}">
+                                                    <Binding />
+                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType=ListView}" />
+                                                </MultiBinding>
+                                            </DataTrigger.Binding>
+
+                                            <Setter TargetName="BackgroundBorder" Property="Background" Value="{DynamicResource SystemFillColorCriticalBrush}" />
+                                        </DataTrigger>
+
+                                        <DataTrigger Value="True">
+                                            <DataTrigger.Binding>
+                                                <MultiBinding Converter="{StaticResource IsSingleChoiceQuestionCorrect}">
+                                                    <Binding />
+                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType=ListView}" />
+                                                </MultiBinding>
+                                            </DataTrigger.Binding>
+
+                                            <Setter TargetName="BackgroundBorder" Property="Background" Value="{DynamicResource SystemFillColorSuccessBrush}" />
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType=ListViewItem}}" Value="True">
+                                            <Setter TargetName="SelectedIndicator" Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackPanel>
+                </ui:Card>
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

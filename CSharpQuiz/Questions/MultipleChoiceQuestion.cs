@@ -14,9 +14,14 @@ public partial class MultipleChoiceQuestion : Question
     public MultipleChoiceQuestion(
         string text,
         string hint,
-        int points,
+        double points,
         string[] correctAnswers,
-        params string[] choices) : base(text, "Multiple-Choice-Frage: Wähle mehrere der folgenden Antworten aus.", hint, points)
+        params string[] choices) : base(
+            text,
+            "Multiple-Choice-Frage: Wähle mehrere der folgenden Antworten aus.",
+            $"Multiple-Choice-Frage: +{points / correctAnswers.Length} Punkte für richtige Antworten, -{points / correctAnswers.Length / 2} Punkte für falsche Antworten.",
+            hint,
+            points)
     {
         CorrectAnswers = correctAnswers;
         Choices = new ObservableCollection<string>(choices);
@@ -30,13 +35,18 @@ public partial class MultipleChoiceQuestion : Question
     public List<string> SelectedItems { get; } = new();
 
 
-    public override int EvaluatePoints()
+    public override double ReachedPoints
     {
-        int points = 0;
-        foreach (string selectedChoice in SelectedItems)
-            points = CorrectAnswers.Contains(selectedChoice) ? points + 1 : points - 1;
+        get
+        {
+            double points = 0;
+            double pointsPerQuestion = Points / CorrectAnswers.Length;
 
-        return Math.Max(0, points);
+            foreach (string selectedChoice in SelectedItems)
+                points = CorrectAnswers.Contains(selectedChoice) ? points + pointsPerQuestion : points - (pointsPerQuestion / 2);
+
+            return Math.Max(0, points);
+        }
     }
 
 
@@ -48,5 +58,12 @@ public partial class MultipleChoiceQuestion : Question
 
         foreach (string item in e.AddedItems)
             SelectedItems.Add(item);
+    }
+
+    [RelayCommand]
+    void OnListViewLoaded(ListView listView)
+    {
+        foreach (string item in SelectedItems)
+            listView.SelectedItems.Add(item);
     }
 }

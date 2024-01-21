@@ -413,7 +413,7 @@
             <DataTemplate x:Key="SingleChoiceAnswerTemplate" DataType="{x:Type que:SingleChoiceQuestion}">
                 <ui:Card Margin="0,0,0,4" Padding="12">
                     <StackPanel>
-                        <Grid Margin="0,0,0,12">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="12" />
@@ -435,11 +435,17 @@
                                     FontSize="14"
                                     FontWeight="DemiBold"
                                     Opacity="0.7">
-                                    <Run Text="{Binding Points, Mode=OneTime}" />
+                                    <Run Text="{Binding ReachedPoints, Mode=OneTime}" /><Run Text="/" /><Run Text="{Binding Points, Mode=OneTime}" />
                                     <Run Text="Punkte" />
                                 </TextBlock>
                             </Border>
                         </Grid>
+                        <TextBlock
+                            Margin="0,2,0,12"
+                            FontSize="13"
+                            Opacity="0.5"
+                            Text="{Binding TypeAnswerNote, Mode=OneTime}"
+                            TextWrapping="Wrap" />
 
                         <ListView
                             ItemContainerStyle="{StaticResource AnswerListViewItemStyle}"
@@ -571,7 +577,7 @@
             <DataTemplate x:Key="MultipleChoiceAnswerTemplate" DataType="{x:Type que:MultipleChoiceQuestion}">
                 <ui:Card Margin="0,0,0,4" Padding="12">
                     <StackPanel>
-                        <Grid Margin="0,0,0,12">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="12" />
@@ -593,16 +599,28 @@
                                     FontSize="14"
                                     FontWeight="DemiBold"
                                     Opacity="0.7">
-                                    <Run Text="{Binding Points, Mode=OneTime}" />
+                                    <Run Text="{Binding ReachedPoints, Mode=OneTime}" /><Run Text="/" /><Run Text="{Binding Points, Mode=OneTime}" />
                                     <Run Text="Punkte" />
                                 </TextBlock>
                             </Border>
                         </Grid>
+                        <TextBlock
+                            Margin="0,2,0,12"
+                            FontSize="13"
+                            Opacity="0.5"
+                            Text="{Binding TypeAnswerNote, Mode=OneTime}"
+                            TextWrapping="Wrap" />
 
                         <ListView
+                            Name="ListView"
                             ItemContainerStyle="{StaticResource AnswerListViewItemStyle}"
                             ItemsSource="{Binding Choices}"
                             SelectionMode="Multiple">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Loaded">
+                                    <i:InvokeCommandAction Command="{Binding ListViewLoadedCommand}" CommandParameter="{Binding ElementName=ListView}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>

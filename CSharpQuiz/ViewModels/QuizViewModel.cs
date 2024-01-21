@@ -53,7 +53,7 @@ public partial class QuizViewModel : ObservableObject
         return new()
         { 
             new SingleChoiceQuestion(
-                text: "Test QuesSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSStion",
+                text: "Test QuesSSSSSSSStion",
                 hint: "Nothing at all lol",
                 points: 3,
                 correctAnswer: "Second",
@@ -63,6 +63,11 @@ public partial class QuizViewModel : ObservableObject
                 hint: "nfffffffffffff",
                 points: 5,
                 correctAnswers: new[] { "223534fgd", "sss" },
+                "sddsdsds", "223534fgd", "fddfdf", "sss"),
+            new ReorderQuestion(
+                text: "Select MULTIPLe WOPWOWOW",
+                hint: "nfffffffffffff",
+                points: 5,
                 "sddsdsds", "223534fgd", "fddfdf", "sss")
         };
     }

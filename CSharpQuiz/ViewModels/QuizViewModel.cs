@@ -106,7 +106,10 @@ public partial class QuizViewModel : ObservableObject
 
 
     [ObservableProperty]
-    int points = 0;
+    double points = 0;
+
+    [ObservableProperty]
+    double reachedPoints = 0;
 
     [ObservableProperty]
     int correctAnswersCount = 0;
@@ -175,6 +178,7 @@ public partial class QuizViewModel : ObservableObject
     void Reset()
     {
         Points = 0;
+        ReachedPoints = 0;
         CorrectAnswersCount = 0;
         HintCount = 0;
         TimeEvolved = "00:00";
@@ -211,8 +215,10 @@ public partial class QuizViewModel : ObservableObject
     {
         foreach (Question question in Questions)
         {
-            int newPoints = question.EvaluatePoints();
-            Points += newPoints;
+            Points += question.Points;
+
+            double newPoints = question.ReachedPoints;
+            ReachedPoints += newPoints;
 
             if (newPoints == question.Points)
                 CorrectAnswersCount++;

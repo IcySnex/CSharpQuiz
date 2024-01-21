@@ -9,9 +9,14 @@ public partial class SingleChoiceQuestion : Question
     public SingleChoiceQuestion(
         string text,
         string hint,
-        int points,
+        double points,
         string correctAnswer,
-        params string[] choices) : base(text, "Single-Choice-Frage: Wähle eine der folgenden Antworten aus.", hint, points)
+        params string[] choices) : base(
+            text,
+            "Single-Choice-Frage: Wähle eine der folgenden Antworten aus.",
+            $"Single-Choice-Frage: +{points} Punkte für die richtige Antwort.",
+            hint,
+            points)
     {
         CorrectAnswer = correctAnswer;
         Choices = new ObservableCollection<string>(choices);
@@ -26,11 +31,14 @@ public partial class SingleChoiceQuestion : Question
     string? selectedItem = null;
 
 
-    public override int EvaluatePoints()
+    public override double ReachedPoints
     {
-        if (SelectedItem == CorrectAnswer)
-            return Points;
+        get
+        {
+            if (SelectedItem == CorrectAnswer)
+                return Points;
 
-        return 0;
+            return 0;
+        }
     }
 }

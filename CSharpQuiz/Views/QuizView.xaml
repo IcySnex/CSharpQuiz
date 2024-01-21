@@ -120,7 +120,7 @@
                         FontWeight="DemiBold"
                         Foreground="{DynamicResource SystemAccentBrush}"
                         Text="Punkte:" />
-                    <Run Text="{Binding Points, Mode=OneWay, FallbackValue='?', TargetNullValue='?'}" />
+                    <Run Text="{Binding ReachedPoints, Mode=OneWay, FallbackValue='?', TargetNullValue='?'}" /><Run Text="/" /><Run Text="{Binding Points, Mode=OneWay, FallbackValue='?', TargetNullValue='?'}" />
                 </TextBlock>
             </ui:Card>
             <ui:Card

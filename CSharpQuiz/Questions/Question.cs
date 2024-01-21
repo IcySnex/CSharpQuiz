@@ -5,11 +5,13 @@ public abstract class Question
     protected Question(
         string text,
         string typeNote,
+        string typeAnswerNote,
         string hint,
-        int points)
+        double points)
     {
         Text = text;
         TypeNote = typeNote;
+        TypeAnswerNote = typeAnswerNote;
         Hint = hint;
         Points = points;
     }
@@ -18,11 +20,13 @@ public abstract class Question
     public string Text { get; }
 
     public string TypeNote { get; }
+
+    public string TypeAnswerNote { get; }
     
     public string Hint { get; }
 
-    public int Points { get; }
+    public double Points { get; }
 
 
-    public abstract int EvaluatePoints();
+    public abstract double ReachedPoints { get; }
 }

@@ -58,12 +58,12 @@ public partial class QuizViewModel : ObservableObject
                 points: 3,
                 correctAnswer: "Second",
                 "First", "Second", "Third"),
-            new SingleChoiceQuestion(
-                text: "This is another question LOLLLL",
-                hint: "Fortnite",
-                points: 3,
-                correctAnswer: "223534fgd",
-                "sddsdsds", "223534fgd", "fddfdf")
+            new MultipleChoiceQuestion(
+                text: "Select MULTIPLe WOPWOWOW",
+                hint: "nfffffffffffff",
+                points: 5,
+                correctAnswers: new[] { "223534fgd", "sss" },
+                "sddsdsds", "223534fgd", "fddfdf", "sss")
         };
     }
 

@@ -3,9 +3,11 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:conv="clr-namespace:CSharpQuiz.Converter"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:CSharpQuiz"
     xmlns:mconv="clr-namespace:CSharpQuiz.MultiConverter"
     xmlns:que="clr-namespace:CSharpQuiz.Questions"
+    xmlns:tsel="clr-namespace:CSharpQuiz.TemplateSelectors"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -28,6 +30,11 @@
             <!--  MultiConverters  -->
             <mconv:IsSingleChoiceQuestionCorrect x:Key="IsSingleChoiceQuestionCorrect" />
             <mconv:IsSingleChoiceQuestionWrong x:Key="IsSingleChoiceQuestionWrong" />
+            <mconv:IsMultipleChoiceQuestionCorrect x:Key="IsMultipleChoiceQuestionCorrect" />
+            <mconv:IsMultipleChoiceQuestionWrong x:Key="IsMultipleChoiceQuestionWrong" />
+
+            <!--  TemplateSelectors  -->
+            <tsel:QuestionResultTemplateSelector x:Key="QuestionResultTemplateSelector" />
 
 
             <!--  Controls  -->
@@ -506,6 +513,165 @@
                     </StackPanel>
                 </ui:Card>
             </DataTemplate>
+
+            <DataTemplate DataType="{x:Type que:MultipleChoiceQuestion}">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="12" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            FontSize="17"
+                            Text="{Binding Text, Mode=OneTime}"
+                            TextDecorations="Underline"
+                            TextWrapping="Wrap" />
+                        <Border
+                            Grid.Column="2"
+                            Padding="4"
+                            VerticalAlignment="Top"
+                            Background="{DynamicResource CardBackgroundPointerOver}"
+                            CornerRadius="4">
+                            <TextBlock
+                                FontSize="14"
+                                FontWeight="DemiBold"
+                                Opacity="0.7">
+                                <Run Text="{Binding Points, Mode=OneTime}" />
+                                <Run Text="Punkte" />
+                            </TextBlock>
+                        </Border>
+                    </Grid>
+                    <TextBlock
+                        Margin="0,2,0,12"
+                        FontSize="13"
+                        Opacity="0.5"
+                        Text="{Binding TypeNote, Mode=OneTime}"
+                        TextWrapping="Wrap" />
+
+                    <ListView ItemsSource="{Binding Choices}" SelectionMode="Multiple">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding ListViewSelectionChangedCommand}" PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    Margin="12,8"
+                                    Opacity="0.8"
+                                    Text="{Binding}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate x:Key="MultipleChoiceAnswerTemplate" DataType="{x:Type que:MultipleChoiceQuestion}">
+                <ui:Card Margin="0,0,0,4" Padding="12">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="12" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                FontSize="17"
+                                Text="{Binding Text, Mode=OneTime}"
+                                TextDecorations="Underline"
+                                TextWrapping="Wrap" />
+                            <Border
+                                Grid.Column="2"
+                                Padding="4"
+                                VerticalAlignment="Top"
+                                Background="{DynamicResource CardBackgroundPointerOver}"
+                                CornerRadius="4">
+                                <TextBlock
+                                    FontSize="14"
+                                    FontWeight="DemiBold"
+                                    Opacity="0.7">
+                                    <Run Text="{Binding Points, Mode=OneTime}" />
+                                    <Run Text="Punkte" />
+                                </TextBlock>
+                            </Border>
+                        </Grid>
+
+                        <ListView
+                            ItemContainerStyle="{StaticResource AnswerListViewItemStyle}"
+                            ItemsSource="{Binding Choices}"
+                            SelectionMode="Multiple">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="12" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Border
+                                            Name="BackgroundBorder"
+                                            Grid.ColumnSpan="3"
+                                            Margin="-4"
+                                            CornerRadius="4"
+                                            Opacity="0.25" />
+
+                                        <TextBlock
+                                            Margin="12,8"
+                                            Opacity="0.8"
+                                            Text="{Binding}" />
+                                        <Border
+                                            Name="SelectedIndicator"
+                                            Grid.Column="2"
+                                            Padding="4"
+                                            VerticalAlignment="Center"
+                                            Background="{DynamicResource CardBackgroundPointerOver}"
+                                            CornerRadius="4"
+                                            Visibility="Collapsed">
+                                            <TextBlock
+                                                FontSize="14"
+                                                FontWeight="DemiBold"
+                                                Opacity="0.7"
+                                                Text="Deine Antwort" />
+                                        </Border>
+                                    </Grid>
+
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Value="True">
+                                            <DataTrigger.Binding>
+                                                <MultiBinding Converter="{StaticResource IsMultipleChoiceQuestionWrong}">
+                                                    <Binding />
+                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType=ListView}" />
+                                                </MultiBinding>
+                                            </DataTrigger.Binding>
+
+                                            <Setter TargetName="BackgroundBorder" Property="Background" Value="{DynamicResource SystemFillColorCriticalBrush}" />
+                                        </DataTrigger>
+
+                                        <DataTrigger Value="True">
+                                            <DataTrigger.Binding>
+                                                <MultiBinding Converter="{StaticResource IsMultipleChoiceQuestionCorrect}">
+                                                    <Binding />
+                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType=ListView}" />
+                                                </MultiBinding>
+                                            </DataTrigger.Binding>
+
+                                            <Setter TargetName="BackgroundBorder" Property="Background" Value="{DynamicResource SystemFillColorSuccessBrush}" />
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType=ListViewItem}}" Value="True">
+                                            <Setter TargetName="SelectedIndicator" Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackPanel>
+                </ui:Card>
+            </DataTemplate>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

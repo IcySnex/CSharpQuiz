@@ -558,10 +558,13 @@
                         Text="{Binding TypeNote, Mode=OneTime}"
                         TextWrapping="Wrap" />
 
-                    <ListView ItemsSource="{Binding Choices}" SelectionMode="Multiple">
+                    <ListView
+                        Name="ItemContainer"
+                        ItemsSource="{Binding Choices}"
+                        SelectionMode="Multiple">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
-                                <i:InvokeCommandAction Command="{Binding ListViewSelectionChangedCommand}" PassEventArgsToCommand="True" />
+                                <i:InvokeCommandAction Command="{Binding ListViewSelectionChangedCommand}" CommandParameter="{Binding ElementName=ItemContainer}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <ListView.ItemTemplate>
@@ -614,13 +617,13 @@
                             TextWrapping="Wrap" />
 
                         <ListView
-                            Name="ListView"
+                            Name="ItemContainer"
                             ItemContainerStyle="{StaticResource AnswerListViewItemStyle}"
                             ItemsSource="{Binding Choices}"
                             SelectionMode="Multiple">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Loaded">
-                                    <i:InvokeCommandAction Command="{Binding ListViewLoadedCommand}" CommandParameter="{Binding ElementName=ListView}" />
+                                    <i:InvokeCommandAction Command="{Binding ListViewLoadedCommand}" CommandParameter="{Binding ElementName=ItemContainer}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             <ListView.ItemTemplate>
@@ -735,7 +738,7 @@
                         ItemsSource="{Binding Items}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <ListViewItem Margin="0,-0.6">
+                                <ListViewItem Margin="0,-0.7">
                                     <Grid
                                         Margin="12,8"
                                         Background="Transparent"

@@ -53,22 +53,22 @@ public partial class QuizViewModel : ObservableObject
         return new()
         { 
             new SingleChoiceQuestion(
-                text: "Test QuesSSSSSSSStion",
-                hint: "Nothing at all lol",
+                text: "Test Frage",
+                hint: "es gibt keinen",
                 points: 3,
-                correctAnswer: "Second",
-                "First", "Second", "Third"),
+                correctAnswer: "Zweitens",
+                "Erstens", "Zweitens", "Drittens"),
             new MultipleChoiceQuestion(
-                text: "Select MULTIPLe WOPWOWOW",
+                text: "Wähle mehrere aus WOPWOWOW",
                 hint: "nfffffffffffff",
                 points: 5,
                 correctAnswers: new[] { "223534fgd", "sss" },
                 "sddsdsds", "223534fgd", "fddfdf", "sss"),
             new ReorderQuestion(
-                text: "Select MULTIPLe WOPWOWOW",
+                text: "RICHTIGE REIHENFOLGE",
                 hint: "nfffffffffffff",
                 points: 5,
-                "sddsdsds", "223534fgd", "fddfdf", "sss")
+                "dgfgdgdgd", "1^1111111", "fd vv ", "aaaaaaaaaa")
         };
     }
 

@@ -51,19 +51,22 @@ public partial class MultipleChoiceQuestion : Question
 
 
     [RelayCommand]
-    void OnListViewSelectionChanged(SelectionChangedEventArgs e)
+    void OnListViewSelectionChanged(
+        ListView list)
     {
-        foreach (string item in e.RemovedItems)
-            SelectedItems.Remove(item);
+        SelectedItems.Clear();
 
-        foreach (string item in e.AddedItems)
+        foreach (string item in list.SelectedItems)
             SelectedItems.Add(item);
     }
 
     [RelayCommand]
-    void OnListViewLoaded(ListView listView)
+    void OnListViewLoaded(
+        ListView list)
     {
+        list.SelectedItems.Clear();
+
         foreach (string item in SelectedItems)
-            listView.SelectedItems.Add(item);
+            list.SelectedItems.Add(item);
     }
 }

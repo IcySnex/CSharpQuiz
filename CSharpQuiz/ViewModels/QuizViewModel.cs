@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
+using Wpf.Ui.Extensions;
 
 namespace CSharpQuiz.ViewModels;
 
@@ -68,7 +69,8 @@ public partial class QuizViewModel : ObservableObject
                 text: "RICHTIGE REIHENFOLGE",
                 hint: "nfffffffffffff",
                 points: 5,
-                "dgfgdgdgd", "1^1111111", "fd vv ", "aaaaaaaaaa")
+                correctItemsOrder: new[] { "1", "2", "3 ", "4" },
+                "4", "1", "3 ", "2")
         };
     }
 

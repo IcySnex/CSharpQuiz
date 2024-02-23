@@ -21,6 +21,8 @@ class QuestionResultTemplateSelector : DataTemplateSelector
                 return (DataTemplate)element.FindResource("SingleChoiceAnswerTemplate");
             case MultipleChoiceQuestion:
                 return (DataTemplate)element.FindResource("MultipleChoiceAnswerTemplate");
+            case ReorderQuestion:
+                return (DataTemplate)element.FindResource("ReorderAnswerTemplate");
             default:
                 return null;
         }

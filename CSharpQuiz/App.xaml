@@ -33,6 +33,7 @@
             <mconv:IsSingleChoiceQuestionWrong x:Key="IsSingleChoiceQuestionWrong" />
             <mconv:IsMultipleChoiceQuestionCorrect x:Key="IsMultipleChoiceQuestionCorrect" />
             <mconv:IsMultipleChoiceQuestionWrong x:Key="IsMultipleChoiceQuestionWrong" />
+            <mconv:IsReorderQuestionCorrect x:Key="IsReorderQuestionCorrect" />
 
             <!--  TemplateSelectors  -->
             <tsel:QuestionResultTemplateSelector x:Key="QuestionResultTemplateSelector" />
@@ -738,18 +739,15 @@
                         ItemsSource="{Binding Items}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <ListViewItem Margin="0,-0.7">
-                                    <Grid
-                                        Margin="12,8"
-                                        Background="Transparent"
-                                        Cursor="Hand">
+                                <ListViewItem Margin="0,-0.7" Cursor="Hand">
+                                    <Grid Background="Transparent">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="12" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
 
-                                        <Canvas Margin="0,5,20,0">
+                                        <Canvas Margin="16,12,14,0">
                                             <Ellipse
                                                 Width="4"
                                                 Height="4"
@@ -785,6 +783,7 @@
 
                                         <TextBlock
                                             Grid.Column="2"
+                                            Margin="12,8"
                                             Opacity="0.8"
                                             Text="{Binding}" />
                                     </Grid>
@@ -793,6 +792,132 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate x:Key="ReorderAnswerTemplate" DataType="{x:Type que:ReorderQuestion}">
+                <ui:Card Margin="0,0,0,4" Padding="12">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="12" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                FontSize="17"
+                                Text="{Binding Text, Mode=OneTime}"
+                                TextDecorations="Underline"
+                                TextWrapping="Wrap" />
+                            <Border
+                                Grid.Column="2"
+                                Padding="4"
+                                VerticalAlignment="Top"
+                                Background="{DynamicResource CardBackgroundPointerOver}"
+                                CornerRadius="4">
+                                <TextBlock
+                                    FontSize="14"
+                                    FontWeight="DemiBold"
+                                    Opacity="0.7">
+                                    <Run Text="{Binding ReachedPoints, Mode=OneTime}" /><Run Text="/" /><Run Text="{Binding Points, Mode=OneTime}" />
+                                    <Run Text="Punkte" />
+                                </TextBlock>
+                            </Border>
+                        </Grid>
+                        <TextBlock
+                            Margin="0,2,0,12"
+                            FontSize="13"
+                            Opacity="0.5"
+                            Text="{Binding TypeAnswerNote, Mode=OneTime}"
+                            TextWrapping="Wrap" />
+
+                        <ItemsControl ItemsSource="{Binding CorrectItemsOrder}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ListViewItem IsEnabled="False">
+                                        <Grid Background="Transparent">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="12" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border
+                                                Name="BackgroundBorder"
+                                                Grid.ColumnSpan="3"
+                                                Margin="-4"
+                                                CornerRadius="4"
+                                                Opacity="0.25" />
+
+                                            <Canvas Margin="16,12,14,0">
+                                                <Ellipse
+                                                    Width="4"
+                                                    Height="4"
+                                                    Fill="{DynamicResource TextFillColorTertiaryBrush}" />
+                                                <Ellipse
+                                                    Canvas.Left="6"
+                                                    Width="4"
+                                                    Height="4"
+                                                    Fill="{DynamicResource TextFillColorTertiaryBrush}" />
+                                                <Ellipse
+                                                    Canvas.Left="12"
+                                                    Width="4"
+                                                    Height="4"
+                                                    Fill="{DynamicResource TextFillColorTertiaryBrush}" />
+                                                <Ellipse
+                                                    Canvas.Top="6"
+                                                    Width="4"
+                                                    Height="4"
+                                                    Fill="{DynamicResource TextFillColorTertiaryBrush}" />
+                                                <Ellipse
+                                                    Canvas.Left="6"
+                                                    Canvas.Top="6"
+                                                    Width="4"
+                                                    Height="4"
+                                                    Fill="{DynamicResource TextFillColorTertiaryBrush}" />
+                                                <Ellipse
+                                                    Canvas.Left="12"
+                                                    Canvas.Top="6"
+                                                    Width="4"
+                                                    Height="4"
+                                                    Fill="{DynamicResource TextFillColorTertiaryBrush}" />
+                                            </Canvas>
+
+                                            <TextBlock
+                                                Grid.Column="2"
+                                                Margin="12,8"
+                                                Opacity="0.8"
+                                                Text="{Binding}" />
+                                        </Grid>
+                                    </ListViewItem>
+
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Value="False">
+                                            <DataTrigger.Binding>
+                                                <MultiBinding Converter="{StaticResource IsReorderQuestionCorrect}">
+                                                    <Binding />
+                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType=ItemsControl}" />
+                                                </MultiBinding>
+                                            </DataTrigger.Binding>
+
+                                            <Setter TargetName="BackgroundBorder" Property="Background" Value="{DynamicResource SystemFillColorCriticalBrush}" />
+                                        </DataTrigger>
+
+                                        <DataTrigger Value="True">
+                                            <DataTrigger.Binding>
+                                                <MultiBinding Converter="{StaticResource IsReorderQuestionCorrect}">
+                                                    <Binding />
+                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType=ItemsControl}" />
+                                                </MultiBinding>
+                                            </DataTrigger.Binding>
+
+                                            <Setter TargetName="BackgroundBorder" Property="Background" Value="{DynamicResource SystemFillColorSuccessBrush}" />
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ui:Card>
             </DataTemplate>
 
 

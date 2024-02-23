@@ -11,6 +11,7 @@ using System.Windows.Media;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
+using Wpf.Ui.Extensions;
 
 namespace CSharpQuiz.ViewModels;
 
@@ -39,7 +40,7 @@ internal partial class SettingsViewModel : ObservableObject
         Color color)
     {
         ApplicationAccentColorManager.Apply(color);
-        ApplicationThemeManager.Apply(ApplicationThemeManager.GetAppTheme(), updateAccent: false);
+        ApplicationThemeManager.Apply(ApplicationThemeManager.GetAppTheme(), WindowBackdropType.None, false);
 
         mainWindow.TitleBar.Icon = new ImageIcon() { Source = Elements.IconImage };
 
@@ -79,7 +80,7 @@ internal partial class SettingsViewModel : ObservableObject
         if (requestedTheme == ApplicationThemeManager.GetAppTheme())
             return;
 
-        ApplicationThemeManager.Apply(requestedTheme, updateAccent: false);
+        ApplicationThemeManager.Apply(requestedTheme, WindowBackdropType.None, false);
 
         logger.LogInformation($"Dunkelmodus wurde zu '{value}' aktualisiert.");
     }

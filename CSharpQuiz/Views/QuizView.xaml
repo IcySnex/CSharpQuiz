@@ -27,7 +27,8 @@
         <ui:DynamicScrollViewer
             Name="ScrollContent"
             Grid.Row="1"
-            Margin="0,0,-12,0">
+            Margin="0,0,-12,0"
+            VerticalAlignment="Stretch">
             <ui:DynamicScrollViewer.OpacityMask>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                     <GradientStop Offset="0" Color="#00000000" />
@@ -37,7 +38,10 @@
                 </LinearGradientBrush>
             </ui:DynamicScrollViewer.OpacityMask>
 
-            <UserControl Margin="0,12,12,12" Content="{Binding CurrentView, Mode=OneWay}" />
+            <UserControl
+                Padding="0,12,12,12"
+                Background="Transparent"
+                Content="{Binding CurrentView, Mode=OneWay}" />
         </ui:DynamicScrollViewer>
 
         <Grid

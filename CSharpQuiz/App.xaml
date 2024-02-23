@@ -564,10 +564,14 @@
                         ItemsSource="{Binding Choices}"
                         SelectionMode="Multiple">
                         <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="SelectionChanged">
+                            <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
                                 <i:InvokeCommandAction Command="{Binding ListViewSelectionChangedCommand}" CommandParameter="{Binding ElementName=ItemContainer}" />
                             </i:EventTrigger>
+                            <i:EventTrigger EventName="Loaded">
+                                <i:InvokeCommandAction Command="{Binding ListViewLoadedCommand}" CommandParameter="{Binding ElementName=ItemContainer}" />
+                            </i:EventTrigger>
                         </i:Interaction.Triggers>
+
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock
@@ -627,6 +631,7 @@
                                     <i:InvokeCommandAction Command="{Binding ListViewLoadedCommand}" CommandParameter="{Binding ElementName=ItemContainer}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
+
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>

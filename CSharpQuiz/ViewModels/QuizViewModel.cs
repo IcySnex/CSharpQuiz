@@ -42,7 +42,6 @@ public partial class QuizViewModel : ObservableObject
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsResultEvaluated))]
-
     UserControl currentView;
 
     public bool IsResultEvaluated =>

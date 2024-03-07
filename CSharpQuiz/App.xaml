@@ -896,17 +896,6 @@
                                     </ListViewItem>
 
                                     <DataTemplate.Triggers>
-                                        <DataTrigger Value="False">
-                                            <DataTrigger.Binding>
-                                                <MultiBinding Converter="{StaticResource IsReorderQuestionCorrect}">
-                                                    <Binding />
-                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType=ItemsControl}" />
-                                                </MultiBinding>
-                                            </DataTrigger.Binding>
-
-                                            <Setter TargetName="BackgroundBorder" Property="Background" Value="{DynamicResource SystemFillColorCriticalBrush}" />
-                                        </DataTrigger>
-
                                         <DataTrigger Value="True">
                                             <DataTrigger.Binding>
                                                 <MultiBinding Converter="{StaticResource IsReorderQuestionCorrect}">

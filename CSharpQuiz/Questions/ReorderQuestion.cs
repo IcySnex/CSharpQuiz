@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace CSharpQuiz.Questions;
 
@@ -33,13 +34,17 @@ public partial class ReorderQuestion : Question
     {
         get
         {
-            int penalty = 0;
-            for (int i = 0; i < CorrectItemsOrder.Length; i++)
-                if (i >= Items.Count || Items[i] != CorrectItemsOrder[i])
-                    penalty += CorrectItemsOrder.Length;
+            int kendallTauDistance = 0;
+            for (int i = 0; i < CorrectItemsOrder.Length - 1; i++)
+                for (int j = i + 1; j < CorrectItemsOrder.Length; j++)
+                    if (Items.IndexOf(CorrectItemsOrder[i]) > Items.IndexOf(CorrectItemsOrder[j]))
+                        kendallTauDistance++;
 
-            double maxPenalty = CorrectItemsOrder.Length * CorrectItemsOrder.Length;
-            double points = Math.Max(0, (maxPenalty - penalty * 0.5) / maxPenalty) * Points;
+            int maxKendallTauDistance = CorrectItemsOrder.Length * (CorrectItemsOrder.Length - 1) / 2;
+
+            double similarity = 1.0 - (double)kendallTauDistance / maxKendallTauDistance;
+            double points = similarity * Points;
+
             double roundedPoints = Math.Floor(points / 0.25) * 0.25;
 
             return roundedPoints;

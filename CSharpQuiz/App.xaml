@@ -32,9 +32,7 @@
 
             <!--  MultiConverters  -->
             <mconv:IsSingleChoiceQuestionCorrect x:Key="IsSingleChoiceQuestionCorrect" />
-            <mconv:IsSingleChoiceQuestionWrong x:Key="IsSingleChoiceQuestionWrong" />
             <mconv:IsMultipleChoiceQuestionCorrect x:Key="IsMultipleChoiceQuestionCorrect" />
-            <mconv:IsMultipleChoiceQuestionWrong x:Key="IsMultipleChoiceQuestionWrong" />
             <mconv:IsReorderQuestionCorrect x:Key="IsReorderQuestionCorrect" />
 
             <!--  TemplateSelectors  -->
@@ -514,17 +512,6 @@
                                     <DataTemplate.Triggers>
                                         <DataTrigger Value="True">
                                             <DataTrigger.Binding>
-                                                <MultiBinding Converter="{StaticResource IsSingleChoiceQuestionWrong}">
-                                                    <Binding />
-                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType=ListView}" />
-                                                </MultiBinding>
-                                            </DataTrigger.Binding>
-
-                                            <Setter TargetName="BackgroundBorder" Property="Background" Value="{DynamicResource SystemFillColorCriticalBrush}" />
-                                        </DataTrigger>
-
-                                        <DataTrigger Value="True">
-                                            <DataTrigger.Binding>
                                                 <MultiBinding Converter="{StaticResource IsSingleChoiceQuestionCorrect}">
                                                     <Binding />
                                                     <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType=ListView}" />
@@ -691,17 +678,6 @@
                                     </Grid>
 
                                     <DataTemplate.Triggers>
-                                        <DataTrigger Value="True">
-                                            <DataTrigger.Binding>
-                                                <MultiBinding Converter="{StaticResource IsMultipleChoiceQuestionWrong}">
-                                                    <Binding />
-                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType=ListView}" />
-                                                </MultiBinding>
-                                            </DataTrigger.Binding>
-
-                                            <Setter TargetName="BackgroundBorder" Property="Background" Value="{DynamicResource SystemFillColorCriticalBrush}" />
-                                        </DataTrigger>
-
                                         <DataTrigger Value="True">
                                             <DataTrigger.Binding>
                                                 <MultiBinding Converter="{StaticResource IsMultipleChoiceQuestionCorrect}">
@@ -1157,9 +1133,6 @@
                     </Grid>
                 </ui:Card>
             </DataTemplate>
-
-
-
         </ResourceDictionary>
     </Application.Resources>
 </Application>

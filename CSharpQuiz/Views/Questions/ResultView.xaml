@@ -18,7 +18,9 @@
             <TextBlock TextWrapping="Wrap">
                 <Run Text="Herzlichen Glückwunsch! Du hast es geschafft, das Quiz ist zuende." />
                 <LineBreak />
-                <Run Text="Deine Antworten sind unten gekennzeichnet. Die Lösungen sind grün und falsche Antworten sind rot makiert. Außerdem siehst du ganz unten allgemeine Infos wie die Punktezahl oder die Zeit, die du gebraucht hast." />
+                <Run Text="Deine Antworten sind unten gekennzeichnet, sowie die Lösungen in grün" />
+                <LineBreak />
+                <Run Text="Außerdem siehst du in der unteren Leiste Infos wie die Punktezahl oder die Zeit, die du gebraucht hast." />
             </TextBlock>
         </ui:Card>
 

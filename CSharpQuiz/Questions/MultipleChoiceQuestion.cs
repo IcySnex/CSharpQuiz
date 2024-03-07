@@ -47,7 +47,8 @@ public partial class MultipleChoiceQuestion : Question
             foreach (string selectedChoice in SelectedItems)
                 points = CorrectAnswers.Contains(selectedChoice) ? points + pointsPerQuestion : points - (pointsPerQuestion / 2);
 
-            return Math.Max(0, points);
+            double roundedPoints = Math.Floor(Math.Max(0, points) / 0.25) * 0.25;
+            return roundedPoints;
         }
     }
 

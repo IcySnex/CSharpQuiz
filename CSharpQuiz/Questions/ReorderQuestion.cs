@@ -46,7 +46,6 @@ public partial class ReorderQuestion : Question
             double points = similarity * Points;
 
             double roundedPoints = Math.Floor(points / 0.25) * 0.25;
-
             return roundedPoints;
         }
     }

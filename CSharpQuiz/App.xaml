@@ -27,6 +27,8 @@
             <conv:AddOneToInt x:Key="AddOneToInt" />
             <conv:AbsoluteToRelativeConverter x:Key="AbsoluteToRelativeConverter" />
             <conv:InvertedAbsoluteToRelativeConverter x:Key="InvertedAbsoluteToRelativeConverter" />
+            <conv:InverseBoolean x:Key="InverseBoolean" />
+            <conv:IsTrueOrFalseItemCorrect x:Key="IsTrueOrFalseItemCorrect" />
 
             <!--  MultiConverters  -->
             <mconv:IsSingleChoiceQuestionCorrect x:Key="IsSingleChoiceQuestionCorrect" />
@@ -99,6 +101,27 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
+            <DrawingImage x:Key="CheckDrawing">
+                <DrawingImage.Drawing>
+                    <GeometryDrawing Geometry="F1 M24,24z M0,0z M4,12.6111L8.92308,17.5 20,6.5">
+                        <GeometryDrawing.Pen>
+                            <Pen
+                                Brush="{DynamicResource TextFillColorTertiaryBrush}"
+                                EndLineCap="Round"
+                                LineJoin="Round"
+                                StartLineCap="Round"
+                                Thickness="2" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                </DrawingImage.Drawing>
+            </DrawingImage>
+
+            <DrawingImage x:Key="CloseDrawing">
+                <DrawingImage.Drawing>
+                    <GeometryDrawing Brush="{DynamicResource TextFillColorTertiaryBrush}" Geometry="M19.207 6.207a1 1 0 0 0-1.414-1.414L12 10.586 6.207 4.793a1 1 0 0 0-1.414 1.414L10.586 12l-5.793 5.793a1 1 0 1 0 1.414 1.414L12 13.414l5.793 5.793a1 1 0 0 0 1.414-1.414L13.414 12l5.793-5.793z" />
+                </DrawingImage.Drawing>
+            </DrawingImage>
 
 
             <!--  Styles  -->
@@ -911,6 +934,227 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </StackPanel>
+                </ui:Card>
+            </DataTemplate>
+
+
+            <DataTemplate DataType="{x:Type que:TrueOrFalseQuestion}">
+                <Grid VerticalAlignment="Top">
+                    <StackPanel VerticalAlignment="Top">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="12" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                FontSize="17"
+                                Text="{Binding Text, Mode=OneTime}"
+                                TextDecorations="Underline"
+                                TextWrapping="Wrap" />
+                            <Border
+                                Grid.Column="2"
+                                Padding="4"
+                                VerticalAlignment="Top"
+                                Background="{DynamicResource CardBackgroundPointerOver}"
+                                CornerRadius="4">
+                                <TextBlock
+                                    FontSize="14"
+                                    FontWeight="DemiBold"
+                                    Opacity="0.7">
+                                    <Run Text="{Binding Points, Mode=OneTime}" />
+                                    <Run Text="Punkte" />
+                                </TextBlock>
+                            </Border>
+                        </Grid>
+                        <TextBlock
+                            Margin="0,2,0,12"
+                            FontSize="13"
+                            Opacity="0.5"
+                            Text="{Binding TypeNote, Mode=OneTime}"
+                            TextWrapping="Wrap" />
+
+                        <Grid Margin="0,4,64,12">
+                            <Image
+                                Width="22"
+                                Height="22"
+                                HorizontalAlignment="Right"
+                                Source="{StaticResource CheckDrawing}" />
+                            <Image
+                                Width="18"
+                                Height="18"
+                                Margin="0,0,-47,0"
+                                HorizontalAlignment="Right"
+                                Source="{StaticResource CloseDrawing}" />
+                        </Grid>
+
+                        <ItemsControl ItemsSource="{Binding Items}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="6" Background="Transparent">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="12" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="12" />
+                                            <ColumnDefinition Width="32" />
+                                            <ColumnDefinition Width="16" />
+                                            <ColumnDefinition Width="32" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock
+                                            Grid.Column="2"
+                                            Margin="0,8"
+                                            Opacity="0.8"
+                                            Text="{Binding Text}" />
+
+                                        <CheckBox Grid.Column="4" IsChecked="{Binding IsTrue, Mode=TwoWay}" />
+                                        <CheckBox Grid.Column="6" IsChecked="{Binding IsFalse, Mode=TwoWay}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+
+                    <Rectangle
+                        Height="2"
+                        Margin="0,92,0,0"
+                        VerticalAlignment="Top"
+                        Fill="{DynamicResource TextFillColorTertiaryBrush}"
+                        Opacity="0.5" />
+                    <Rectangle
+                        Width="2"
+                        Margin="0,60,50,0"
+                        HorizontalAlignment="Right"
+                        Fill="{DynamicResource TextFillColorTertiaryBrush}"
+                        Opacity="0.5" />
+                    <Rectangle
+                        Width="2"
+                        Margin="0,60,98,0"
+                        HorizontalAlignment="Right"
+                        Fill="{DynamicResource TextFillColorTertiaryBrush}"
+                        Opacity="0.5" />
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="TrueOrFalseAnswerTemplate" DataType="{x:Type que:TrueOrFalseQuestion}">
+                <ui:Card Margin="0,0,0,4" Padding="12">
+                    <Grid VerticalAlignment="Top">
+                        <StackPanel VerticalAlignment="Top">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="12" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    FontSize="17"
+                                    Text="{Binding Text, Mode=OneTime}"
+                                    TextDecorations="Underline"
+                                    TextWrapping="Wrap" />
+                                <Border
+                                    Grid.Column="2"
+                                    Padding="4"
+                                    VerticalAlignment="Top"
+                                    Background="{DynamicResource CardBackgroundPointerOver}"
+                                    CornerRadius="4">
+                                    <TextBlock
+                                        FontSize="14"
+                                        FontWeight="DemiBold"
+                                        Opacity="0.7">
+                                        <Run Text="{Binding ReachedPoints, Mode=OneTime}" /><Run Text="/" /><Run Text="{Binding Points, Mode=OneTime}" />
+                                        <Run Text="Punkte" />
+                                    </TextBlock>
+                                </Border>
+                            </Grid>
+                            <TextBlock
+                                Margin="0,2,0,12"
+                                FontSize="13"
+                                Opacity="0.5"
+                                Text="{Binding TypeAnswerNote, Mode=OneTime}"
+                                TextWrapping="Wrap" />
+
+                            <Grid Margin="0,4,64,12">
+                                <Image
+                                    Width="22"
+                                    Height="22"
+                                    HorizontalAlignment="Right"
+                                    Source="{StaticResource CheckDrawing}" />
+                                <Image
+                                    Width="18"
+                                    Height="18"
+                                    Margin="0,0,-47,0"
+                                    HorizontalAlignment="Right"
+                                    Source="{StaticResource CloseDrawing}" />
+                            </Grid>
+
+                            <ItemsControl ItemsSource="{Binding Items}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="6" Background="Transparent">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="12" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="12" />
+                                                <ColumnDefinition Width="32" />
+                                                <ColumnDefinition Width="16" />
+                                                <ColumnDefinition Width="32" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border
+                                                Name="BackgroundBorder"
+                                                Grid.ColumnSpan="7"
+                                                Margin="-4"
+                                                CornerRadius="4"
+                                                Opacity="0.25" />
+
+                                            <TextBlock
+                                                Grid.Column="2"
+                                                Margin="0,8"
+                                                Opacity="0.8"
+                                                Text="{Binding Text}" />
+
+                                            <CheckBox
+                                                Grid.Column="4"
+                                                IsChecked="{Binding IsCorrect}"
+                                                IsHitTestVisible="False" />
+                                            <CheckBox
+                                                Grid.Column="6"
+                                                IsChecked="{Binding IsCorrect, Converter={StaticResource InverseBoolean}}"
+                                                IsHitTestVisible="False" />
+                                        </Grid>
+
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding Converter={StaticResource IsTrueOrFalseItemCorrect}}" Value="True">
+                                                <Setter TargetName="BackgroundBorder" Property="Background" Value="{DynamicResource SystemFillColorSuccessBrush}" />
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+
+                        <Rectangle
+                            Height="2"
+                            Margin="0,92,0,0"
+                            VerticalAlignment="Top"
+                            Fill="{DynamicResource TextFillColorTertiaryBrush}"
+                            Opacity="0.5" />
+                        <Rectangle
+                            Width="2"
+                            Margin="0,60,50,0"
+                            HorizontalAlignment="Right"
+                            Fill="{DynamicResource TextFillColorTertiaryBrush}"
+                            Opacity="0.5" />
+                        <Rectangle
+                            Width="2"
+                            Margin="0,60,98,0"
+                            HorizontalAlignment="Right"
+                            Fill="{DynamicResource TextFillColorTertiaryBrush}"
+                            Opacity="0.5" />
+                    </Grid>
                 </ui:Card>
             </DataTemplate>
 

@@ -69,7 +69,12 @@ public partial class QuizViewModel : ObservableObject
                 hint: "nfffffffffffff",
                 points: 5,
                 correctItemsOrder: new[] { "1", "2", "3 ", "4" },
-                "4", "1", "3 ", "2")
+                "4", "1", "3 ", "2"),
+            new TrueOrFalseQuestion(
+                text: "ist es wirklich richtig huh",
+                hint: "hffuihnfsddf",
+                points: 5,
+                new("fortnitze", true), new("nuh uh", false), new("yessir", true))
         };
     }
 

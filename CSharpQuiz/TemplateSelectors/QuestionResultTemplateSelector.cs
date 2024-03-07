@@ -23,6 +23,8 @@ class QuestionResultTemplateSelector : DataTemplateSelector
                 return (DataTemplate)element.FindResource("MultipleChoiceAnswerTemplate");
             case ReorderQuestion:
                 return (DataTemplate)element.FindResource("ReorderAnswerTemplate");
+            case TrueOrFalseQuestion:
+                return (DataTemplate)element.FindResource("TrueOrFalseAnswerTemplate");
             default:
                 return null;
         }

@@ -8,3 +8,7 @@ _ReSharper.*
 CSharpQuiz/bin/
 CSharpQuiz/obj/
 CSharpQuiz/Properties/
+
+UI.SyntaxBox/bin/
+UI.SyntaxBox/obj/
+UI.SyntaxBox/Properties/

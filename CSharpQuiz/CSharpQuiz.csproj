@@ -21,6 +21,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\UI.SyntaxBox\UI.SyntaxBox.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Helpers\AnswerHeader.xaml.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
 	  <Compile Update="Views\Questions\ResultView.xaml.cs">
 	    <SubType>Code</SubType>
 	  </Compile>

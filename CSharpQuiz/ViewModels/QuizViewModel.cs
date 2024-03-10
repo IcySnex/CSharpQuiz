@@ -74,7 +74,11 @@ public partial class QuizViewModel : ObservableObject
                 text: "ist es wirklich richtig huh",
                 hint: "hffuihnfsddf",
                 points: 5,
-                new("fortnitze", true), new("nuh uh", false), new("yessir", true))
+                new("fortnitze", true), new("nuh uh", false), new("yessir", true)),
+            new CodingQuestion(
+                "Addiere die zwei gegeben Zahlen",
+                "brubv",
+                10)
         };
     }
 

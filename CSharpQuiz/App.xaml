@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:conv="clr-namespace:CSharpQuiz.Converter"
     xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+    xmlns:hlp="clr-namespace:CSharpQuiz.Helpers"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:CSharpQuiz"
     xmlns:mconv="clr-namespace:CSharpQuiz.MultiConverter"
@@ -385,42 +386,21 @@
 
             <!--  DataTemplates  -->
             <DataTemplate DataType="{x:Type que:SingleChoiceQuestion}">
-                <StackPanel>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="12" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
 
-                        <TextBlock
-                            FontSize="17"
-                            Text="{Binding Text, Mode=OneTime}"
-                            TextDecorations="Underline"
-                            TextWrapping="Wrap" />
-                        <Border
-                            Grid.Column="2"
-                            Padding="4"
-                            VerticalAlignment="Top"
-                            Background="{DynamicResource CardBackgroundPointerOver}"
-                            CornerRadius="4">
-                            <TextBlock
-                                FontSize="14"
-                                FontWeight="DemiBold"
-                                Opacity="0.7">
-                                <Run Text="{Binding Points, Mode=OneTime}" />
-                                <Run Text="Punkte" />
-                            </TextBlock>
-                        </Border>
-                    </Grid>
-                    <TextBlock
-                        Margin="0,2,0,12"
-                        FontSize="13"
-                        Opacity="0.5"
-                        Text="{Binding TypeNote, Mode=OneTime}"
-                        TextWrapping="Wrap" />
+                    <hlp:QuestionHeader
+                        Points="{Binding Points, Mode=OneTime}"
+                        Text="{Binding Text, Mode=OneTime}"
+                        TypeNote="{Binding TypeNote, Mode=OneTime}" />
 
-                    <ListView ItemsSource="{Binding Choices}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+                    <ListView
+                        Grid.Row="1"
+                        ItemsSource="{Binding Choices}"
+                        SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock
@@ -430,47 +410,25 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                </StackPanel>
+                </Grid>
             </DataTemplate>
 
             <DataTemplate x:Key="SingleChoiceAnswerTemplate" DataType="{x:Type que:SingleChoiceQuestion}">
                 <ui:Card Margin="0,0,0,4" Padding="12">
-                    <StackPanel>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="12" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
 
-                            <TextBlock
-                                FontSize="17"
-                                Text="{Binding Text, Mode=OneTime}"
-                                TextDecorations="Underline"
-                                TextWrapping="Wrap" />
-                            <Border
-                                Grid.Column="2"
-                                Padding="4"
-                                VerticalAlignment="Top"
-                                Background="{DynamicResource CardBackgroundPointerOver}"
-                                CornerRadius="4">
-                                <TextBlock
-                                    FontSize="14"
-                                    FontWeight="DemiBold"
-                                    Opacity="0.7">
-                                    <Run Text="{Binding ReachedPoints, Mode=OneTime}" /><Run Text="/" /><Run Text="{Binding Points, Mode=OneTime}" />
-                                    <Run Text="Punkte" />
-                                </TextBlock>
-                            </Border>
-                        </Grid>
-                        <TextBlock
-                            Margin="0,2,0,12"
-                            FontSize="13"
-                            Opacity="0.5"
-                            Text="{Binding TypeAnswerNote, Mode=OneTime}"
-                            TextWrapping="Wrap" />
+                        <hlp:AnswerHeader
+                            Points="{Binding Points, Mode=OneTime}"
+                            ReachedPoints="{Binding ReachedPoints, Mode=OneTime}"
+                            Text="{Binding Text, Mode=OneTime}"
+                            TypeAnswerNote="{Binding TypeAnswerNote, Mode=OneTime}" />
 
                         <ListView
+                            Grid.Row="1"
                             ItemContainerStyle="{StaticResource AnswerListViewItemStyle}"
                             ItemsSource="{Binding Choices}"
                             SelectedItem="{Binding SelectedItem, Mode=OneWay}">
@@ -528,49 +486,26 @@
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-                    </StackPanel>
+                    </Grid>
                 </ui:Card>
             </DataTemplate>
 
 
             <DataTemplate DataType="{x:Type que:MultipleChoiceQuestion}">
-                <StackPanel>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="12" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
 
-                        <TextBlock
-                            FontSize="17"
-                            Text="{Binding Text, Mode=OneTime}"
-                            TextDecorations="Underline"
-                            TextWrapping="Wrap" />
-                        <Border
-                            Grid.Column="2"
-                            Padding="4"
-                            VerticalAlignment="Top"
-                            Background="{DynamicResource CardBackgroundPointerOver}"
-                            CornerRadius="4">
-                            <TextBlock
-                                FontSize="14"
-                                FontWeight="DemiBold"
-                                Opacity="0.7">
-                                <Run Text="{Binding Points, Mode=OneTime}" />
-                                <Run Text="Punkte" />
-                            </TextBlock>
-                        </Border>
-                    </Grid>
-                    <TextBlock
-                        Margin="0,2,0,12"
-                        FontSize="13"
-                        Opacity="0.5"
-                        Text="{Binding TypeNote, Mode=OneTime}"
-                        TextWrapping="Wrap" />
+                    <hlp:QuestionHeader
+                        Points="{Binding Points, Mode=OneTime}"
+                        Text="{Binding Text, Mode=OneTime}"
+                        TypeNote="{Binding TypeNote, Mode=OneTime}" />
 
                     <ListView
                         Name="ItemContainer"
+                        Grid.Row="1"
                         ItemsSource="{Binding Choices}"
                         SelectionMode="Multiple">
                         <i:Interaction.Triggers>
@@ -591,48 +526,26 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                </StackPanel>
+                </Grid>
             </DataTemplate>
 
             <DataTemplate x:Key="MultipleChoiceAnswerTemplate" DataType="{x:Type que:MultipleChoiceQuestion}">
                 <ui:Card Margin="0,0,0,4" Padding="12">
-                    <StackPanel>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="12" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
 
-                            <TextBlock
-                                FontSize="17"
-                                Text="{Binding Text, Mode=OneTime}"
-                                TextDecorations="Underline"
-                                TextWrapping="Wrap" />
-                            <Border
-                                Grid.Column="2"
-                                Padding="4"
-                                VerticalAlignment="Top"
-                                Background="{DynamicResource CardBackgroundPointerOver}"
-                                CornerRadius="4">
-                                <TextBlock
-                                    FontSize="14"
-                                    FontWeight="DemiBold"
-                                    Opacity="0.7">
-                                    <Run Text="{Binding ReachedPoints, Mode=OneTime}" /><Run Text="/" /><Run Text="{Binding Points, Mode=OneTime}" />
-                                    <Run Text="Punkte" />
-                                </TextBlock>
-                            </Border>
-                        </Grid>
-                        <TextBlock
-                            Margin="0,2,0,12"
-                            FontSize="13"
-                            Opacity="0.5"
-                            Text="{Binding TypeAnswerNote, Mode=OneTime}"
-                            TextWrapping="Wrap" />
+                        <hlp:AnswerHeader
+                            Points="{Binding Points, Mode=OneTime}"
+                            ReachedPoints="{Binding ReachedPoints, Mode=OneTime}"
+                            Text="{Binding Text, Mode=OneTime}"
+                            TypeAnswerNote="{Binding TypeAnswerNote, Mode=OneTime}" />
 
                         <ListView
                             Name="ItemContainer"
+                            Grid.Row="1"
                             ItemContainerStyle="{StaticResource AnswerListViewItemStyle}"
                             ItemsSource="{Binding Choices}"
                             SelectionMode="Multiple">
@@ -696,48 +609,25 @@
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-                    </StackPanel>
+                    </Grid>
                 </ui:Card>
             </DataTemplate>
 
 
             <DataTemplate DataType="{x:Type que:ReorderQuestion}">
-                <StackPanel>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="12" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
 
-                        <TextBlock
-                            FontSize="17"
-                            Text="{Binding Text, Mode=OneTime}"
-                            TextDecorations="Underline"
-                            TextWrapping="Wrap" />
-                        <Border
-                            Grid.Column="2"
-                            Padding="4"
-                            VerticalAlignment="Top"
-                            Background="{DynamicResource CardBackgroundPointerOver}"
-                            CornerRadius="4">
-                            <TextBlock
-                                FontSize="14"
-                                FontWeight="DemiBold"
-                                Opacity="0.7">
-                                <Run Text="{Binding Points, Mode=OneTime}" />
-                                <Run Text="Punkte" />
-                            </TextBlock>
-                        </Border>
-                    </Grid>
-                    <TextBlock
-                        Margin="0,2,0,12"
-                        FontSize="13"
-                        Opacity="0.5"
-                        Text="{Binding TypeNote, Mode=OneTime}"
-                        TextWrapping="Wrap" />
+                    <hlp:QuestionHeader
+                        Points="{Binding Points, Mode=OneTime}"
+                        Text="{Binding Text, Mode=OneTime}"
+                        TypeNote="{Binding TypeNote, Mode=OneTime}" />
 
                     <ItemsControl
+                        Grid.Row="1"
                         dd:DragDrop.IsDragSource="True"
                         dd:DragDrop.IsDropTarget="True"
                         ItemsSource="{Binding Items}">
@@ -795,47 +685,24 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                </StackPanel>
+                </Grid>
             </DataTemplate>
 
             <DataTemplate x:Key="ReorderAnswerTemplate" DataType="{x:Type que:ReorderQuestion}">
                 <ui:Card Margin="0,0,0,4" Padding="12">
-                    <StackPanel>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="12" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
 
-                            <TextBlock
-                                FontSize="17"
-                                Text="{Binding Text, Mode=OneTime}"
-                                TextDecorations="Underline"
-                                TextWrapping="Wrap" />
-                            <Border
-                                Grid.Column="2"
-                                Padding="4"
-                                VerticalAlignment="Top"
-                                Background="{DynamicResource CardBackgroundPointerOver}"
-                                CornerRadius="4">
-                                <TextBlock
-                                    FontSize="14"
-                                    FontWeight="DemiBold"
-                                    Opacity="0.7">
-                                    <Run Text="{Binding ReachedPoints, Mode=OneTime}" /><Run Text="/" /><Run Text="{Binding Points, Mode=OneTime}" />
-                                    <Run Text="Punkte" />
-                                </TextBlock>
-                            </Border>
-                        </Grid>
-                        <TextBlock
-                            Margin="0,2,0,12"
-                            FontSize="13"
-                            Opacity="0.5"
-                            Text="{Binding TypeAnswerNote, Mode=OneTime}"
-                            TextWrapping="Wrap" />
+                        <hlp:AnswerHeader
+                            Points="{Binding Points, Mode=OneTime}"
+                            ReachedPoints="{Binding ReachedPoints, Mode=OneTime}"
+                            Text="{Binding Text, Mode=OneTime}"
+                            TypeAnswerNote="{Binding TypeAnswerNote, Mode=OneTime}" />
 
-                        <ItemsControl ItemsSource="{Binding CorrectItemsOrder}">
+                        <ItemsControl Grid.Row="1" ItemsSource="{Binding CorrectItemsOrder}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <ListViewItem IsEnabled="False">
@@ -909,47 +776,102 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                    </StackPanel>
+                    </Grid>
                 </ui:Card>
             </DataTemplate>
 
 
             <DataTemplate DataType="{x:Type que:TrueOrFalseQuestion}">
                 <Grid VerticalAlignment="Top">
-                    <StackPanel VerticalAlignment="Top">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="12" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
 
-                            <TextBlock
-                                FontSize="17"
-                                Text="{Binding Text, Mode=OneTime}"
-                                TextDecorations="Underline"
-                                TextWrapping="Wrap" />
-                            <Border
-                                Grid.Column="2"
-                                Padding="4"
-                                VerticalAlignment="Top"
-                                Background="{DynamicResource CardBackgroundPointerOver}"
-                                CornerRadius="4">
-                                <TextBlock
-                                    FontSize="14"
-                                    FontWeight="DemiBold"
-                                    Opacity="0.7">
-                                    <Run Text="{Binding Points, Mode=OneTime}" />
-                                    <Run Text="Punkte" />
-                                </TextBlock>
-                            </Border>
-                        </Grid>
-                        <TextBlock
-                            Margin="0,2,0,12"
-                            FontSize="13"
-                            Opacity="0.5"
-                            Text="{Binding TypeNote, Mode=OneTime}"
-                            TextWrapping="Wrap" />
+                    <hlp:QuestionHeader
+                        Points="{Binding Points, Mode=OneTime}"
+                        Text="{Binding Text, Mode=OneTime}"
+                        TypeNote="{Binding TypeNote, Mode=OneTime}" />
+
+                    <Grid Grid.Row="1" Margin="0,4,64,12">
+                        <Image
+                            Width="22"
+                            Height="22"
+                            HorizontalAlignment="Right"
+                            Source="{StaticResource CheckDrawing}" />
+                        <Image
+                            Width="18"
+                            Height="18"
+                            Margin="0,0,-47,0"
+                            HorizontalAlignment="Right"
+                            Source="{StaticResource CloseDrawing}" />
+                    </Grid>
+
+                    <ItemsControl Grid.Row="2" ItemsSource="{Binding Items}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="6" Background="Transparent">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="12" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="12" />
+                                        <ColumnDefinition Width="32" />
+                                        <ColumnDefinition Width="16" />
+                                        <ColumnDefinition Width="32" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock
+                                        Grid.Column="2"
+                                        Margin="0,8"
+                                        Opacity="0.8"
+                                        Text="{Binding Text}" />
+
+                                    <CheckBox Grid.Column="4" IsChecked="{Binding IsTrue, Mode=TwoWay}" />
+                                    <CheckBox Grid.Column="6" IsChecked="{Binding IsFalse, Mode=TwoWay}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <Rectangle
+                        Grid.RowSpan="2"
+                        Height="2"
+                        Margin="0,92,0,0"
+                        VerticalAlignment="Top"
+                        Fill="{DynamicResource TextFillColorTertiaryBrush}"
+                        Opacity="0.5" />
+                    <Rectangle
+                        Grid.RowSpan="3"
+                        Width="2"
+                        Margin="0,60,50,0"
+                        HorizontalAlignment="Right"
+                        Fill="{DynamicResource TextFillColorTertiaryBrush}"
+                        Opacity="0.5" />
+                    <Rectangle
+                        Grid.RowSpan="3"
+                        Width="2"
+                        Margin="0,60,98,0"
+                        HorizontalAlignment="Right"
+                        Fill="{DynamicResource TextFillColorTertiaryBrush}"
+                        Opacity="0.5" />
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="TrueOrFalseAnswerTemplate" DataType="{x:Type que:TrueOrFalseQuestion}">
+                <ui:Card Margin="0,0,0,4" Padding="12">
+                    <Grid VerticalAlignment="Top">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <hlp:AnswerHeader
+                            Points="{Binding Points, Mode=OneTime}"
+                            ReachedPoints="{Binding ReachedPoints, Mode=OneTime}"
+                            Text="{Binding Text, Mode=OneTime}"
+                            TypeAnswerNote="{Binding TypeAnswerNote, Mode=OneTime}" />
 
                         <Grid Margin="0,4,64,12">
                             <Image
@@ -965,7 +887,7 @@
                                 Source="{StaticResource CloseDrawing}" />
                         </Grid>
 
-                        <ItemsControl ItemsSource="{Binding Items}">
+                        <ItemsControl Grid.Row="1" ItemsSource="{Binding Items}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Margin="6" Background="Transparent">
@@ -978,6 +900,12 @@
                                             <ColumnDefinition Width="16" />
                                             <ColumnDefinition Width="32" />
                                         </Grid.ColumnDefinitions>
+                                        <Border
+                                            Name="BackgroundBorder"
+                                            Grid.ColumnSpan="7"
+                                            Margin="-4"
+                                            CornerRadius="4"
+                                            Opacity="0.25" />
 
                                         <TextBlock
                                             Grid.Column="2"
@@ -985,146 +913,41 @@
                                             Opacity="0.8"
                                             Text="{Binding Text}" />
 
-                                        <CheckBox Grid.Column="4" IsChecked="{Binding IsTrue, Mode=TwoWay}" />
-                                        <CheckBox Grid.Column="6" IsChecked="{Binding IsFalse, Mode=TwoWay}" />
+                                        <CheckBox
+                                            Grid.Column="4"
+                                            IsChecked="{Binding IsCorrect}"
+                                            IsHitTestVisible="False" />
+                                        <CheckBox
+                                            Grid.Column="6"
+                                            IsChecked="{Binding IsCorrect, Converter={StaticResource InverseBoolean}}"
+                                            IsHitTestVisible="False" />
                                     </Grid>
+
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding Converter={StaticResource IsTrueOrFalseItemCorrect}}" Value="True">
+                                            <Setter TargetName="BackgroundBorder" Property="Background" Value="{DynamicResource SystemFillColorSuccessBrush}" />
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                    </StackPanel>
-
-                    <Rectangle
-                        Height="2"
-                        Margin="0,92,0,0"
-                        VerticalAlignment="Top"
-                        Fill="{DynamicResource TextFillColorTertiaryBrush}"
-                        Opacity="0.5" />
-                    <Rectangle
-                        Width="2"
-                        Margin="0,60,50,0"
-                        HorizontalAlignment="Right"
-                        Fill="{DynamicResource TextFillColorTertiaryBrush}"
-                        Opacity="0.5" />
-                    <Rectangle
-                        Width="2"
-                        Margin="0,60,98,0"
-                        HorizontalAlignment="Right"
-                        Fill="{DynamicResource TextFillColorTertiaryBrush}"
-                        Opacity="0.5" />
-                </Grid>
-            </DataTemplate>
-
-            <DataTemplate x:Key="TrueOrFalseAnswerTemplate" DataType="{x:Type que:TrueOrFalseQuestion}">
-                <ui:Card Margin="0,0,0,4" Padding="12">
-                    <Grid VerticalAlignment="Top">
-                        <StackPanel VerticalAlignment="Top">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="12" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-
-                                <TextBlock
-                                    FontSize="17"
-                                    Text="{Binding Text, Mode=OneTime}"
-                                    TextDecorations="Underline"
-                                    TextWrapping="Wrap" />
-                                <Border
-                                    Grid.Column="2"
-                                    Padding="4"
-                                    VerticalAlignment="Top"
-                                    Background="{DynamicResource CardBackgroundPointerOver}"
-                                    CornerRadius="4">
-                                    <TextBlock
-                                        FontSize="14"
-                                        FontWeight="DemiBold"
-                                        Opacity="0.7">
-                                        <Run Text="{Binding ReachedPoints, Mode=OneTime}" /><Run Text="/" /><Run Text="{Binding Points, Mode=OneTime}" />
-                                        <Run Text="Punkte" />
-                                    </TextBlock>
-                                </Border>
-                            </Grid>
-                            <TextBlock
-                                Margin="0,2,0,12"
-                                FontSize="13"
-                                Opacity="0.5"
-                                Text="{Binding TypeAnswerNote, Mode=OneTime}"
-                                TextWrapping="Wrap" />
-
-                            <Grid Margin="0,4,64,12">
-                                <Image
-                                    Width="22"
-                                    Height="22"
-                                    HorizontalAlignment="Right"
-                                    Source="{StaticResource CheckDrawing}" />
-                                <Image
-                                    Width="18"
-                                    Height="18"
-                                    Margin="0,0,-47,0"
-                                    HorizontalAlignment="Right"
-                                    Source="{StaticResource CloseDrawing}" />
-                            </Grid>
-
-                            <ItemsControl ItemsSource="{Binding Items}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid Margin="6" Background="Transparent">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="12" />
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="12" />
-                                                <ColumnDefinition Width="32" />
-                                                <ColumnDefinition Width="16" />
-                                                <ColumnDefinition Width="32" />
-                                            </Grid.ColumnDefinitions>
-                                            <Border
-                                                Name="BackgroundBorder"
-                                                Grid.ColumnSpan="7"
-                                                Margin="-4"
-                                                CornerRadius="4"
-                                                Opacity="0.25" />
-
-                                            <TextBlock
-                                                Grid.Column="2"
-                                                Margin="0,8"
-                                                Opacity="0.8"
-                                                Text="{Binding Text}" />
-
-                                            <CheckBox
-                                                Grid.Column="4"
-                                                IsChecked="{Binding IsCorrect}"
-                                                IsHitTestVisible="False" />
-                                            <CheckBox
-                                                Grid.Column="6"
-                                                IsChecked="{Binding IsCorrect, Converter={StaticResource InverseBoolean}}"
-                                                IsHitTestVisible="False" />
-                                        </Grid>
-
-                                        <DataTemplate.Triggers>
-                                            <DataTrigger Binding="{Binding Converter={StaticResource IsTrueOrFalseItemCorrect}}" Value="True">
-                                                <Setter TargetName="BackgroundBorder" Property="Background" Value="{DynamicResource SystemFillColorSuccessBrush}" />
-                                            </DataTrigger>
-                                        </DataTemplate.Triggers>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </StackPanel>
 
                         <Rectangle
+                            Grid.RowSpan="2"
                             Height="2"
                             Margin="0,92,0,0"
                             VerticalAlignment="Top"
                             Fill="{DynamicResource TextFillColorTertiaryBrush}"
                             Opacity="0.5" />
                         <Rectangle
+                            Grid.RowSpan="2"
                             Width="2"
                             Margin="0,60,50,0"
                             HorizontalAlignment="Right"
                             Fill="{DynamicResource TextFillColorTertiaryBrush}"
                             Opacity="0.5" />
                         <Rectangle
+                            Grid.RowSpan="2"
                             Width="2"
                             Margin="0,60,98,0"
                             HorizontalAlignment="Right"
@@ -1132,6 +955,31 @@
                             Opacity="0.5" />
                     </Grid>
                 </ui:Card>
+            </DataTemplate>
+
+
+            <DataTemplate DataType="{x:Type que:CodingQuestion}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <hlp:QuestionHeader
+                        Points="{Binding Points, Mode=OneTime}"
+                        Text="{Binding Text, Mode=OneTime}"
+                        TypeNote="{Binding TypeNote, Mode=OneTime}" />
+
+                    <ui:DynamicScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto">
+                        <TextBox
+                            Padding="4,8"
+                            VerticalAlignment="Stretch"
+                            AcceptsReturn="True"
+                            AcceptsTab="True"
+                            BorderThickness="0"
+                            FontFamily="Consolas" />
+                    </ui:DynamicScrollViewer>
+                </Grid>
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>

@@ -13,7 +13,7 @@ public partial class TrueOrFalseQuestion : Question
         params TrueOrFalseItem[] items) : base(
             text,
             "Wahr/Falsch-Frage: Kreuze wahr oder falsch an.",
-            $"Wahr/Falsch-Frage: +{points / items.Length} Punkte für richtige Antworten.",
+            $"Wahr/Falsch-Frage: +{points / items.Length:#.##} Punkte für richtige Antworten.",
             hint,
             points)
     {

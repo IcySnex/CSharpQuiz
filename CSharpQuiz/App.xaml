@@ -145,7 +145,7 @@
                 <Setter Property="OverridesDefaultStyle" Value="True" />
                 <Setter Property="Padding" Value="24" />
                 <Setter Property="DialogMaxWidth" Value="1000" />
-                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 <Setter Property="Focusable" Value="False" />
                 <Setter Property="DialogMargin" Value="35" />
@@ -964,6 +964,8 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="4" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <hlp:QuestionHeader
@@ -977,20 +979,17 @@
                             syn:SyntaxBox.Enable="True"
                             syn:SyntaxBox.ExpandTabs="True"
                             syn:SyntaxBox.LineNumbersBackground="{DynamicResource ControlFillColorDefault}"
-                            syn:SyntaxBox.LineNumbersForeground="#666666"
+                            syn:SyntaxBox.LineNumbersForeground="{DynamicResource TextFillColorDisabledBrush}"
                             syn:SyntaxBox.ShowLineNumbers="True"
                             AcceptsReturn="True"
                             AcceptsTab="True"
-                            Background="#40000000"
+                            Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
                             BorderThickness="0"
                             FontFamily="Consolas"
                             FontSize="16"
-                            IsTabStop="False">
+                            Text="{Binding Code, Mode=TwoWay}">
                             <syn:SyntaxBox.SyntaxDrivers>
                                 <syn:SyntaxConfig>
-                                    <syn:KeywordRule Foreground="#7a9eff" Keywords="abstract,as,base,break,case,catch,class,const,continue,default,delegate,do,else,enum,event,explicit,extern,false,finally,fixed,for,foreach,goto,if,implicit,in,interface,internal,is,lock,namespace,new,null,operator,out,override,params,private,protected,public,readonly,ref,return,sealed,sizeof,stackalloc,static,struct,switch,this,throw,true,try,typeof,unchecked,unsafe,using,virtual,void,volatile,while" />
-                                    <syn:KeywordRule Foreground="#abc3ff" Keywords="bool,byte,char,decimal,double,float,int,long,object,sbyte,short,string,uint,ulong,ushort,var" />
-
                                     <syn:KeywordRule
                                         Foreground="#c987ff"
                                         Keywords="!,+,-,/,*,%,=,&amp;,^,|,&lt;,&gt;,;"
@@ -1016,11 +1015,6 @@
                                         Pattern="^\s*#.*" />
 
                                     <syn:RegexRule
-                                        Foreground="#6dc26f"
-                                        Op="Line"
-                                        Pattern="//.*" />
-
-                                    <syn:RegexRule
                                         Foreground="#ffa578"
                                         Op="Line"
                                         Pattern="&quot;(?:[^&quot;\\]|\\.)*&quot;" />
@@ -1028,10 +1022,54 @@
                                         Foreground="#ffa578"
                                         Op="Line"
                                         Pattern="'(?:(?:[^'\\]|\\.)*?)'" />
+
+                                    <syn:KeywordRule Foreground="#7a9eff" Keywords="abstract,as,base,break,case,catch,class,const,continue,default,delegate,do,else,enum,event,explicit,extern,false,finally,fixed,for,foreach,goto,if,implicit,in,interface,internal,is,lock,namespace,new,null,operator,out,override,params,private,protected,public,readonly,ref,return,sealed,sizeof,stackalloc,static,struct,switch,this,throw,true,try,typeof,unchecked,unsafe,using,virtual,void,volatile,while" />
+                                    <syn:KeywordRule Foreground="#abc3ff" Keywords="bool,byte,char,decimal,double,float,int,long,object,sbyte,short,string,uint,ulong,ushort,var" />
+
+                                    <syn:RegexRule
+                                        Foreground="#6dc26f"
+                                        Op="Line"
+                                        Pattern="//.*" />
                                 </syn:SyntaxConfig>
                             </syn:SyntaxBox.SyntaxDrivers>
                         </TextBox>
                     </ui:DynamicScrollViewer>
+
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition Width="4" />
+                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <ui:Button
+                            HorizontalAlignment="Stretch"
+                            Appearance="Danger"
+                            Command="{Binding ResetCommand}"
+                            Content="Zurücksetzen" />
+                        <ui:Button
+                            Grid.Column="2"
+                            HorizontalAlignment="Stretch"
+                            Appearance="Success"
+                            Command="{Binding CompileCommand}"
+                            Content="Kompilieren" />
+
+                        <Border
+                            Grid.Column="4"
+                            Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
+                            BorderThickness="0"
+                            CornerRadius="4">
+                            <TextBlock
+                                Margin="8,0"
+                                VerticalAlignment="Center"
+                                Foreground="{DynamicResource TextFillColorSecondaryBrush}">
+                                <Run Foreground="{DynamicResource TextFillColorDisabledBrush}" Text="Output:" />
+                                <Run Text="{Binding Output, Mode=OneWay, TargetNullValue='...', FallbackValue='...'}" />
+                            </TextBlock>
+                        </Border>
+                    </Grid>
                 </Grid>
             </DataTemplate>
         </ResourceDictionary>

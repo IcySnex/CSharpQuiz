@@ -78,7 +78,16 @@ public partial class QuizViewModel : ObservableObject
             new CodingQuestion(
                 "Addiere die zwei gegeben Zahlen",
                 "brubv",
-                10)
+                10,
+                """
+                public class Beispiel
+                {
+                    public void Main(string[] args)
+                    {
+                        // Schreibe hier ein Programm, welches die Parameter 'args' sortiert
+                    }   
+                }
+                """)
         };
     }
 

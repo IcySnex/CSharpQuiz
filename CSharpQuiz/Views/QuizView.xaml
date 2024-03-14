@@ -90,7 +90,7 @@
             <ui:Button
                 Grid.Column="5"
                 Command="{Binding HintCommand}"
-                Content="Tipp anziegen" />
+                Content="Tipp anzeigen" />
 
             <ui:Button
                 Grid.Column="7"

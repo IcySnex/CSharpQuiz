@@ -31,6 +31,8 @@
             <conv:InvertedAbsoluteToRelativeConverter x:Key="InvertedAbsoluteToRelativeConverter" />
             <conv:InverseBoolean x:Key="InverseBoolean" />
             <conv:IsTrueOrFalseItemCorrect x:Key="IsTrueOrFalseItemCorrect" />
+            <conv:UnknownTypesToString x:Key="UnknownTypesToString" />
+            <conv:IsCodingQuestionCorrect x:Key="IsCodingQuestionCorrect" />
 
             <!--  MultiConverters  -->
             <mconv:IsSingleChoiceQuestionCorrect x:Key="IsSingleChoiceQuestionCorrect" />
@@ -440,10 +442,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <hlp:QuestionHeader
-                        Points="{Binding Points, Mode=OneTime}"
-                        Text="{Binding Text, Mode=OneTime}"
-                        TypeNote="{Binding TypeNote, Mode=OneTime}" />
+                    <hlp:QuestionHeader />
 
                     <ListView
                         Grid.Row="1"
@@ -469,11 +468,7 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
-                        <hlp:AnswerHeader
-                            Points="{Binding Points, Mode=OneTime}"
-                            ReachedPoints="{Binding ReachedPoints, Mode=OneTime}"
-                            Text="{Binding Text, Mode=OneTime}"
-                            TypeAnswerNote="{Binding TypeAnswerNote, Mode=OneTime}" />
+                        <hlp:AnswerHeader />
 
                         <ListView
                             Grid.Row="1"
@@ -546,10 +541,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <hlp:QuestionHeader
-                        Points="{Binding Points, Mode=OneTime}"
-                        Text="{Binding Text, Mode=OneTime}"
-                        TypeNote="{Binding TypeNote, Mode=OneTime}" />
+                    <hlp:QuestionHeader />
 
                     <ListView
                         Name="ItemContainer"
@@ -585,11 +577,7 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
-                        <hlp:AnswerHeader
-                            Points="{Binding Points, Mode=OneTime}"
-                            ReachedPoints="{Binding ReachedPoints, Mode=OneTime}"
-                            Text="{Binding Text, Mode=OneTime}"
-                            TypeAnswerNote="{Binding TypeAnswerNote, Mode=OneTime}" />
+                        <hlp:AnswerHeader />
 
                         <ListView
                             Name="ItemContainer"
@@ -669,10 +657,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <hlp:QuestionHeader
-                        Points="{Binding Points, Mode=OneTime}"
-                        Text="{Binding Text, Mode=OneTime}"
-                        TypeNote="{Binding TypeNote, Mode=OneTime}" />
+                    <hlp:QuestionHeader />
 
                     <ItemsControl
                         Grid.Row="1"
@@ -744,11 +729,7 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
-                        <hlp:AnswerHeader
-                            Points="{Binding Points, Mode=OneTime}"
-                            ReachedPoints="{Binding ReachedPoints, Mode=OneTime}"
-                            Text="{Binding Text, Mode=OneTime}"
-                            TypeAnswerNote="{Binding TypeAnswerNote, Mode=OneTime}" />
+                        <hlp:AnswerHeader />
 
                         <ItemsControl Grid.Row="1" ItemsSource="{Binding CorrectItemsOrder}">
                             <ItemsControl.ItemTemplate>
@@ -837,10 +818,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <hlp:QuestionHeader
-                        Points="{Binding Points, Mode=OneTime}"
-                        Text="{Binding Text, Mode=OneTime}"
-                        TypeNote="{Binding TypeNote, Mode=OneTime}" />
+                    <hlp:QuestionHeader />
 
                     <Grid Grid.Row="1" Margin="0,4,64,12">
                         <Image
@@ -916,11 +894,7 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
-                        <hlp:AnswerHeader
-                            Points="{Binding Points, Mode=OneTime}"
-                            ReachedPoints="{Binding ReachedPoints, Mode=OneTime}"
-                            Text="{Binding Text, Mode=OneTime}"
-                            TypeAnswerNote="{Binding TypeAnswerNote, Mode=OneTime}" />
+                        <hlp:AnswerHeader />
 
                         <Grid Grid.Row="1" Margin="0,4,64,12">
                             <Image
@@ -1013,13 +987,10 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="4" />
-                        <RowDefinition Height="50" />
+                        <RowDefinition Height="85" />
                     </Grid.RowDefinitions>
 
-                    <hlp:QuestionHeader
-                        Points="{Binding Points, Mode=OneTime}"
-                        Text="{Binding Text, Mode=OneTime}"
-                        TypeNote="{Binding TypeNote, Mode=OneTime}" />
+                    <hlp:QuestionHeader />
 
                     <ui:DynamicScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto">
                         <TextBox
@@ -1115,6 +1086,147 @@
                     </Border>
                 </Grid>
             </DataTemplate>
+
+            <DataTemplate x:Key="CodingAnswerTemplate" DataType="{x:Type que:CodingQuestion}">
+                <ui:Card Margin="0,0,0,4" Padding="12">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <hlp:AnswerHeader />
+
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="4" />
+                                <RowDefinition Height="85" />
+                            </Grid.RowDefinitions>
+
+                            <ui:DynamicScrollViewer HorizontalScrollBarVisibility="Auto">
+                                <TextBox
+                                    VerticalAlignment="Stretch"
+                                    syn:SyntaxBox.Enable="True"
+                                    syn:SyntaxBox.ExpandTabs="True"
+                                    syn:SyntaxBox.LineNumbersBackground="#202020"
+                                    syn:SyntaxBox.LineNumbersForeground="{DynamicResource TextFillColorDisabledBrush}"
+                                    syn:SyntaxBox.ShowLineNumbers="True"
+                                    syn:SyntaxBox.SyntaxDrivers="{StaticResource SynDrivers}"
+                                    AcceptsReturn="True"
+                                    AcceptsTab="True"
+                                    Background="#202020"
+                                    BorderThickness="0"
+                                    FontFamily="Consolas"
+                                    FontSize="16"
+                                    IsReadOnly="True"
+                                    Text="{Binding Code}" />
+                            </ui:DynamicScrollViewer>
+                            <Grid
+                                Margin="7,2,2,7"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top">
+                                <Rectangle
+                                    Grid.ColumnSpan="5"
+                                    Margin="-7"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    Fill="{DynamicResource CardBackgroundOverlayBrush}"
+                                    RadiusX="8"
+                                    RadiusY="8" />
+
+                                <Border
+                                    Padding="4"
+                                    VerticalAlignment="Center"
+                                    Background="{DynamicResource CardBackgroundPointerOver}"
+                                    CornerRadius="4">
+                                    <TextBlock
+                                        FontSize="14"
+                                        FontWeight="DemiBold"
+                                        Opacity="0.7"
+                                        Text="Deine Antwort" />
+                                </Border>
+                            </Grid>
+
+                            <ui:DynamicScrollViewer Grid.Column="2" HorizontalScrollBarVisibility="Auto">
+                                <TextBox
+                                    VerticalAlignment="Stretch"
+                                    syn:SyntaxBox.Enable="True"
+                                    syn:SyntaxBox.ExpandTabs="True"
+                                    syn:SyntaxBox.LineNumbersBackground="#202020"
+                                    syn:SyntaxBox.LineNumbersForeground="{DynamicResource TextFillColorDisabledBrush}"
+                                    syn:SyntaxBox.ShowLineNumbers="True"
+                                    syn:SyntaxBox.SyntaxDrivers="{StaticResource SynDrivers}"
+                                    AcceptsReturn="True"
+                                    AcceptsTab="True"
+                                    Background="#202020"
+                                    BorderThickness="0"
+                                    FontFamily="Consolas"
+                                    FontSize="16"
+                                    IsReadOnly="True"
+                                    Text="{Binding Solution, Mode=OneTime}" />
+                            </ui:DynamicScrollViewer>
+                            <Grid
+                                Grid.Column="2"
+                                Margin="7,2,2,7"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top">
+                                <Rectangle
+                                    Grid.ColumnSpan="5"
+                                    Margin="-7"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    Fill="{DynamicResource CardBackgroundOverlayBrush}"
+                                    RadiusX="8"
+                                    RadiusY="8" />
+
+                                <Border
+                                    Padding="4"
+                                    VerticalAlignment="Center"
+                                    Background="{DynamicResource CardBackgroundPointerOver}"
+                                    CornerRadius="4">
+                                    <TextBlock
+                                        FontSize="14"
+                                        FontWeight="DemiBold"
+                                        Opacity="0.7"
+                                        Text="Musterlösung" />
+                                </Border>
+                            </Grid>
+
+                            <Border
+                                Name="OutputConsole"
+                                Grid.Row="2"
+                                Grid.ColumnSpan="3"
+                                Background="#4B3033"
+                                BorderThickness="0"
+                                CornerRadius="4">
+                                <ui:DynamicScrollViewer HorizontalScrollBarVisibility="Auto">
+                                    <TextBlock
+                                        Margin="8,4"
+                                        VerticalAlignment="Center"
+                                        Foreground="#5DFFFFFF"
+                                        TextWrapping="NoWrap">
+                                        <Run Text="{Binding OutputKind, Mode=OneWay, TargetNullValue='Programm wurde noch nicht ausgeführt', FallbackValue='Programm wurde noch nicht ausgeführt'}" /><Run Text=":" />
+                                        <Run Foreground="#C5FFFFFF" Text="{Binding Output, Mode=OneWay, TargetNullValue='', FallbackValue=''}" />
+                                    </TextBlock>
+                                </ui:DynamicScrollViewer>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </ui:Card>
+
+                <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding IsCorrect}" Value="True">
+                        <Setter TargetName="OutputConsole" Property="Background" Value="#395435" />
+                    </DataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -50,8 +50,10 @@ public partial class QuizViewModel : ObservableObject
 
     List<Question> GenerateQuestions()
     {
-        return new()
-        { 
+        Random rnd = new();
+
+        return
+        [
             new SingleChoiceQuestion(
                 text: "Test Frage",
                 hint: "es gibt keinen",
@@ -76,24 +78,42 @@ public partial class QuizViewModel : ObservableObject
                 points: 5,
                 new("fortnitze", true), new("nuh uh", false), new("yessir", true)),
             new CodingQuestion(
-                text: "Addiere die zwei gegeben Zahlen",
+                text: "Addiere die Beträge der gegebene Zahlen",
                 hint: "brubv",
                 points: 10,
-                defaultMethod: "Sortieren",
-                args: [new[] { 6, 2, 4, 3, 1, 5 }],
-                expectedResult: new[] { 1, 2, 3, 4, 6 },
+                defaultMethod: "AddiereBetraege",
+                argSets:
+                [
+                    [rnd.Next(-50, 50), rnd.Next(-50, 50)],
+                    [rnd.Next(-50, 50), rnd.Next(-50, 50)],
+                    [rnd.Next(-50, 50), rnd.Next(-50, 50)]
+                ],
+                expectedDelegate: (int a, int b) => Math.Abs(a) + Math.Abs(b),
                 """
                 public class Beispiel
                 {
-                    public static int[] Sortieren(int[] unsortiereArray)
+                    public static int AddiereBetraege(int a, int b)
                     {
-                        // Schreibe hier ein Programm, die angegebe Liste sortiert
-                        // z.B. 'unsortierteListe': [6, 2, 4, 3, 1, 5] => 
-                        //      'ausgegebenListe': [1, 2, 3, 4, 6]
+                        // Addiere die Beträge der beiden Zahlen 'a' & 'b'.
+                        //
+                        // Bsp:
+                        // a = 5, b = 10 => Ergebnis: 15
+                        // a = 2, b = -4 => Ergebnis: 6
+                        // a = -6, b = -2 => Ergebnis: 8
                     }
                 }
+                """,
+                """
+                public class Beispiel
+                {
+                    public static int AddiereBetraege(int a, int b) =>
+                        Betrag(a) + Betrag(b);
+
+                    static int Betrag(int zahl) =>
+                        zahl < 0 ? -zahl : zahl;
+                }
                 """)
-        };
+        ];
     }
 
 

@@ -1,10 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CSharpQuiz.Helpers;
 using CSharpQuiz.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
@@ -15,22 +18,27 @@ namespace CSharpQuiz.Questions;
 [ObservableObject]
 public partial class CodingQuestion : Question
 {
+    readonly Random random = new();
     readonly ContentDialogService dialogService;
     readonly DynamicRuntime dynamicRuntime;
 
     readonly string defaultMethod;
+    readonly object?[][]? argSets;
+    readonly Delegate expectedDelegate;
     readonly string defaultTemplate;
-    readonly object?[]? args;
-    readonly object expectedResult;
+
+    public bool IsCompiled => DynamicAssembly is not null;
+    public string Solution { get; }
 
     public CodingQuestion(
         string text,
         string hint,
         double points,
         string defaultMethod,
-        object?[]? args,
-        object expectedResult,
-        string defaultTemplate) : base(
+        object?[][]? argSets,
+        Delegate expectedDelegate,
+        string defaultTemplate,
+        string solution) : base(
             text,
             "Programmier-Frage: Vervollständige den unteren Programmcode.",
             $"Programmier-Frage: +{points} Punkte, wenn die Aufgabe erfüllt ist.",
@@ -38,8 +46,8 @@ public partial class CodingQuestion : Question
             points)
     {
         this.defaultMethod = defaultMethod;
-        this.args = args;
-        this.expectedResult = expectedResult;
+        this.argSets = argSets;
+        this.expectedDelegate = expectedDelegate;
         this.defaultTemplate = defaultTemplate;
 
         dialogService = App.Provider.GetRequiredService<ContentDialogService>();
@@ -47,14 +55,33 @@ public partial class CodingQuestion : Question
 
         Code = defaultTemplate;
         Output = null;
+        Solution = solution;
     }
 
 
-    public bool IsCompiled => DynamicAssembly is not null;
+    void NotifyException(Exception ex)
+    {
+        if (ex is CompilationFailedException compilationEx)
+        {
+            CultureInfo culture = new("de-DE");
+            int failureCount = compilationEx.Failures.Count();
+
+            OutputKind = "Fehler";
+            Output = $"{failureCount} Problem{(failureCount == 1 ? "" : "e")} gefunden\n- {string.Join("\n- ", compilationEx.Failures.Select(failure => $"Zeile {failure.Location.GetLineSpan().StartLinePosition.Line + 1}: {failure.GetMessage(culture)}"))}";
+            return;
+        }
+
+        OutputKind = "Fehler";
+        Output = ex.Message;
+    }
+
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ExecuteCommand))]
     byte[]? dynamicAssembly;
+
+    [ObservableProperty]
+    object?[]? args;
 
     [ObservableProperty]
     string code;
@@ -72,6 +99,9 @@ public partial class CodingQuestion : Question
 
     [ObservableProperty]
     string? output;
+
+    [ObservableProperty]
+    bool? isCorrect = null;
 
 
     [RelayCommand]
@@ -98,52 +128,49 @@ public partial class CodingQuestion : Question
         OutputKind = "Output";
         Output = "Kompilieren gestartet...";
 
+        if (IsCompiled)
+        {
+            Output = "Programm bereits kompiliert.";
+            return;
+        }
+
         try
         {
             DynamicAssembly = await Task.Run(() => dynamicRuntime.Compile(Code));
+
             Output = "Kompilieren erfolgreich beendet.";
-        }
-        catch (CompilationFailedException ex)
-        {
-            CultureInfo culture = new("de-DE");
-            int failureCount = ex.Failures.Count();
-            OutputKind = "Fehler";
-            Output = $"{failureCount} Problem{(failureCount == 1 ? "" : "e")} gefunden\n- {string.Join("\n- ", ex.Failures.Select(failure => $"Zeile {failure.Location.GetLineSpan().StartLinePosition.Line + 1}: {failure.GetMessage(culture)}"))}";
         }
         catch (Exception ex)
         {
-            OutputKind = "Fehler";
-            Output = ex.Message;
+            NotifyException(ex);
         }
     }
 
     [RelayCommand(CanExecute = nameof(IsCompiled))]
     public void Execute()
     {
+        Args = argSets is null ? null : argSets[random.Next(argSets.Length - 1)];
+        ExecuteDynamicAssembly();
+    }
+
+
+    public object? ExecuteDynamicAssembly()
+    {
         OutputKind = "Output";
         Output = "Ausführen gestartet...";
 
         try
         {
-            object result = ExecuteDynamicAssembly();
-            Output = $"Ausführen erfolgreich beendet - Ausgegebener Wert: {result}.";
+            object result = dynamicRuntime.Execute<object>(DynamicAssembly!, defaultMethod, Args) ?? throw new("Ausgeführte Methode gibt keinen Wert zurück");
+
+            Output = $"Ausführen erfolgreich beendet:\n- Gegebene Parameter: {UnknownTypes.ToString(Args)}\n- Ausgegebner Wert: {UnknownTypes.ToString(result)}.";
+            return result;
         }
         catch (Exception ex)
         {
-            OutputKind = "Fehler";
-            Output = ex.Message;
+            NotifyException(ex);
+            return null;
         }
-    }
-
-    object ExecuteDynamicAssembly()
-    {
-        object? result = dynamicRuntime.Execute<object>(DynamicAssembly!, defaultMethod, args) ?? throw new("Ausgeführte Methode gibt keinen Wert zurück");
-
-        Type expectedType = expectedResult.GetType();
-        if (result?.GetType() != expectedType)
-            throw new($"Ausgeführte Methode gibt nicht den erwarteten Typ hearus: {expectedType.Name}");
-
-        return result;
     }
 
 
@@ -151,17 +178,43 @@ public partial class CodingQuestion : Question
     {
         get
         {
-            try
-            {
-                DynamicAssembly = dynamicRuntime.Compile(Code);
-                object result = ExecuteDynamicAssembly();
+            if (IsCorrect.HasValue)
+                return IsCorrect.Value ? Points : 0;
 
-                return result == expectedResult ? Points : 0;
-            }
-            catch
+            Args = argSets is null ? null : argSets[random.Next(argSets.Length - 1)];
+            object? expectedResult = expectedDelegate.DynamicInvoke(Args);
+            if (expectedResult is null)
+                return Points; // FEHLER: ES SOLLTE NIE NULL SEIN, DESWEGEN GEBEN WIR EINFACH MA SO ALLE PUNKTE
+
+            if (!IsCompiled)
             {
+                OutputKind = "Output";
+                Output = "Kompilieren gestartet...";
+
+                try
+                {
+                    DynamicAssembly = dynamicRuntime.Compile(Code);
+
+                    Output = "Kompilieren erfolgreich beendet.";
+                }
+                catch (Exception ex)
+                {
+                    NotifyException(ex);
+                    IsCorrect = false;
+                    return 0;
+                }
+            }
+
+            object? result = ExecuteDynamicAssembly();
+            if (result is null)
+            {
+                IsCorrect = false;
                 return 0;
             }
+
+            Output = $"Ausführen erfolgreich beendet:\n- Gegebene Parameter: {UnknownTypes.ToString(Args)}\n- Ausgegebner Wert: {UnknownTypes.ToString(result)}\n- Erwarteter Wert: {UnknownTypes.ToString(expectedResult)}.";
+            IsCorrect = UnknownTypes.AreEqual(result, expectedResult);
+            return IsCorrect.Value ? Points : 0;
         }
     }
 }

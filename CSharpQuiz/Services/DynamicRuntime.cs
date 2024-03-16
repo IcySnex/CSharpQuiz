@@ -29,7 +29,7 @@ public class DynamicRuntime
         logger.LogInformation("Prepariere Source Code für Kompilieren.");
         SourceText sourceText = SourceText.From(sourceCode);
         CSharpParseOptions options = CSharpParseOptions.Default
-            .WithLanguageVersion(LanguageVersion.CSharp11);
+            .WithLanguageVersion(LanguageVersion.CSharp12);
 
         SyntaxTree parsedSyntaxTree = SyntaxFactory.ParseSyntaxTree(sourceText, options);
 
@@ -137,10 +137,7 @@ public class DynamicRuntime
         WeakReference assemblyLoadContextWeakRef = new(assemblyLoadContext);
 
         for (int i = 0; i < 8 && assemblyLoadContextWeakRef.IsAlive; i++)
-        {
             GC.Collect();
-            GC.WaitForPendingFinalizers();
-        }
     }
 }
 

@@ -82,6 +82,8 @@ internal partial class SettingsViewModel : ObservableObject
 
         ApplicationThemeManager.Apply(requestedTheme, WindowBackdropType.None, false);
 
+        Application.Current.Resources["CardBackgroundOverlayBrush"] = new SolidColorBrush(value ? Color.FromRgb(50, 50, 50) : Color.FromRgb(255, 255, 255));
+
         logger.LogInformation($"Dunkelmodus wurde zu '{value}' aktualisiert.");
     }
 

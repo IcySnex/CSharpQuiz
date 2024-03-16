@@ -32,6 +32,7 @@ public partial class App : Application
                 // Services
                 services.AddSingleton<ContentDialogService>();
                 services.AddSingleton<Navigation>();
+                services.AddSingleton<DynamicRuntime>();
                 services.AddSingleton<AppStartupHandler>();
 
                 // ViewModels

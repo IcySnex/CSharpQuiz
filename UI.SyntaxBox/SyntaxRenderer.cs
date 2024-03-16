@@ -91,7 +91,6 @@ namespace UI.SyntaxBox
             sw.Start();
 #endif
             Canvas lineNumbers = GetLineNumbersCanvas();
-            Size scrollBarSize = GetScrollBarSizes();
 
             Brush synForeground = _defaultFg ?? Brushes.Red;
             Brush lnForeground = _lineNumbersFg ?? Brushes.Brown;
@@ -184,7 +183,7 @@ namespace UI.SyntaxBox
                 // Set a drawing clip to match the line numbers part.
                 Rect numbersRect = new Rect(
                     new Point(-requiredWidth, 0),
-                    new Size(requiredWidth, ActualHeight - Target.Padding.Bottom - scrollBarSize.Height)
+                    new Size(requiredWidth, ActualHeight)
                 );
                 drawingContext.PushClip(new RectangleGeometry(numbersRect));
 
@@ -217,8 +216,8 @@ namespace UI.SyntaxBox
             // Draw the syntax text.
             // Set a drawing clip matching the renderer size, sans the scrollbars.
             Rect clipRect = new Rect(
-                new Size(ActualWidth - Target.Padding.Right - scrollBarSize.Width,
-                ActualHeight - Target.Padding.Bottom - scrollBarSize.Height)
+                new Size(ActualWidth,
+                ActualHeight)
             );
             drawingContext.PushClip(new RectangleGeometry(clipRect));
 
@@ -474,26 +473,6 @@ namespace UI.SyntaxBox
                     _scrollViewer.ScrollChanged += SyntaxScrollChanged;
                 }
             }
-        }
-
-        /// <summary>
-        /// Gets visible size of the scroll bars as a size. 
-        /// Width => vertical scroll bar Width,
-        /// Height => horizontal scroll bar Height.
-        /// 
-        /// This will return 0 for any dimension that is currently hidden.
-        /// </summary>
-        /// <returns></returns>
-        private Size GetScrollBarSizes()
-        {
-            return (new Size(
-                (GetScrollViewer()?.ComputedVerticalScrollBarVisibility ?? Visibility.Collapsed) == Visibility.Collapsed
-                    ? 0d
-                    : SystemParameters.VerticalScrollBarWidth,
-                (GetScrollViewer()?.ComputedHorizontalScrollBarVisibility ?? Visibility.Collapsed) == Visibility.Collapsed
-                    ? 0d
-                    : SystemParameters.HorizontalScrollBarHeight
-                ));
         }
 
         private Canvas GetLineNumbersCanvas()

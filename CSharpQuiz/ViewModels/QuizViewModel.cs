@@ -76,16 +76,21 @@ public partial class QuizViewModel : ObservableObject
                 points: 5,
                 new("fortnitze", true), new("nuh uh", false), new("yessir", true)),
             new CodingQuestion(
-                "Addiere die zwei gegeben Zahlen",
-                "brubv",
-                10,
+                text: "Addiere die zwei gegeben Zahlen",
+                hint: "brubv",
+                points: 10,
+                defaultMethod: "Sortieren",
+                args: [new[] { 6, 2, 4, 3, 1, 5 }],
+                expectedResult: new[] { 1, 2, 3, 4, 6 },
                 """
                 public class Beispiel
                 {
-                    public void Main(string[] args)
+                    public static int[] Sortieren(int[] unsortiereArray)
                     {
-                        // Schreibe hier ein Programm, welches die Parameter 'args' sortiert
-                    }   
+                        // Schreibe hier ein Programm, die angegebe Liste sortiert
+                        // z.B. 'unsortierteListe': [6, 2, 4, 3, 1, 5] => 
+                        //      'ausgegebenListe': [1, 2, 3, 4, 6]
+                    }
                 }
                 """)
         };

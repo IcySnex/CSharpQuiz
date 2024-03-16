@@ -209,6 +209,10 @@ public class SyntaxBox : DependencyObject
         "SyntaxDrivers_",
         typeof(SyntaxDriverCollection),
         typeof(SyntaxBox));
+    public static void SetSyntaxDrivers(TextBox target, SyntaxDriverCollection value)
+    {
+        target.SetValue(SyntaxDriversProperty, value);
+    }
     public static SyntaxDriverCollection GetSyntaxDrivers(TextBox Target)
     {
         var collection = Target.GetValue(SyntaxDriversProperty) as SyntaxDriverCollection;

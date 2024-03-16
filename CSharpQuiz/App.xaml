@@ -123,6 +123,51 @@
                 </DrawingImage.Drawing>
             </DrawingImage>
 
+            <syn:SyntaxDriverCollection x:Key="SynDrivers">
+                <syn:SyntaxConfig>
+                    <syn:KeywordRule
+                        Foreground="#c987ff"
+                        Keywords="!,+,-,/,*,%,=,&amp;,^,|,&lt;,&gt;,;"
+                        WholeWordsOnly="False" />
+                    <syn:KeywordRule
+                        Foreground="#ffdc73"
+                        Keywords="(,),[,],{,}"
+                        WholeWordsOnly="False" />
+
+                    <syn:KeywordRule
+                        Foreground="#d3ebb7"
+                        Keywords="0,1,2,3,4,5,6,7,8,9"
+                        WholeWordsOnly="False" />
+
+                    <syn:RegexRule
+                        Foreground="#fffdb5"
+                        Op="Line"
+                        Pattern="(?&lt;=\.|\s)\b\w+\b(?=\s*\()" />
+
+                    <syn:RegexRule
+                        Foreground="#7a7a7a"
+                        Op="Line"
+                        Pattern="^\s*#.*" />
+
+                    <syn:RegexRule
+                        Foreground="#ffa578"
+                        Op="Line"
+                        Pattern="&quot;(?:[^&quot;\\]|\\.)*&quot;" />
+                    <syn:RegexRule
+                        Foreground="#ffa578"
+                        Op="Line"
+                        Pattern="'(?:(?:[^'\\]|\\.)*?)'" />
+
+                    <syn:KeywordRule Foreground="#7a9eff" Keywords="abstract,as,base,break,case,catch,class,const,continue,default,delegate,do,else,enum,event,explicit,extern,false,finally,fixed,for,foreach,goto,if,implicit,in,interface,internal,is,lock,namespace,new,null,operator,out,override,params,private,protected,public,readonly,ref,return,sealed,sizeof,stackalloc,static,struct,switch,this,throw,true,try,typeof,unchecked,unsafe,using,virtual,void,volatile,while" />
+                    <syn:KeywordRule Foreground="#abc3ff" Keywords="bool,byte,char,decimal,double,float,int,long,object,sbyte,short,string,uint,ulong,ushort,var" />
+
+                    <syn:RegexRule
+                        Foreground="#6dc26f"
+                        Op="Line"
+                        Pattern="//.*" />
+                </syn:SyntaxConfig>
+            </syn:SyntaxDriverCollection>
+
 
             <!--  Styles  -->
             <Style x:Key="Header" TargetType="TextBlock">
@@ -382,6 +427,8 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
+            <SolidColorBrush x:Key="CardBackgroundOverlayBrush" Color="#313131" />
 
 
 
@@ -865,6 +912,7 @@
                     <Grid VerticalAlignment="Top">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
@@ -874,7 +922,7 @@
                             Text="{Binding Text, Mode=OneTime}"
                             TypeAnswerNote="{Binding TypeAnswerNote, Mode=OneTime}" />
 
-                        <Grid Margin="0,4,64,12">
+                        <Grid Grid.Row="1" Margin="0,4,64,12">
                             <Image
                                 Width="22"
                                 Height="22"
@@ -888,7 +936,7 @@
                                 Source="{StaticResource CloseDrawing}" />
                         </Grid>
 
-                        <ItemsControl Grid.Row="1" ItemsSource="{Binding Items}">
+                        <ItemsControl Grid.Row="2" ItemsSource="{Binding Items}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Margin="6" Background="Transparent">
@@ -941,14 +989,14 @@
                             Fill="{DynamicResource TextFillColorTertiaryBrush}"
                             Opacity="0.5" />
                         <Rectangle
-                            Grid.RowSpan="2"
+                            Grid.RowSpan="3"
                             Width="2"
                             Margin="0,60,50,0"
                             HorizontalAlignment="Right"
                             Fill="{DynamicResource TextFillColorTertiaryBrush}"
                             Opacity="0.5" />
                         <Rectangle
-                            Grid.RowSpan="2"
+                            Grid.RowSpan="3"
                             Width="2"
                             Margin="0,60,98,0"
                             HorizontalAlignment="Right"
@@ -965,7 +1013,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="4" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="50" />
                     </Grid.RowDefinitions>
 
                     <hlp:QuestionHeader
@@ -978,98 +1026,93 @@
                             VerticalAlignment="Stretch"
                             syn:SyntaxBox.Enable="True"
                             syn:SyntaxBox.ExpandTabs="True"
-                            syn:SyntaxBox.LineNumbersBackground="{DynamicResource ControlFillColorDefault}"
+                            syn:SyntaxBox.LineNumbersBackground="#202020"
                             syn:SyntaxBox.LineNumbersForeground="{DynamicResource TextFillColorDisabledBrush}"
                             syn:SyntaxBox.ShowLineNumbers="True"
+                            syn:SyntaxBox.SyntaxDrivers="{StaticResource SynDrivers}"
                             AcceptsReturn="True"
                             AcceptsTab="True"
-                            Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
+                            Background="#202020"
                             BorderThickness="0"
                             FontFamily="Consolas"
                             FontSize="16"
-                            Text="{Binding Code, Mode=TwoWay}">
-                            <syn:SyntaxBox.SyntaxDrivers>
-                                <syn:SyntaxConfig>
-                                    <syn:KeywordRule
-                                        Foreground="#c987ff"
-                                        Keywords="!,+,-,/,*,%,=,&amp;,^,|,&lt;,&gt;,;"
-                                        WholeWordsOnly="False" />
-                                    <syn:KeywordRule
-                                        Foreground="#ffdc73"
-                                        Keywords="(,),[,],{,}"
-                                        WholeWordsOnly="False" />
-
-                                    <syn:KeywordRule
-                                        Foreground="#d3ebb7"
-                                        Keywords="0,1,2,3,4,5,6,7,8,9"
-                                        WholeWordsOnly="False" />
-
-                                    <syn:RegexRule
-                                        Foreground="#fffdb5"
-                                        Op="Line"
-                                        Pattern="(?&lt;=\.|\s)\b\w+\b(?=\s*\()" />
-
-                                    <syn:RegexRule
-                                        Foreground="#7a7a7a"
-                                        Op="Line"
-                                        Pattern="^\s*#.*" />
-
-                                    <syn:RegexRule
-                                        Foreground="#ffa578"
-                                        Op="Line"
-                                        Pattern="&quot;(?:[^&quot;\\]|\\.)*&quot;" />
-                                    <syn:RegexRule
-                                        Foreground="#ffa578"
-                                        Op="Line"
-                                        Pattern="'(?:(?:[^'\\]|\\.)*?)'" />
-
-                                    <syn:KeywordRule Foreground="#7a9eff" Keywords="abstract,as,base,break,case,catch,class,const,continue,default,delegate,do,else,enum,event,explicit,extern,false,finally,fixed,for,foreach,goto,if,implicit,in,interface,internal,is,lock,namespace,new,null,operator,out,override,params,private,protected,public,readonly,ref,return,sealed,sizeof,stackalloc,static,struct,switch,this,throw,true,try,typeof,unchecked,unsafe,using,virtual,void,volatile,while" />
-                                    <syn:KeywordRule Foreground="#abc3ff" Keywords="bool,byte,char,decimal,double,float,int,long,object,sbyte,short,string,uint,ulong,ushort,var" />
-
-                                    <syn:RegexRule
-                                        Foreground="#6dc26f"
-                                        Op="Line"
-                                        Pattern="//.*" />
-                                </syn:SyntaxConfig>
-                            </syn:SyntaxBox.SyntaxDrivers>
-                        </TextBox>
+                            Text="{Binding Code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </ui:DynamicScrollViewer>
 
-                    <Grid Grid.Row="3">
+                    <Grid
+                        Grid.Row="1"
+                        Margin="7,2,2,7"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition Width="32" />
                             <ColumnDefinition Width="4" />
-                            <ColumnDefinition Width="120" />
-                            <ColumnDefinition Width="8" />
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="32" />
+                            <ColumnDefinition Width="4" />
+                            <ColumnDefinition Width="32" />
                         </Grid.ColumnDefinitions>
+                        <Rectangle
+                            Grid.ColumnSpan="5"
+                            Margin="-7"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Fill="{DynamicResource CardBackgroundOverlayBrush}"
+                            RadiusX="8"
+                            RadiusY="8" />
 
                         <ui:Button
-                            HorizontalAlignment="Stretch"
+                            Width="32"
+                            Height="32"
+                            Padding="0"
                             Appearance="Danger"
                             Command="{Binding ResetCommand}"
-                            Content="Zurücksetzen" />
+                            FontSize="24">
+                            <ui:Button.Icon>
+                                <ui:SymbolIcon Filled="True" Symbol="ArrowHookDownLeft20" />
+                            </ui:Button.Icon>
+                        </ui:Button>
                         <ui:Button
                             Grid.Column="2"
-                            HorizontalAlignment="Stretch"
-                            Appearance="Success"
+                            Width="32"
+                            Height="32"
+                            Padding="0"
+                            Appearance="Light"
                             Command="{Binding CompileCommand}"
-                            Content="Kompilieren" />
-
-                        <Border
+                            FontSize="22">
+                            <ui:Button.Icon>
+                                <ui:SymbolIcon Filled="True" Symbol="Wrench20" />
+                            </ui:Button.Icon>
+                        </ui:Button>
+                        <ui:Button
                             Grid.Column="4"
-                            Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
-                            BorderThickness="0"
-                            CornerRadius="4">
-                            <TextBlock
-                                Margin="8,0"
-                                VerticalAlignment="Center"
-                                Foreground="{DynamicResource TextFillColorSecondaryBrush}">
-                                <Run Foreground="{DynamicResource TextFillColorDisabledBrush}" Text="Output:" />
-                                <Run Text="{Binding Output, Mode=OneWay, TargetNullValue='...', FallbackValue='...'}" />
-                            </TextBlock>
-                        </Border>
+                            Width="32"
+                            Height="32"
+                            Padding="0"
+                            Appearance="Success"
+                            Command="{Binding ExecuteCommand}"
+                            FontSize="22">
+                            <ui:Button.Icon>
+                                <ui:SymbolIcon Filled="True" Symbol="PlaySettings20" />
+                            </ui:Button.Icon>
+                        </ui:Button>
                     </Grid>
+
+                    <Border
+                        Grid.Row="5"
+                        Background="#202020"
+                        BorderThickness="0"
+                        CornerRadius="4">
+                        <ui:DynamicScrollViewer HorizontalScrollBarVisibility="Auto">
+                            <TextBlock
+                                Margin="8,4"
+                                VerticalAlignment="Center"
+                                Foreground="#5DFFFFFF"
+                                TextWrapping="NoWrap">
+                                <Run Text="{Binding OutputKind, Mode=OneWay, TargetNullValue='Teste dein Programm, indem du auf Kompilieren in der rechten oberen Ecke drückst oder setze alles auf Anfang, indem du auf Zurücksetzen drückst', FallbackValue='Teste dein Programm, indem du auf Kompilieren in der rechten oberen Ecke drückst oder setze alles auf Anfang, indem du auf Zurücksetzen drückst'}" /><Run Text=":" />
+                                <Run Foreground="#C5FFFFFF" Text="{Binding Output, Mode=OneWay, TargetNullValue='', FallbackValue=''}" />
+                            </TextBlock>
+                        </ui:DynamicScrollViewer>
+                    </Border>
                 </Grid>
             </DataTemplate>
         </ResourceDictionary>

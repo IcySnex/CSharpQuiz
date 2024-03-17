@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Metadata;
 
 namespace CSharpQuiz.Services;
 
@@ -34,14 +35,18 @@ public class DynamicRuntime
         SyntaxTree parsedSyntaxTree = SyntaxFactory.ParseSyntaxTree(sourceText, options);
 
         logger.LogInformation("Ersetelle Referenzen für dynamische Assembly.");
-        List<MetadataReference> references =
-        [
-            MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
-            //MetadataReference.CreateFromFile(typeof(Console).Assembly.Location)
-        ];
 
-        //Assembly.GetEntryAssembly()?.GetReferencedAssemblies().ToList()
-        //    .ForEach(a => references.Add(MetadataReference.CreateFromFile(Assembly.Load(a).Location)));
+        List<MetadataReference> references = [];
+        unsafe
+        {
+            Assembly runtime = typeof(object).Assembly;
+            runtime.TryGetRawMetadata(out byte* blob, out int length);
+
+            ModuleMetadata moduleMetadata = ModuleMetadata.CreateFromMetadata((IntPtr)blob, length);
+            AssemblyMetadata assemblyMetadata = AssemblyMetadata.Create(moduleMetadata);
+
+            references.Add(assemblyMetadata.GetReference());
+        }
 
         logger.LogInformation("Kompilieren gestartet...");
         CSharpCompilation compilation = CSharpCompilation.Create("DynamicRuntimeAssembly.dll",

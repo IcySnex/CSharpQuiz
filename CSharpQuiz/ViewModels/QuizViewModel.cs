@@ -252,6 +252,7 @@ public partial class QuizViewModel : ObservableObject
         }) != ContentDialogResult.Primary)
             return;
 
+        await Task.Delay(300);
         await dialogService.ShowAlertAsync("Hier ist ein Tipp", CurrentQuestion?.Hint ?? "Etwas ist schief gelaufen. ('CurrentQuestion' is null)", "Okay");
 
         HintCount++;

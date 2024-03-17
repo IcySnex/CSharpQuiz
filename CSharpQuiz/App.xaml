@@ -193,7 +193,7 @@
                 <Setter Property="Padding" Value="24" />
                 <Setter Property="DialogMaxWidth" Value="1000" />
                 <Setter Property="VerticalContentAlignment" Value="Center" />
-                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
                 <Setter Property="Focusable" Value="False" />
                 <Setter Property="DialogMargin" Value="35" />
                 <Setter Property="BorderThickness" Value="1" />
@@ -203,25 +203,30 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ui:ContentDialog}">
-                            <Grid Background="{DynamicResource ContentDialogSmokeFill}" Focusable="False">
-
+                            <Grid
+                                Name="DialogSmoke"
+                                Background="#70000000"
+                                Focusable="False"
+                                Opacity="0">
                                 <Border
+                                    Name="DialogContainer"
                                     MaxWidth="{TemplateBinding DialogWidth}"
                                     MaxHeight="{TemplateBinding DialogHeight}"
                                     Margin="{TemplateBinding DialogMargin}"
+                                    HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     Background="{TemplateBinding Background}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
                                     CornerRadius="{TemplateBinding Border.CornerRadius}"
                                     Focusable="False"
-                                    Opacity="1">
+                                    Opacity="0">
                                     <Border.Effect>
                                         <DropShadowEffect
-                                            BlurRadius="30"
-                                            Direction="0"
-                                            Opacity="0.4"
-                                            ShadowDepth="0"
+                                            BlurRadius="60"
+                                            Direction="270"
+                                            Opacity="0.5"
+                                            ShadowDepth="20"
                                             Color="#202020" />
                                     </Border.Effect>
 
@@ -233,7 +238,7 @@
                                         <Border Background="{DynamicResource ContentDialogTopOverlay}" CornerRadius="{StaticResource DialogOverlayCornerRadius}" />
                                         <Grid
                                             Grid.Row="0"
-                                            Margin="24,10"
+                                            Margin="24,12,24,0"
                                             Focusable="False">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto" />
@@ -366,6 +371,26 @@
                                 </Trigger>
                                 <Trigger Property="SecondaryButtonText" Value="">
                                     <Setter Property="IsSecondaryButtonEnabled" Value="False" />
+                                </Trigger>
+
+                                <Trigger Property="Visibility" Value="Visible">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation
+                                                    Storyboard.TargetName="DialogSmoke"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    To="1"
+                                                    Duration="0:0:0.125" />
+                                                <DoubleAnimation
+                                                    BeginTime="0:0:0.125"
+                                                    Storyboard.TargetName="DialogContainer"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    To="1"
+                                                    Duration="0:0:0.15" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -1007,6 +1032,7 @@
                             BorderThickness="0"
                             FontFamily="Consolas"
                             FontSize="16"
+                            Foreground="#ffffff"
                             Text="{Binding Code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </ui:DynamicScrollViewer>
 
@@ -1115,7 +1141,7 @@
                                     syn:SyntaxBox.Enable="True"
                                     syn:SyntaxBox.ExpandTabs="True"
                                     syn:SyntaxBox.LineNumbersBackground="#202020"
-                                    syn:SyntaxBox.LineNumbersForeground="{DynamicResource TextFillColorDisabledBrush}"
+                                    syn:SyntaxBox.LineNumbersForeground="#5DFFFFFF"
                                     syn:SyntaxBox.ShowLineNumbers="True"
                                     syn:SyntaxBox.SyntaxDrivers="{StaticResource SynDrivers}"
                                     AcceptsReturn="True"
@@ -1124,6 +1150,7 @@
                                     BorderThickness="0"
                                     FontFamily="Consolas"
                                     FontSize="16"
+                                    Foreground="#ffffff"
                                     IsReadOnly="True"
                                     Text="{Binding Code}" />
                             </ui:DynamicScrollViewer>
@@ -1159,7 +1186,7 @@
                                     syn:SyntaxBox.Enable="True"
                                     syn:SyntaxBox.ExpandTabs="True"
                                     syn:SyntaxBox.LineNumbersBackground="#202020"
-                                    syn:SyntaxBox.LineNumbersForeground="{DynamicResource TextFillColorDisabledBrush}"
+                                    syn:SyntaxBox.LineNumbersForeground="#5DFFFFFF"
                                     syn:SyntaxBox.ShowLineNumbers="True"
                                     syn:SyntaxBox.SyntaxDrivers="{StaticResource SynDrivers}"
                                     AcceptsReturn="True"

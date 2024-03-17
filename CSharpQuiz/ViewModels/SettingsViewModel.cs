@@ -53,7 +53,8 @@ internal partial class SettingsViewModel : ObservableObject
         SquarePicker picker = new()
         {
             SelectedColor = (Color)Application.Current.Resources["SystemAccentColor"],
-            Height = 198,
+            Height = 170,
+            Width = 170,
             Margin = new(12, 0, 0, 0)
         };
 

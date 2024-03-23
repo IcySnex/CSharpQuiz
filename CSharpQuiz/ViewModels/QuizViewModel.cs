@@ -121,16 +121,12 @@ public partial class QuizViewModel : ObservableObject
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(CurrentQuestion))]
-    [NotifyPropertyChangedFor(nameof(IsLastQuestion))]
     [NotifyCanExecuteChangedFor(nameof(GoNextCommand))]
     [NotifyCanExecuteChangedFor(nameof(GoBackCommand))]
     int? currentQuestionIndex = null;
 
     public Question? CurrentQuestion =>
         Questions is null || CurrentQuestionIndex is null ? null : Questions[CurrentQuestionIndex.Value];
-
-    public bool IsLastQuestion =>
-        CurrentQuestionIndex is not null && CurrentQuestionIndex == Questions.Count - 1;
 
     public bool CanGoNext =>
         CurrentQuestionIndex is not null && CurrentQuestionIndex < Questions.Count - 1;
@@ -203,10 +199,10 @@ public partial class QuizViewModel : ObservableObject
     [RelayCommand]
     async Task StopAsync()
     {
-        if (!IsLastQuestion && await dialogService.ShowSimpleDialogAsync(new()
+        if (await dialogService.ShowSimpleDialogAsync(new()
         {
             Title = "Bist du dir sicher?",
-            Content = "Wenn du das Quiz jetzt beendest werden die restlichen Fragen als falsch makiert.",
+            Content = "Wenn du das Quiz beendest werden unbeantwortete Fragen als falsch makiert & du gelangst direkt zur Auswertung.",
             CloseButtonText = "Abbrechen",
             PrimaryButtonText = "Fortfahren"
         }) != ContentDialogResult.Primary)

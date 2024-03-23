@@ -97,7 +97,7 @@
 
             <ui:Button
                 Grid.Column="7"
-                Appearance="{Binding IsLastQuestion, Mode=OneWay, Converter={StaticResource BooleanToAppearanceConverter}}"
+                Appearance="Danger"
                 Command="{Binding StopCommand}"
                 Content="Quiz beenden"
                 ToolTip="Beende das Quiz &amp; gehe zur Auswertung" />

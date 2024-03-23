@@ -23,7 +23,6 @@
             <!--  Converters  -->
             <BrushConverter x:Key="BrushConverter" />
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-            <conv:BooleanToAppearanceConverter x:Key="BooleanToAppearanceConverter" />
             <conv:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter" />
             <conv:InversedBooleanToVisibilityConverter x:Key="InversedBooleanToVisibilityConverter" />
             <conv:AddOneToInt x:Key="AddOneToInt" />

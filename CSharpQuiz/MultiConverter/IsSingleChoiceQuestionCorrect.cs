@@ -5,7 +5,7 @@ using System.Windows.Data;
 
 namespace CSharpQuiz.MultiConverter;
 
-internal class IsSingleChoiceQuestionCorrect : IMultiValueConverter
+public class IsSingleChoiceQuestionCorrect : IMultiValueConverter
 {
     public object Convert(
         object[] values,

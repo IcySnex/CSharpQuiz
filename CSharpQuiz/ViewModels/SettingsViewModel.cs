@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Threading;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
@@ -16,7 +15,7 @@ using Wpf.Ui.Extensions;
 
 namespace CSharpQuiz.ViewModels;
 
-internal partial class SettingsViewModel : ObservableObject
+public partial class SettingsViewModel : ObservableObject
 {
     readonly ILogger<SettingsViewModel> logger;
     readonly ContentDialogService dialogService;
@@ -45,7 +44,7 @@ internal partial class SettingsViewModel : ObservableObject
 
         mainWindow.TitleBar.Icon = new ImageIcon() { Source = Elements.IconImage };
 
-        logger.LogInformation($"Akkzent Farbe wurde zu '{color}' aktualisiert.");
+        logger.LogInformation("Akkzent Farbe wurde zu '{color}' aktualisiert.", color);
     }
 
     [RelayCommand]

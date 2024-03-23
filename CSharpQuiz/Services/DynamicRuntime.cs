@@ -13,16 +13,10 @@ using System.Reflection.Metadata;
 
 namespace CSharpQuiz.Services;
 
-public class DynamicRuntime
+public class DynamicRuntime(
+    ILogger<DynamicRuntime> logger)
 {
-    readonly ILogger<DynamicRuntime> logger;
-
-    public DynamicRuntime(
-        ILogger<DynamicRuntime> logger)
-    {
-        this.logger = logger;
-    }
-
+    readonly ILogger<DynamicRuntime> logger = logger;
 
     public byte[] Compile(
         string sourceCode)

@@ -8,7 +8,7 @@ using Wpf.Ui.Controls;
 
 namespace CSharpQuiz.Services;
 
-internal class AppStartupHandler
+public class AppStartupHandler
 {
     public AppStartupHandler(
         ILogger<QuizViewModel> logger,

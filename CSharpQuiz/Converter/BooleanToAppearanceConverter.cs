@@ -5,7 +5,7 @@ using Wpf.Ui.Controls;
 
 namespace CSharpQuiz.Converter;
 
-internal class BooleanToAppearanceConverter : IValueConverter
+public class BooleanToAppearanceConverter : IValueConverter
 {
     public object Convert(
         object value,

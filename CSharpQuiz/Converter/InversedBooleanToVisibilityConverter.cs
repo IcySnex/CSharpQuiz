@@ -5,7 +5,7 @@ using System.Windows.Data;
 
 namespace CSharpQuiz.Converter;
 
-internal class InversedBooleanToVisibilityConverter : IValueConverter
+public class InversedBooleanToVisibilityConverter : IValueConverter
 {
     public object Convert(
         object value,

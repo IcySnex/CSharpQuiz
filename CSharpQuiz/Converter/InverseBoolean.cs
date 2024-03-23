@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace CSharpQuiz.Converter;
 
-internal class InverseBoolean : IValueConverter
+public class InverseBoolean : IValueConverter
 {
     public object Convert(
         object value,

@@ -4,7 +4,7 @@ using Wpf.Ui.Appearance;
 
 namespace CSharpQuiz.Helpers;
 
-class Elements
+public class Elements
 {
     public static SolidColorBrush ModifyBrush(
         SolidColorBrush brush,

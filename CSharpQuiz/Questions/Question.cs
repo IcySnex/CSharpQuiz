@@ -1,31 +1,21 @@
 ﻿namespace CSharpQuiz.Questions;
 
-public abstract class Question
+public abstract class Question(
+    string text,
+    string typeNote,
+    string typeAnswerNote,
+    string hint,
+    double points)
 {
-    protected Question(
-        string text,
-        string typeNote,
-        string typeAnswerNote,
-        string hint,
-        double points)
-    {
-        Text = text;
-        TypeNote = typeNote;
-        TypeAnswerNote = typeAnswerNote;
-        Hint = hint;
-        Points = points;
-    }
+    public string Text { get; } = text;
 
+    public string TypeNote { get; } = typeNote;
 
-    public string Text { get; }
+    public string TypeAnswerNote { get; } = typeAnswerNote;
 
-    public string TypeNote { get; }
+    public string Hint { get; } = hint;
 
-    public string TypeAnswerNote { get; }
-    
-    public string Hint { get; }
-
-    public double Points { get; }
+    public double Points { get; } = points;
 
 
     public abstract double ReachedPoints { get; }

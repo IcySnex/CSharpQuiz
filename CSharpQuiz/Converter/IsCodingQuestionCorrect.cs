@@ -5,9 +5,9 @@ using System.Windows.Data;
 
 namespace CSharpQuiz.Converter;
 
-internal class IsCodingQuestionCorrect : IValueConverter
+public class IsCodingQuestionCorrect : IValueConverter
 {
-    public object Convert(
+    public object? Convert(
         object value,
         Type targetType,
         object parameter,

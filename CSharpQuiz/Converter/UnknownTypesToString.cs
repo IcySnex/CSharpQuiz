@@ -5,7 +5,7 @@ using System.Windows.Data;
 
 namespace CSharpQuiz.Converter;
 
-internal class UnknownTypesToString : IValueConverter
+public class UnknownTypesToString : IValueConverter
 {
     public object Convert(
         object value,

@@ -4,7 +4,7 @@ using System.Windows.Controls;
 
 namespace CSharpQuiz.Helpers;
 
-class QuestionResultTemplateSelector : DataTemplateSelector
+public class QuestionResultTemplateSelector : DataTemplateSelector
 {
     public override DataTemplate? SelectTemplate(
         object item,
@@ -15,21 +15,15 @@ class QuestionResultTemplateSelector : DataTemplateSelector
         if (element is null || item is null || item is not Question question)
             return null;
 
-        switch (question)
+        return question switch
         {
-            case SingleChoiceQuestion:
-                return (DataTemplate)element.FindResource("SingleChoiceAnswerTemplate");
-            case MultipleChoiceQuestion:
-                return (DataTemplate)element.FindResource("MultipleChoiceAnswerTemplate");
-            case ReorderQuestion:
-                return (DataTemplate)element.FindResource("ReorderAnswerTemplate");
-            case TrueOrFalseQuestion:
-                return (DataTemplate)element.FindResource("TrueOrFalseAnswerTemplate");
-            case CodingQuestion:
-                return (DataTemplate)element.FindResource("CodingAnswerTemplate");
-            default:
-                return null;
-        }
+            SingleChoiceQuestion => (DataTemplate)element.FindResource("SingleChoiceAnswerTemplate"),
+            MultipleChoiceQuestion => (DataTemplate)element.FindResource("MultipleChoiceAnswerTemplate"),
+            ReorderQuestion => (DataTemplate)element.FindResource("ReorderAnswerTemplate"),
+            TrueOrFalseQuestion => (DataTemplate)element.FindResource("TrueOrFalseAnswerTemplate"),
+            CodingQuestion => (DataTemplate)element.FindResource("CodingAnswerTemplate"),
+            _ => null,
+        };
     }
 
 }

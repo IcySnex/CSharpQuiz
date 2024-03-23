@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CSharpQuiz.ViewModels;
 
-internal partial class HomeViewModel
+public partial class HomeViewModel
 {
     readonly Navigation navigation;
 
@@ -16,6 +16,7 @@ internal partial class HomeViewModel
 
         logger.LogInformation("HomeViewModel wurde initialisiert.");
     }
+
 
     [RelayCommand]
     void Start()

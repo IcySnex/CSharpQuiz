@@ -5,7 +5,7 @@ using System.Windows.Data;
 
 namespace CSharpQuiz.Converter;
 
-internal class IsTrueOrFalseItemCorrect : IValueConverter
+public class IsTrueOrFalseItemCorrect : IValueConverter
 {
     public object Convert(
         object value,

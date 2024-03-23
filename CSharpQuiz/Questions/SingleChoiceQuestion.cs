@@ -4,28 +4,21 @@ using System.Collections.ObjectModel;
 namespace CSharpQuiz.Questions;
 
 [ObservableObject]
-public partial class SingleChoiceQuestion : Question
+public partial class SingleChoiceQuestion(
+    string text,
+    string hint,
+    double points,
+    string correctAnswer,
+    params string[] choices) : Question(
+        text,
+        "Single-Choice-Frage: Wähle eine der folgenden Antworten aus.",
+        $"Single-Choice-Frage: +{points} Punkte für die richtige Antwort.",
+        hint,
+        points)
 {
-    public SingleChoiceQuestion(
-        string text,
-        string hint,
-        double points,
-        string correctAnswer,
-        params string[] choices) : base(
-            text,
-            "Single-Choice-Frage: Wähle eine der folgenden Antworten aus.",
-            $"Single-Choice-Frage: +{points} Punkte für die richtige Antwort.",
-            hint,
-            points)
-    {
-        CorrectAnswer = correctAnswer;
-        Choices = new ObservableCollection<string>(choices);
-    }
+    public string CorrectAnswer { get; } = correctAnswer;
 
-
-    public string CorrectAnswer { get; }
-
-    public ObservableCollection<string> Choices { get; }
+    public ObservableCollection<string> Choices { get; } = new(choices);
 
     [ObservableProperty]
     string? selectedItem = null;

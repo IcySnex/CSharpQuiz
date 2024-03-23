@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace CSharpQuiz.Converter;
 
-internal class BooleanToOpacityConverter : IValueConverter
+public class BooleanToOpacityConverter : IValueConverter
 {
     public object Convert(
         object value,

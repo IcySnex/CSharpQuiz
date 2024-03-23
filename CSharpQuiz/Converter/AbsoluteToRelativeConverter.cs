@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace CSharpQuiz.Converter;
 
-internal class AbsoluteToRelativeConverter : IValueConverter
+public class AbsoluteToRelativeConverter : IValueConverter
 {
     public object Convert(
         object value,

@@ -1,33 +1,25 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace CSharpQuiz.Questions;
 
 [ObservableObject]
-public partial class ReorderQuestion : Question
+public partial class ReorderQuestion(
+    string text,
+    string hint,
+    double points,
+    string[] correctItemsOrder,
+    params string[] items) : Question(
+        text,
+        "Reihenfolge-Frage: Ordne die folgenden Antworten in die richtige Reihenfolge.",
+        $"Reihenfolge-Frage: +{points} Punkte für die richtige Reihenfolge, abhängig von der Ähnlichkeit.",
+        hint,
+        points)
 {
-    public ReorderQuestion(
-        string text,
-        string hint,
-        double points,
-        string[] correctItemsOrder,
-        params string[] items) : base(
-            text,
-            "Reihenfolge-Frage: Ordne die folgenden Antworten in die richtige Reihenfolge.",
-            $"Reihenfolge-Frage: +{points} Punkte für die richtige Reihenfolge, abhängig von der Ähnlichkeit.",
-            hint,
-            points)
-    {
-        CorrectItemsOrder = correctItemsOrder;
-        Items = new(items);
-    }
+    public string[] CorrectItemsOrder { get; } = correctItemsOrder;
 
-
-    public string[] CorrectItemsOrder { get; }
-
-    public ObservableCollection<string> Items { get; }
+    public ObservableCollection<string> Items { get; } = new(items);
 
 
     public override double ReachedPoints

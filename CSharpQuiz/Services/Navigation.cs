@@ -3,18 +3,12 @@ using Microsoft.Extensions.Logging;
 
 namespace CSharpQuiz.Services;
 
-internal class Navigation
+public class Navigation(
+    ILogger<Navigation> logger,
+    ShellView mainWindow)
 {
-    readonly ILogger<Navigation> logger;
-    readonly ShellView mainWindow;
-
-    public Navigation(
-        ILogger<Navigation> logger,
-        ShellView mainWindow)
-    {
-        this.logger = logger;
-        this.mainWindow = mainWindow;
-    }
+    readonly ILogger<Navigation> logger = logger;
+    readonly ShellView mainWindow = mainWindow;
 
 
     public void SetPaneOpen(
@@ -24,7 +18,7 @@ internal class Navigation
     public bool Navigate(
         string page)
     {
-        logger.LogInformation($"Navigiert zur '{page}' Seite");
+        logger.LogInformation("Navigiert zur '{page}' Seite", page);
 
         return mainWindow.Navigation.Navigate(page);
     }

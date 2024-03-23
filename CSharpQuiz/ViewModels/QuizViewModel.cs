@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -26,7 +25,7 @@ public partial class QuizViewModel : ObservableObject
         ContentDialogService dialogService)
     {
         this.logger = logger;
-        this.dialogService = dialogService;;
+        this.dialogService = dialogService; ;
 
         timeEvolvedTimer.Tick += (s, e) =>
         {
@@ -48,7 +47,7 @@ public partial class QuizViewModel : ObservableObject
         CurrentView.GetType() == typeof(ResultView);
 
 
-    List<Question> GenerateQuestions()
+    static List<Question> GenerateQuestions()
     {
         Random rnd = new();
 

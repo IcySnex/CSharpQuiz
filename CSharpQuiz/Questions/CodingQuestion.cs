@@ -4,10 +4,8 @@ using CSharpQuiz.Helpers;
 using CSharpQuiz.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
@@ -142,7 +140,7 @@ public partial class CodingQuestion : Question
             }
         }
 
-        Args = argSets is null ? null : argSets[random.Next(argSets.Length - 1)];
+        Args = argSets?[random.Next(argSets.Length - 1)];
         Execute();
     }
 
@@ -174,7 +172,7 @@ public partial class CodingQuestion : Question
             if (IsCorrect.HasValue)
                 return IsCorrect.Value ? Points : 0;
 
-            Args = argSets is null ? null : argSets[random.Next(argSets.Length - 1)];
+            Args = argSets?[random.Next(argSets.Length - 1)];
             object? expectedResult = expectedDelegate.DynamicInvoke(Args);
             if (expectedResult is null)
                 return Points; // FEHLER: ES SOLLTE NIE NULL SEIN, DESWEGEN GEBEN WIR EINFACH MA SO ALLE PUNKTE

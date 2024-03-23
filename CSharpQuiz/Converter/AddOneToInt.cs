@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace CSharpQuiz.Converter;
 
-internal class AddOneToInt : IValueConverter
+public class AddOneToInt : IValueConverter
 {
     public object? Convert(
         object value,

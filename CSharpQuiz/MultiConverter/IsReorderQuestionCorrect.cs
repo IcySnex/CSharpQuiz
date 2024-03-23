@@ -5,7 +5,7 @@ using System.Windows.Data;
 
 namespace CSharpQuiz.MultiConverter;
 
-internal class IsReorderQuestionCorrect : IMultiValueConverter
+public class IsReorderQuestionCorrect : IMultiValueConverter
 {
     public object Convert(
         object[] values,

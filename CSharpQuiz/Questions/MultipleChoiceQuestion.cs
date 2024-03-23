@@ -9,30 +9,23 @@ using System.Windows.Controls;
 namespace CSharpQuiz.Questions;
 
 [ObservableObject]
-public partial class MultipleChoiceQuestion : Question
+public partial class MultipleChoiceQuestion(
+    string text,
+    string hint,
+    double points,
+    string[] correctAnswers,
+    params string[] choices) : Question(
+        text,
+        "Multiple-Choice-Frage: Wähle mehrere der folgenden Antworten aus.",
+        $"Multiple-Choice-Frage: +{points / correctAnswers.Length:#.##} Punkte für richtige Antworten, -{points / correctAnswers.Length / 2} Punkte für falsche Antworten.",
+        hint,
+        points)
 {
-    public MultipleChoiceQuestion(
-        string text,
-        string hint,
-        double points,
-        string[] correctAnswers,
-        params string[] choices) : base(
-            text,
-            "Multiple-Choice-Frage: Wähle mehrere der folgenden Antworten aus.",
-            $"Multiple-Choice-Frage: +{points / correctAnswers.Length:#.##} Punkte für richtige Antworten, -{points / correctAnswers.Length / 2} Punkte für falsche Antworten.",
-            hint,
-            points)
-    {
-        CorrectAnswers = correctAnswers;
-        Choices = new ObservableCollection<string>(choices);
-    }
+    public string[] CorrectAnswers { get; } = correctAnswers;
 
+    public ObservableCollection<string> Choices { get; } = new(choices);
 
-    public string[] CorrectAnswers { get; }
-
-    public ObservableCollection<string> Choices { get; }
-
-    public List<string> SelectedItems { get; } = new();
+    public List<string> SelectedItems { get; } = [];
 
 
     public override double ReachedPoints

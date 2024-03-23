@@ -4,24 +4,18 @@ using System;
 namespace CSharpQuiz.Questions;
 
 [ObservableObject]
-public partial class TrueOrFalseQuestion : Question
+public partial class TrueOrFalseQuestion(
+    string text,
+    string hint,
+    double points,
+    params TrueOrFalseItem[] items) : Question(
+        text,
+        "Wahr/Falsch-Frage: Kreuze wahr oder falsch an.",
+        $"Wahr/Falsch-Frage: +{points / items.Length:#.##} Punkte für richtige Antworten.",
+        hint,
+        points)
 {
-    public TrueOrFalseQuestion(
-        string text,
-        string hint,
-        double points,
-        params TrueOrFalseItem[] items) : base(
-            text,
-            "Wahr/Falsch-Frage: Kreuze wahr oder falsch an.",
-            $"Wahr/Falsch-Frage: +{points / items.Length:#.##} Punkte für richtige Antworten.",
-            hint,
-            points)
-    {
-        Items = items;
-    }
-
-
-    public TrueOrFalseItem[] Items { get; }
+    public TrueOrFalseItem[] Items { get; } = items;
 
 
     public override double ReachedPoints
@@ -42,19 +36,13 @@ public partial class TrueOrFalseQuestion : Question
 }
 
 
-public partial class TrueOrFalseItem : ObservableObject
+public partial class TrueOrFalseItem(
+    string text,
+    bool isCorrect) : ObservableObject
 {
-    public TrueOrFalseItem(
-        string text,
-        bool isCorrect)
-    {
-        Text = text;
-        IsCorrect = isCorrect;
-    }
+    public string Text { get; } = text;
 
-    public string Text { get; }
-
-    public bool IsCorrect { get; set; }
+    public bool IsCorrect { get; set; } = isCorrect;
 
 
     [ObservableProperty]

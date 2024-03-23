@@ -1045,8 +1045,6 @@
                             <ColumnDefinition Width="32" />
                             <ColumnDefinition Width="4" />
                             <ColumnDefinition Width="32" />
-                            <ColumnDefinition Width="4" />
-                            <ColumnDefinition Width="32" />
                         </Grid.ColumnDefinitions>
                         <Rectangle
                             Grid.ColumnSpan="5"
@@ -1073,20 +1071,8 @@
                             Width="32"
                             Height="32"
                             Padding="0"
-                            Appearance="Light"
-                            Command="{Binding CompileCommand}"
-                            FontSize="22">
-                            <ui:Button.Icon>
-                                <ui:SymbolIcon Filled="True" Symbol="Wrench20" />
-                            </ui:Button.Icon>
-                        </ui:Button>
-                        <ui:Button
-                            Grid.Column="4"
-                            Width="32"
-                            Height="32"
-                            Padding="0"
                             Appearance="Success"
-                            Command="{Binding ExecuteCommand}"
+                            Command="{Binding RunCommand}"
                             FontSize="22">
                             <ui:Button.Icon>
                                 <ui:SymbolIcon Filled="True" Symbol="PlaySettings20" />
@@ -1105,7 +1091,7 @@
                                 VerticalAlignment="Center"
                                 Foreground="#5DFFFFFF"
                                 TextWrapping="NoWrap">
-                                <Run Text="{Binding OutputKind, Mode=OneWay, TargetNullValue='Teste dein Programm, indem du auf Kompilieren in der rechten oberen Ecke drückst oder setze alles auf Anfang, indem du auf Zurücksetzen drückst', FallbackValue='Teste dein Programm, indem du auf Kompilieren in der rechten oberen Ecke drückst oder setze alles auf Anfang, indem du auf Zurücksetzen drückst'}" /><Run Text=":" />
+                                <Run Text="{Binding OutputKind, Mode=OneWay, TargetNullValue='Teste dein Programm, indem du auf Starten in der rechten oberen Ecke drückst oder setze alles auf Anfang, indem du auf Zurücksetzen drückst', FallbackValue='Teste dein Programm, indem du auf Starten in der rechten oberen Ecke drückst oder setze alles auf Anfang, indem du auf Zurücksetzen drückst'}" /><Run Text=":" />
                                 <Run Foreground="#C5FFFFFF" Text="{Binding Output, Mode=OneWay, TargetNullValue='', FallbackValue=''}" />
                             </TextBlock>
                         </ui:DynamicScrollViewer>

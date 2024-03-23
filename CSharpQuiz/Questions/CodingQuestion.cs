@@ -77,7 +77,6 @@ public partial class CodingQuestion : Question
 
 
     [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(ExecuteCommand))]
     byte[]? dynamicAssembly;
 
     [ObservableProperty]
@@ -123,38 +122,32 @@ public partial class CodingQuestion : Question
     }
 
     [RelayCommand]
-    public async Task CompileAsync()
+    public async Task RunAsync()
     {
-        OutputKind = "Output";
-        Output = "Kompilieren gestartet...";
-
-        if (IsCompiled)
+        if (!IsCompiled)
         {
-            Output = "Programm bereits kompiliert.";
-            return;
+            OutputKind = "Output";
+            Output = "Kompilieren gestartet...";
+
+            try
+            {
+                DynamicAssembly = await Task.Run(() => dynamicRuntime.Compile(Code));
+
+                Output = "Kompilieren erfolgreich beendet.";
+            }
+            catch (Exception ex)
+            {
+                NotifyException(ex);
+                return;
+            }
         }
 
-        try
-        {
-            DynamicAssembly = await Task.Run(() => dynamicRuntime.Compile(Code));
-
-            Output = "Kompilieren erfolgreich beendet.";
-        }
-        catch (Exception ex)
-        {
-            NotifyException(ex);
-        }
-    }
-
-    [RelayCommand(CanExecute = nameof(IsCompiled))]
-    public void Execute()
-    {
         Args = argSets is null ? null : argSets[random.Next(argSets.Length - 1)];
-        ExecuteDynamicAssembly();
+        Execute();
     }
 
 
-    public object? ExecuteDynamicAssembly()
+    public object? Execute()
     {
         OutputKind = "Output";
         Output = "Ausführen gestartet...";
@@ -205,7 +198,7 @@ public partial class CodingQuestion : Question
                 }
             }
 
-            object? result = ExecuteDynamicAssembly();
+            object? result = Execute();
             if (result is null)
             {
                 IsCorrect = false;

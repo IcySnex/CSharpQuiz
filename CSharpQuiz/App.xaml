@@ -4,13 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:conv="clr-namespace:CSharpQuiz.Converter"
     xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+    xmlns:ele="clr-namespace:CSharpQuiz.Views.Elements"
     xmlns:hlp="clr-namespace:CSharpQuiz.Helpers"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:CSharpQuiz"
     xmlns:mconv="clr-namespace:CSharpQuiz.MultiConverter"
     xmlns:que="clr-namespace:CSharpQuiz.Questions"
     xmlns:syn="clr-namespace:UI.SyntaxBox;assembly=UI.SyntaxBox"
-    xmlns:tsel="clr-namespace:CSharpQuiz.TemplateSelectors"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -40,7 +40,7 @@
             <mconv:IsReorderQuestionCorrect x:Key="IsReorderQuestionCorrect" />
 
             <!--  TemplateSelectors  -->
-            <tsel:QuestionResultTemplateSelector x:Key="QuestionResultTemplateSelector" />
+            <hlp:QuestionResultTemplateSelector x:Key="QuestionResultTemplateSelector" />
 
 
             <!--  Controls  -->
@@ -467,7 +467,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <hlp:QuestionHeader />
+                    <ele:QuestionHeader />
 
                     <ListView
                         Grid.Row="1"
@@ -493,7 +493,7 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
-                        <hlp:AnswerHeader />
+                        <ele:AnswerHeader />
 
                         <ListView
                             Grid.Row="1"
@@ -566,7 +566,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <hlp:QuestionHeader />
+                    <ele:QuestionHeader />
 
                     <ListView
                         Name="ItemContainer"
@@ -602,7 +602,7 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
-                        <hlp:AnswerHeader />
+                        <ele:AnswerHeader />
 
                         <ListView
                             Name="ItemContainer"
@@ -682,7 +682,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <hlp:QuestionHeader />
+                    <ele:QuestionHeader />
 
                     <ItemsControl
                         Grid.Row="1"
@@ -754,7 +754,7 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
-                        <hlp:AnswerHeader />
+                        <ele:AnswerHeader />
 
                         <ItemsControl Grid.Row="1" ItemsSource="{Binding CorrectItemsOrder}">
                             <ItemsControl.ItemTemplate>
@@ -843,7 +843,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <hlp:QuestionHeader />
+                    <ele:QuestionHeader />
 
                     <Grid Grid.Row="1" Margin="0,4,64,12">
                         <Image
@@ -919,7 +919,7 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
-                        <hlp:AnswerHeader />
+                        <ele:AnswerHeader />
 
                         <Grid Grid.Row="1" Margin="0,4,64,12">
                             <Image
@@ -1015,7 +1015,7 @@
                         <RowDefinition Height="85" />
                     </Grid.RowDefinitions>
 
-                    <hlp:QuestionHeader />
+                    <ele:QuestionHeader />
 
                     <ui:DynamicScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto">
                         <TextBox
@@ -1109,7 +1109,7 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
-                        <hlp:AnswerHeader />
+                        <ele:AnswerHeader />
 
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>

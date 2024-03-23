@@ -27,7 +27,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Helpers\AnswerHeader.xaml.cs">
+	  <Compile Update="Views\Elements\AnswerHeader.xaml.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Views\Elements\QuestionHeader.xaml.cs">
 	    <SubType>Code</SubType>
 	  </Compile>
 	  <Compile Update="Views\Questions\ResultView.xaml.cs">

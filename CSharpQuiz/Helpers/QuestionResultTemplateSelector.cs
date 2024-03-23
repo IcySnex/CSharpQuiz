@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace CSharpQuiz.TemplateSelectors;
+namespace CSharpQuiz.Helpers;
 
 class QuestionResultTemplateSelector : DataTemplateSelector
 {

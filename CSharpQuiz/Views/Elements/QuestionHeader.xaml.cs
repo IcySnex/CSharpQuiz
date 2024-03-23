@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace CSharpQuiz.Helpers;
+namespace CSharpQuiz.Views.Elements;
 
 public partial class QuestionHeader : UserControl
 {

@@ -38,12 +38,18 @@
             IsBackButtonVisible="Collapsed"
             OpenPaneLength="170">
             <ui:NavigationView.MenuItems>
-                <ui:NavigationViewItem Content="Startseite" TargetPageType="{x:Type v:HomeView}">
+                <ui:NavigationViewItem
+                    Content="Startseite"
+                    TargetPageType="{x:Type v:HomeView}"
+                    ToolTip="Gehe zur Startseite">
                     <ui:NavigationViewItem.Icon>
                         <ui:SymbolIcon Symbol="Home24" />
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
-                <ui:NavigationViewItem Content="Quiz" TargetPageType="{x:Type v:QuizView}">
+                <ui:NavigationViewItem
+                    Content="Quiz"
+                    TargetPageType="{x:Type v:QuizView}"
+                    ToolTip="Starte das Quiz">
                     <ui:NavigationViewItem.Icon>
                         <ui:SymbolIcon Symbol="Question24" />
                     </ui:NavigationViewItem.Icon>
@@ -51,7 +57,10 @@
             </ui:NavigationView.MenuItems>
 
             <ui:NavigationView.FooterMenuItems>
-                <ui:NavigationViewItem Content="Einstellungen" TargetPageType="{x:Type v:SettingsView}">
+                <ui:NavigationViewItem
+                    Content="Einstellungen"
+                    TargetPageType="{x:Type v:SettingsView}"
+                    ToolTip="Gehe zu den Einstellungen">
                     <ui:NavigationViewItem.Icon>
                         <ui:SymbolIcon Symbol="Settings24" />
                     </ui:NavigationViewItem.Icon>

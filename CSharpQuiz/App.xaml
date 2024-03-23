@@ -1061,7 +1061,8 @@
                             Padding="0"
                             Appearance="Danger"
                             Command="{Binding ResetCommand}"
-                            FontSize="24">
+                            FontSize="24"
+                            ToolTip="Programmcode zurücksetzen">
                             <ui:Button.Icon>
                                 <ui:SymbolIcon Filled="True" Symbol="ArrowHookDownLeft20" />
                             </ui:Button.Icon>
@@ -1073,7 +1074,8 @@
                             Padding="0"
                             Appearance="Success"
                             Command="{Binding RunCommand}"
-                            FontSize="22">
+                            FontSize="22"
+                            ToolTip="Kompilieren &amp; Starten">
                             <ui:Button.Icon>
                                 <ui:SymbolIcon Filled="True" Symbol="PlaySettings20" />
                             </ui:Button.Icon>

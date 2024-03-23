@@ -66,14 +66,16 @@
                 Height="32"
                 Padding="0"
                 Command="{Binding GoBackCommand}"
-                Content="&#129144;" />
+                Content="&#129144;"
+                ToolTip="Wechsel zur vorherigen Frage" />
             <ui:Button
                 Grid.Column="1"
                 Width="32"
                 Height="32"
                 Padding="0"
                 Command="{Binding GoNextCommand}"
-                Content="&#129146;" />
+                Content="&#129146;"
+                ToolTip="Wechsel zur nächsten Frage" />
 
             <TextBlock Grid.Column="3" VerticalAlignment="Center">
                 <Run Text="Frage" />
@@ -90,13 +92,15 @@
             <ui:Button
                 Grid.Column="5"
                 Command="{Binding HintCommand}"
-                Content="Tipp anzeigen" />
+                Content="Tipp anzeigen"
+                ToolTip="Kommst du nicht weiter?" />
 
             <ui:Button
                 Grid.Column="7"
                 Appearance="{Binding IsLastQuestion, Mode=OneWay, Converter={StaticResource BooleanToAppearanceConverter}}"
                 Command="{Binding StopCommand}"
-                Content="Quiz beenden" />
+                Content="Quiz beenden"
+                ToolTip="Beende das Quiz &amp; gehe zur Auswertung" />
         </Grid>
         <Grid
             Grid.Row="2"
@@ -177,7 +181,8 @@
                 Grid.Column="8"
                 Appearance="Primary"
                 Command="{Binding ResetCommand}"
-                Content="Zurück" />
+                Content="Zurück"
+                ToolTip="Gehe zurück" />
         </Grid>
 
     </Grid>

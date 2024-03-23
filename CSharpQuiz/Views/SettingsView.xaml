@@ -33,7 +33,8 @@
                 Height="32"
                 Background="{DynamicResource SystemAccentBrush}"
                 CornerRadius="4"
-                Cursor="Hand">
+                Cursor="Hand"
+                ToolTip="Wähle Farbe aus">
                 <Border.InputBindings>
                     <MouseBinding Command="{Binding ChangeAccentColorCommand}" Gesture="LeftClick" />
                 </Border.InputBindings>
@@ -48,7 +49,7 @@
                 <ui:SymbolIcon Symbol="PaintBrush20" />
             </ContentControl.Tag>
 
-            <ui:ToggleSwitch IsChecked="{Binding IsDarkMode, Mode=TwoWay}" />
+            <ui:ToggleSwitch IsChecked="{Binding IsDarkMode, Mode=TwoWay}" ToolTip="Wechsel zwischen hell &amp; dunkel" />
         </ContentControl>
 
         <ContentControl
@@ -59,7 +60,10 @@
                 <ui:SymbolIcon Symbol="CodeBlock20" />
             </ContentControl.Tag>
 
-            <ui:Button Command="{Binding CreateLoggerWindowCommand}" Content="Erstelle Fenster" />
+            <ui:Button
+                Command="{Binding CreateLoggerWindowCommand}"
+                Content="Erstelle Fenster"
+                ToolTip="Werf einen Blick unter die Haube" />
         </ContentControl>
     </StackPanel>
 </Page>

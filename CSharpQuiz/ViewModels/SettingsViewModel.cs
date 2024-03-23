@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
@@ -119,7 +120,7 @@ internal partial class SettingsViewModel : ObservableObject
         };
 
         void handler(object? s, string e) =>
-            textBlock.Text += e;
+            Application.Current.Dispatcher.BeginInvoke(() => textBlock.Text += e);
 
         App.Sink.OnNewLog += handler;
         App.LoggerWindow.Closed += (s, e) =>

@@ -7,7 +7,6 @@
     xmlns:ele="clr-namespace:CSharpQuiz.Views.Elements"
     xmlns:hlp="clr-namespace:CSharpQuiz.Helpers"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:local="clr-namespace:CSharpQuiz"
     xmlns:mconv="clr-namespace:CSharpQuiz.MultiConverter"
     xmlns:que="clr-namespace:CSharpQuiz.Questions"
     xmlns:syn="clr-namespace:UI.SyntaxBox;assembly=UI.SyntaxBox"

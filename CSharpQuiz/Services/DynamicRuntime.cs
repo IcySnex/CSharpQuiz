@@ -13,10 +13,39 @@ using System.Reflection.Metadata;
 
 namespace CSharpQuiz.Services;
 
-public class DynamicRuntime(
-    ILogger<DynamicRuntime> logger)
+public class DynamicRuntime
 {
-    readonly ILogger<DynamicRuntime> logger = logger;
+    readonly ILogger<DynamicRuntime> logger;
+
+    readonly List<MetadataReference> references = [];
+
+    public DynamicRuntime(
+        ILogger<DynamicRuntime> logger)
+    {
+        this.logger = logger;
+
+        logger.LogInformation("Ersetelle Referenzen für dynamische Assembly.");
+        unsafe
+        {
+            typeof(object).Assembly.TryGetRawMetadata(out byte* systemBlob, out int systemLength);
+            AssemblyMetadata systemMetadata = AssemblyMetadata.Create(ModuleMetadata.CreateFromMetadata((IntPtr)systemBlob, systemLength));
+
+            typeof(Shared.Buch).Assembly.TryGetRawMetadata(out byte* sharedBlob, out int sharedLenght);
+            AssemblyMetadata sharedMetadata = AssemblyMetadata.Create(ModuleMetadata.CreateFromMetadata((IntPtr)sharedBlob, sharedLenght));
+
+            Assembly.Load("System.Runtime").TryGetRawMetadata(out byte* runtimeBlob, out int runtimeLength);
+            AssemblyMetadata runtimeMetadata = AssemblyMetadata.Create(ModuleMetadata.CreateFromMetadata((IntPtr)runtimeBlob, runtimeLength));
+
+            Assembly.Load("System.Linq").TryGetRawMetadata(out byte* linqBlob, out int linqLength);
+            AssemblyMetadata linqMetadata = AssemblyMetadata.Create(ModuleMetadata.CreateFromMetadata((IntPtr)linqBlob, linqLength));
+
+            references.Add(systemMetadata.GetReference());
+            references.Add(sharedMetadata.GetReference());
+            references.Add(runtimeMetadata.GetReference());
+            references.Add(linqMetadata.GetReference());
+        }
+    }
+
 
     public byte[] Compile(
         string sourceCode)
@@ -27,20 +56,6 @@ public class DynamicRuntime(
             .WithLanguageVersion(LanguageVersion.CSharp12);
 
         SyntaxTree parsedSyntaxTree = SyntaxFactory.ParseSyntaxTree(sourceText, options);
-
-        logger.LogInformation("Ersetelle Referenzen für dynamische Assembly.");
-
-        List<MetadataReference> references = [];
-        unsafe
-        {
-            Assembly runtime = typeof(object).Assembly;
-            runtime.TryGetRawMetadata(out byte* blob, out int length);
-
-            ModuleMetadata moduleMetadata = ModuleMetadata.CreateFromMetadata((IntPtr)blob, length);
-            AssemblyMetadata assemblyMetadata = AssemblyMetadata.Create(moduleMetadata);
-
-            references.Add(assemblyMetadata.GetReference());
-        }
 
         logger.LogInformation("Kompilieren gestartet...");
         CSharpCompilation compilation = CSharpCompilation.Create("DynamicRuntimeAssembly.dll",

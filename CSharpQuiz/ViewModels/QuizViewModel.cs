@@ -12,6 +12,8 @@ using System.Windows.Threading;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Extensions;
+using System.Linq;
+using CSharpQuiz.Shared;
 
 namespace CSharpQuiz.ViewModels;
 
@@ -51,67 +53,102 @@ public partial class QuizViewModel : ObservableObject
     {
         Random rnd = new();
 
+        object?[][] CreateAddiereBeträgeArgSets(int count, int min, int max)
+        {
+            object?[][] result = new object?[count][];
+            for (int i = 0; i < count; i++)
+                result[i] = [rnd.Next(min, max), rnd.Next(min, max)];
+
+            return result;
+        }
+
+        object?[][] CreateFiltereBücherArgSets()
+        {
+            Buch[] books = [
+                new("Stolz und Vorurteil", "Jane Austen", 10.99, true),
+                new("Verstand und Gefühl", "Jane Austen", 9.99, false),
+                new("Emma", "Jane Austen", 12.49, true),
+                new("Große Erwartungen", "Charles Dickens", 8.79, true),
+                new("Eine Geschichte aus zwei Städten", "Charles Dickens", 11.29, false),
+                new("Oliver Twist", "Charles Dickens", 7.99, true),
+                new("Shining", "Stephen King", 13.99, true),
+                new("Es", "Stephen King", 14.49, true),
+                new("The Stand – Das letzte Gefecht", "Stephen King", 12.99, false),
+                new("Harry Potter und der Stein der Weisen", "J.K. Rowling", 15.99, true),
+                new("Harry Potter und die Kammer des Schreckens", "J.K. Rowling", 16.49, true),
+                new("Harry Potter und der Gefangene von Askaban", "J.K. Rowling", 17.99, false),
+                new("Mord im Orientexpress", "Agatha Christie", 11.99, true),
+                new("Und dann gabs keines mehr", "Agatha Christie", 10.49, true),
+                new("Die Morde des Herrn ABC", "Agatha Christie", 13.79, false),
+                new("1984", "George Orwell", 9.49, true),
+                new("Farm der Tiere", "George Orwell", 8.99, false),
+                ];
+            rnd.Shuffle(books);
+
+            object?[][] result = [
+                [books, "Jane Austen"],
+                [books, "Charles Dickens"],
+                [books, "Stephen King"],
+                [books, "J.K. Rowling"],
+                [books, "Agatha Christie"],
+                [books, "George Orwell"],
+                ];
+
+            return result;
+        }
+
+
         return
         [
-            new SingleChoiceQuestion(
-                text: "Test Frage",
-                hint: "Das ist ein sehr hilfreicher Tipp",
-                points: 3,
-                correctAnswer: "Zweitens",
-                "Erstens", "Zweitens", "Drittens"),
-            new MultipleChoiceQuestion(
-                text: "Jetzt kannst du sogar mehr auswählen",
-                hint: "es gibt keinen",
-                points: 2,
-                correctAnswers: ["a", "d"],
-                "a", "b", "c", "d", "e"),
-            new ReorderQuestion(
-                text: "RICHTIGE REIHENFOLGE",
-                hint: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                points: 5,
-                correctItemsOrder: ["1", "2", "3 ", "4", "5"],
-                "4", "1", "3 ", "5", "2"),
-            new TrueOrFalseQuestion(
-                text: "ordne es zu?!?!?!",
-                hint: "was denkst du denn?",
-                points: 4,
-                new("A ist ein Buchstabe", true), new("5 + 3 = 7", false), new("C# ist toll!", true), new("Hier musst du wohl raten, tja", false)),
             new CodingQuestion(
-                text: "Addiere die Beträge der gegebene Zahlen",
-                hint: "Überprüfe zuerst, ob die beiden Zahlen negativ sind und falls so, mache sie positiv bevor du sie addierst.",
-                points: 10,
-                defaultMethod: "AddiereBetraege",
-                argSets:
-                [
-                    [rnd.Next(-50, 50), rnd.Next(-50, 50)],
-                    [rnd.Next(-50, 50), rnd.Next(-50, 50)],
-                    [rnd.Next(-50, 50), rnd.Next(-50, 50)]
-                ],
-                expectedDelegate: (int a, int b) => Math.Abs(a) + Math.Abs(b),
+                text: "Filtere die Bücher nach Autor/Verfügbarkeit & sortiere nach Preis",
+                hint: "Die Aufgabe scheint ziemlich groß & schwer zu sein, aber mithilfe von LINQ ist sie relativ einfach:\nNutze den Syntax 'from buch in bücher' um mit LINQ zu starten.\nDann kannst du mit 'where' überprüfen ob der Autor der selbe ist, wie der gegebene Parameter. Zudem kannst du hier gleich nach der Verfügbarkeit filtern in dem du den Boolean-Operator '&&' verwendest.\nAnschließend nur noch mit 'orderby' nach dem Preis sortieren und das wars schon :)",
+                points: 8,
+                defaultMethod: "FiltereBücher",
+                argSets: CreateFiltereBücherArgSets(),
+                expectedDelegate: (Buch[] bücher, string autor) => bücher.Where(buch => buch.Autor == autor && buch.IstVerfügbar).OrderBy(buch => buch.Preis),
                 """
-                public class Beispiel
+                using CSharpQuiz.Shared;
+                using System.Collections.Generic;
+                using System.Linq;
+                
+                // Das ist eine Helfer Klasse für eine Bücherei
+                public class Bücherei
                 {
-                    public static int AddiereBetraege(int a, int b)
+                    // In dieser Methode sollst du alle Bücher von dem gegeben Autor heraussuchen
+                    // Außerdem sollst du nur die Bücher zurückgeben, welche noch verfügbar sind
+                    // Zuletzt sollst du nach dem Preis sortieren (= vom günstigsten zum teuersten)
+                    public static IEnumerable<Buch> FiltereBücher(Buch[] bücher, string autor)
                     {
-                        // Addiere die Beträge der beiden Zahlen 'a' & 'b'.
-                        //
-                        // Bsp:
-                        // a = 5, b = 10 => Ergebnis: 15
-                        // a = 2, b = -4 => Ergebnis: 6
-                        // a = -6, b = -2 => Ergebnis: 8
                     }
                 }
+                                
+                // So sieht die Klasse 'Buch' aus:
+                // public class Buch
+                // {
+                //     public string Titel { get; }
+                //     public string Autor { get; }
+                //     public double Preis { get; set; }
+                //     public bool IstVerfügbar { get; set; }
+                // }
                 """,
                 """
-                public class Beispiel
-                {
-                    public static int AddiereBetraege(int a, int b) =>
-                        Betrag(a) + Betrag(b);
+                using CSharpQuiz.Shared;
+                using System.Collections.Generic;
+                using System.Linq;
 
-                    static int Betrag(int zahl) =>
-                        zahl < 0 ? -zahl : zahl;
+                public class Bücherei
+                {
+                    public static IEnumerable<Buch> FiltereBücher(Buch[] bücher, string autor)
+                    {
+                        var gefiltert = from buch in bücher
+                                        where buch.Autor == autor && buch.IstVerfügbar
+                                        orderby buch.Preis
+                                        select buch;
+                        return gefiltert;
+                    }
                 }
-                """)
+                """),
         ];
     }
 

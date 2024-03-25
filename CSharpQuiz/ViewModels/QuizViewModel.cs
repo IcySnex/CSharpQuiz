@@ -100,6 +100,139 @@ public partial class QuizViewModel : ObservableObject
 
         return
         [
+            new SingleChoiceQuestion(
+                text: "Von welchem Unternehmen wurde C# entwickelt?",
+                hint: "Das selbe Unternehmen hat auch die Xbox entwickelt.",
+                points: 2,
+                correctAnswer: "Microsoft",
+                    "Google",
+                    "Oracle Corporation",
+                    "Microsoft",
+                    "IBM",
+                    "Apple",
+                    "SAP"),
+            new TrueOrFalseQuestion(
+                text: "Allgemeine Fakten über C#",
+                hint: "C# ist eine moderne, objektorientierte Sprache aus dem Jahr 2000 mit vielen Ähnlichkeiten zu Java.",
+                points: 5,
+                    new("Die Main-Mehtode in C# ist erforderlich und dient als Einstiegspunkt für die Ausführund des Programms", true),
+                    new("C# wurde im Jahr 2005 mit dem .NET Framework veröffentlicht", false),
+                    new("LINQ steht für \"Language-Integrated Network Query\" und wird hauptsächlich für Netzwerkoperationen verwendet", false),
+                    new("C# wird stets weiterentwickelt mit regulären Updates & neuen Funktionen", true),
+                    new("Vieles von C# lässt sich mit Java vergleichen", true)),
+            new SingleChoiceQuestion(
+                text: "Wer ist der Hauptarchitekt der Sprache C#?",
+                hint: "Er ist ein dänischer Entwickler, welcher auch TypeScript entworfen hat.",
+                points: 1,
+                correctAnswer: "Anders Hejlsberg",
+                    "Bjarne Stroustrup",
+                    "Anders Hejlsberg",
+                    "Dennis Ritchie",
+                    "James Gosling"),
+            new MultipleChoiceQuestion(
+                text: "Was ist die .NET-Plattform?",
+                hint: "Die .NET-Plattform erlaubt es C#-Anwendungen überhaupt erst zu laufen, ohne diese würde nichts funktionnieren.",
+                points: 3,
+                correctAnswers: [
+                    "Die .NET-Plattform bietet Werkzeuge für die Bereitstellung & Ausführung von Anwendungen",
+                    "Der Vorteil der .NET-Plattform ist, dass es Plattformunabhängigkeit ermöglicht",
+                    "Die Laufzeitumgebung von .NET Anwendungen nennt man \"Common Language Runtime\" (CLR)"
+                    ],
+                    "Die .NET-Plattform bietet Werkzeuge für die Bereitstellung & Ausführung von Anwendungen",
+                    "Nur C# wird von der .NET-Plattform unterstützt",
+                    "Der Vorteil der .NET-Plattform ist, dass es Plattformunabhängigkeit ermöglicht",
+                    "Die Laufzeitumgebung von .NET Anwendungen nennt man \"Common Language Runtime\" (CLR)",
+                    "Die \"Common Language Runtime\" (CLR) lässt sich nicht mit der \"Java Virtual Machine\" (JVM) vergleichen"),
+            new CodingQuestion(
+                text: "Addiere die Beträge der gegebene Zahlen",
+                hint: "Dieses Problem ist relativ simpel:\nÜberprüfe zuerst, ob die beiden Zahlen negativ sind und falls so, multipliziere sie mit -1, damit sie nicht mehr negativ sind (Pro-Tipp: Du kannst sogar eine kleine Helfer Methode schreiben, damit du dich nicht wiederholen musst).",
+                points: 8,
+                defaultMethod: "AddiereBeträge",
+                argSets: CreateAddiereBeträgeArgSets(5, -50, 50),
+                expectedDelegate: (int a, int b) => Math.Abs(a) + Math.Abs(b),
+                """
+                public class MatheHelfer
+                {
+                    // In dieser Methode sollst du die Beträge der gegebenen Zahlen 'a' & 'b' addieren
+                    // Heißt also, die Zahlen dürfen nicht negativ sein
+                    public static int AddiereBeträge(int a, int b)
+                    {
+                    }
+                }
+                """,
+                """
+                public class MatheHelfer
+                {
+                    public static int AddiereBeträge(int a, int b)
+                    {
+                        int betragVonA = Betrag(a);
+                        int betragVonB = Betrag(b);
+                        return betragVonA + betragVonB;
+                    }
+            
+                    static int Betrag(int zahl) =>
+                        zahl < 0 ? -zahl : zahl;
+                }
+                """),
+            new SingleChoiceQuestion(
+                text: "Was ist der Hauptunterschied zwischen einer Klasse und einem Objekt?",
+                hint: "Also das haben wir eigentlich im Unterricht gemacht, das solltest du wissen...",
+                points: 2,
+                correctAnswer: "Eine Klasse ist eine Vorlage zur Erzeugung von Objekten.",
+                    "Eine Klasse ist eine Instanz eines Objekts.",
+                    "Eine Klasse ist eine Vorlage zur Erzeugung von Objekten.",
+                    "Eine Klasse kann keine Methoden haben, während ein Objekt dies kann.",
+                    "Eine Klasse kann keine Eigenschaften haben, während ein Objekt dies kann."),
+            new TrueOrFalseQuestion(
+                text: "C# in der Praxis",
+                hint: "Mit C# lässt sich so gut wie alles & überall machen.",
+                points: 6,
+                    new("Mit C# lassen sich nur GUI-Anwendungen schreiben", false),
+                    new("C# läuft nur auf Windows-Geräten", false),
+                    new("C# ermöglicht Cross-Plattform-Apps", true),
+                    new("Künstliche Intelligenz kann man in C#-Anwendungen noch nicht integrieren", false),
+                    new("Mit C# kann man sogar Web-Anwendungen entwickeln", true),
+                    new("Durch Unity oder MonoGame können gesamte 2D/3D Spiele entwickelt werden", true)),
+            new ReorderQuestion(
+                text: "Wie wird C# mit der .NET-Plattform ausgeführt?",
+                hint: "Zuerst muss ein Quellcode überhaupt existieren, dieser wird dann zu einem IL-Code kompiliert und von der CLR in machinenabhängigen Code übersetzt, wobei die CLR auch die Ausführung überwacht.",
+                points: 5,
+                correctItemsOrder: [
+                    "Der Entwickler schreibt einen C#-Quellcode",
+                    "Der C#-Quellcode wird zu einem Zwischencode (IL) kompiliert",
+                    "Die CLR nimmt den IL-Code & übersetzt ihn während der Laufzeit in maschinenabhängigen Code (JIT)",
+                    "Die CLR überwacht die Ausführung und bietet Funktionen wie \"Garbage Collection\" oder Fehlerbehandlung",
+                    "Während der Ausführung interagiert die C#-Anwendungen mit der .NET Klassenbibilothek"
+                    ],
+                    "Der C#-Quellcode wird zu einem Zwischencode (IL) kompiliert",
+                    "Die CLR überwacht die Ausführung und bietet Funktionen wie \"Garbage Collection\" oder Fehlerbehandlung",
+                    "Der Entwickler schreibt einen C#-Quellcode",
+                    "Während der Ausführung interagiert die C#-Anwendungen mit der .NET Klassenbibilothek",
+                    "Die CLR nimmt den IL-Code & übersetzt ihn während der Laufzeit in maschinenabhängigen Code (JIT)"),
+            new MultipleChoiceQuestion(
+                text: "Was ist asynchrone Programmierung in C# & wofür wird es verwendet?",
+                hint: "Asynchrone Programmierung ist ziemlich nützlich um aufwendige Aufgaben nebenbei woanders laufen zu lassen, wo sie niemanden stören, wie wenn du deinen kleinen Bruder mit deinem Handy wegschickst, damit er dich nicht beim Spielen stört.",
+                points: 3,
+                correctAnswers: [
+                    "Wichtiger Bestandteil moderner Andwendungen",
+                    "Ermöglicht langlaufende/aufwendige Operationen auf einem anderen Thread zu berechnen",
+                    "Erlaubt paralele Ausführung von Aufgaben"
+                    ],
+                    "Beeinträchtigt Leistung & Resourcennutzung negativ",
+                    "Ermöglicht langlaufende/aufwendige Operationen auf einem anderen CPU-Core zu berechnen",
+                    "Wichtiger Bestandteil moderner Andwendungen",
+                    "Wird selten bei GUI-Anwendungen verwendet",
+                    "Ermöglicht langlaufende/aufwendige Operationen auf einem anderen Thread zu berechnen",
+                    "Erlaubt paralele Ausführung von Aufgaben"),
+            new TrueOrFalseQuestion(
+                text: "Unterschiede & Gemeinsamkeiten zu Java",
+                hint: "Das sollte relativ einfach sein, falls du keine Ahnung hast, musst du wohl raten :)",
+                points: 5,
+                    new("C# & Java verwenden beide die JVM (\"Java Virtual Machine\") als Laufzeitumgebung", false),
+                    new("In C# ist der Typ \"string\" ein allgemeiner Datentyp", true),
+                    new("C# erlaubt native Nullable-Typen, während Java einen \"Wrapper\" benötigt", true),
+                    new("Eigenschaften (Attribute) sind in Java deutlich simpler & einfacher", false),
+                    new("Der Syntax bei C# lässt sich oft vereinfachen/kürzen z.B. bei Methoden oder Schleifen", true)),
             new CodingQuestion(
                 text: "Filtere die Bücher nach Autor/Verfügbarkeit & sortiere nach Preis",
                 hint: "Die Aufgabe scheint ziemlich groß & schwer zu sein, aber mithilfe von LINQ ist sie relativ einfach:\nNutze den Syntax 'from buch in bücher' um mit LINQ zu starten.\nDann kannst du mit 'where' überprüfen ob der Autor der selbe ist, wie der gegebene Parameter. Zudem kannst du hier gleich nach der Verfügbarkeit filtern in dem du den Boolean-Operator '&&' verwendest.\nAnschließend nur noch mit 'orderby' nach dem Preis sortieren und das wars schon :)",
@@ -112,7 +245,6 @@ public partial class QuizViewModel : ObservableObject
                 using System.Collections.Generic;
                 using System.Linq;
                 
-                // Das ist eine Helfer Klasse für eine Bücherei
                 public class Bücherei
                 {
                     // In dieser Methode sollst du alle Bücher von dem gegeben Autor heraussuchen

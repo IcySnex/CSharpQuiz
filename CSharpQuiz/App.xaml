@@ -477,7 +477,6 @@
             <SolidColorBrush x:Key="CardBackgroundOverlayBrush" Color="#313131" />
 
 
-
             <!--  DataTemplates  -->
             <DataTemplate DataType="{x:Type que:SingleChoiceQuestion}">
                 <Grid>
@@ -507,7 +506,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="SingleChoiceAnswerTemplate" DataType="{x:Type que:SingleChoiceQuestion}">
-                <ui:Card Margin="0,0,0,4" Padding="12">
+                <ui:Card Margin="0,0,0,8" Padding="12">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -620,7 +619,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="MultipleChoiceAnswerTemplate" DataType="{x:Type que:MultipleChoiceQuestion}">
-                <ui:Card Margin="0,0,0,4" Padding="12">
+                <ui:Card Margin="0,0,0,8" Padding="12">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -780,7 +779,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="ReorderAnswerTemplate" DataType="{x:Type que:ReorderQuestion}">
-                <ui:Card Margin="0,0,0,4" Padding="12">
+                <ui:Card Margin="0,0,0,8" Padding="12">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -905,24 +904,20 @@
                             <DataTemplate>
                                 <Grid Margin="6" Background="Transparent">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="12" />
                                         <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="12" />
+                                        <ColumnDefinition Width="30" />
                                         <ColumnDefinition Width="32" />
                                         <ColumnDefinition Width="16" />
                                         <ColumnDefinition Width="32" />
                                     </Grid.ColumnDefinitions>
 
                                     <TextBlock
-                                        Grid.Column="2"
                                         Margin="0,8"
-                                        Opacity="0.8"
                                         Text="{Binding Text}"
                                         TextWrapping="Wrap" />
 
-                                    <CheckBox Grid.Column="4" IsChecked="{Binding IsTrue, Mode=TwoWay}" />
-                                    <CheckBox Grid.Column="6" IsChecked="{Binding IsFalse, Mode=TwoWay}" />
+                                    <CheckBox Grid.Column="2" IsChecked="{Binding IsTrue, Mode=TwoWay}" />
+                                    <CheckBox Grid.Column="4" IsChecked="{Binding IsFalse, Mode=TwoWay}" />
                                 </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -931,7 +926,7 @@
                     <Rectangle
                         Grid.RowSpan="2"
                         Height="2"
-                        Margin="0,92,0,0"
+                        Margin="0,92,4,0"
                         VerticalAlignment="Top"
                         Fill="{DynamicResource TextFillColorTertiaryBrush}"
                         Opacity="0.5" />
@@ -953,7 +948,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="TrueOrFalseAnswerTemplate" DataType="{x:Type que:TrueOrFalseQuestion}">
-                <ui:Card Margin="0,0,0,4" Padding="12">
+                <ui:Card Margin="0,0,0,8" Padding="12">
                     <Grid VerticalAlignment="Top">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -982,10 +977,8 @@
                                 <DataTemplate>
                                     <Grid Margin="6" Background="Transparent">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="12" />
                                             <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="12" />
+                                            <ColumnDefinition Width="30" />
                                             <ColumnDefinition Width="32" />
                                             <ColumnDefinition Width="16" />
                                             <ColumnDefinition Width="32" />
@@ -998,18 +991,17 @@
                                             Opacity="0.25" />
 
                                         <TextBlock
-                                            Grid.Column="2"
                                             Margin="0,8"
                                             Opacity="0.8"
                                             Text="{Binding Text}"
                                             TextWrapping="Wrap" />
 
                                         <CheckBox
-                                            Grid.Column="4"
+                                            Grid.Column="2"
                                             IsChecked="{Binding IsCorrect}"
                                             IsHitTestVisible="False" />
                                         <CheckBox
-                                            Grid.Column="6"
+                                            Grid.Column="4"
                                             IsChecked="{Binding IsCorrect, Converter={StaticResource InverseBoolean}}"
                                             IsHitTestVisible="False" />
                                     </Grid>
@@ -1026,7 +1018,7 @@
                         <Rectangle
                             Grid.RowSpan="2"
                             Height="2"
-                            Margin="0,92,0,0"
+                            Margin="0,92,4,0"
                             VerticalAlignment="Top"
                             Fill="{DynamicResource TextFillColorTertiaryBrush}"
                             Opacity="0.5" />
@@ -1089,6 +1081,7 @@
                             AcceptsTab="True"
                             Background="#202020"
                             BorderThickness="0"
+                            CaretBrush="White"
                             FontFamily="Consolas"
                             FontSize="16"
                             Foreground="#ffffff"
@@ -1167,8 +1160,8 @@
             </DataTemplate>
 
             <DataTemplate x:Key="CodingAnswerTemplate" DataType="{x:Type que:CodingQuestion}">
-                <ui:Card Margin="0,0,0,4" Padding="12">
-                    <Grid Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=ScrollViewer}, Converter={StaticResource AddTo}, ConverterParameter=-140}">
+                <ui:Card Margin="0,0,0,8" Padding="12">
+                    <Grid Height="500">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="1*" MinHeight="120" />
@@ -1211,6 +1204,7 @@
                                     AcceptsTab="True"
                                     Background="#202020"
                                     BorderThickness="0"
+                                    CaretBrush="White"
                                     FontFamily="Consolas"
                                     FontSize="16"
                                     Foreground="#ffffff"
@@ -1272,6 +1266,7 @@
                                     AcceptsTab="True"
                                     Background="#202020"
                                     BorderThickness="0"
+                                    CaretBrush="White"
                                     FontFamily="Consolas"
                                     FontSize="16"
                                     IsReadOnly="True"

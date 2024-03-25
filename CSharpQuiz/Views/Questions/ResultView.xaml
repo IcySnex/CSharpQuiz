@@ -23,7 +23,6 @@
             </TextBlock>
         </ui:Card>
 
-
         <ItemsControl
             Margin="12"
             ItemTemplateSelector="{StaticResource QuestionResultTemplateSelector}"

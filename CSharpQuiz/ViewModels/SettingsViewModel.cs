@@ -110,7 +110,7 @@ public partial class SettingsViewModel : ObservableObject
             Title = "CSharp Quiz (Logger)",
             Width = 600,
             Height = 300,
-            Content = new DynamicScrollViewer()
+            Content = new PassiveScrollViewer()
             {
                 HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
                 VerticalScrollBarVisibility = ScrollBarVisibility.Auto,

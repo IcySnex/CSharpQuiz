@@ -23,25 +23,25 @@
 
         <TextBlock Style="{StaticResource Header}" Text="Quiz" />
 
-        <ui:DynamicScrollViewer
+        <ui:PassiveScrollViewer
             Name="ScrollContent"
             Grid.Row="1"
             Margin="0,0,-12,0"
             VerticalAlignment="Stretch">
-            <ui:DynamicScrollViewer.OpacityMask>
+            <ui:PassiveScrollViewer.OpacityMask>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                     <GradientStop Offset="0" Color="#00000000" />
                     <GradientStop Offset="{Binding ActualHeight, Mode=OneWay, ElementName=ScrollContent, Converter={StaticResource AbsoluteToRelativeConverter}, ConverterParameter=12}" Color="#ff000000" />
                     <GradientStop Offset="{Binding ActualHeight, Mode=OneWay, ElementName=ScrollContent, Converter={StaticResource InvertedAbsoluteToRelativeConverter}, ConverterParameter=12}" Color="#ff000000" />
                     <GradientStop Offset="1" Color="#00000000" />
                 </LinearGradientBrush>
-            </ui:DynamicScrollViewer.OpacityMask>
+            </ui:PassiveScrollViewer.OpacityMask>
 
             <UserControl
                 Padding="0,12,12,12"
                 Background="Transparent"
                 Content="{Binding CurrentView, Mode=OneWay}" />
-        </ui:DynamicScrollViewer>
+        </ui:PassiveScrollViewer>
 
         <Grid
             Grid.Row="2"

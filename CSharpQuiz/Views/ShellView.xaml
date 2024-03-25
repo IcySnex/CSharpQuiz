@@ -8,9 +8,9 @@
     xmlns:v="clr-namespace:CSharpQuiz.Views"
     Title="C-Sharp Quiz"
     Width="950"
-    Height="535"
-    MinWidth="675"
-    MinHeight="535"
+    Height="500"
+    MinWidth="700"
+    MinHeight="500"
     ExtendsContentIntoTitleBar="True"
     Icon="{StaticResource IconImage}"
     mc:Ignorable="d">

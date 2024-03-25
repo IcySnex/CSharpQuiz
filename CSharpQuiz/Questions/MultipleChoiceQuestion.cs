@@ -17,7 +17,7 @@ public partial class MultipleChoiceQuestion(
     params string[] choices) : Question(
         text,
         "Multiple-Choice-Frage: Wähle mehrere der folgenden Antworten aus.",
-        $"Multiple-Choice-Frage: +{points / correctAnswers.Length:#.##} Punkte für richtige Antworten, -{points / correctAnswers.Length / 2} Punkte für falsche Antworten.",
+        $"Multiple-Choice-Frage: +{points / correctAnswers.Length:0.##} Punkte für richtige Antworten, -{points / correctAnswers.Length / 2} Punkte für falsche Antworten.",
         hint,
         points)
 {

@@ -470,13 +470,15 @@
                     <ListView
                         Grid.Row="1"
                         ItemsSource="{Binding Choices}"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                         SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock
                                     Margin="12,8"
                                     Opacity="0.8"
-                                    Text="{Binding}" />
+                                    Text="{Binding}"
+                                    TextWrapping="Wrap" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
@@ -497,6 +499,7 @@
                             Grid.Row="1"
                             ItemContainerStyle="{StaticResource AnswerListViewItemStyle}"
                             ItemsSource="{Binding Choices}"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                             SelectedItem="{Binding SelectedItem, Mode=OneWay}">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
@@ -516,7 +519,8 @@
                                         <TextBlock
                                             Margin="12,8"
                                             Opacity="0.8"
-                                            Text="{Binding}" />
+                                            Text="{Binding}"
+                                            TextWrapping="Wrap" />
                                         <Border
                                             Name="SelectedIndicator"
                                             Grid.Column="2"
@@ -570,6 +574,7 @@
                         Name="ItemContainer"
                         Grid.Row="1"
                         ItemsSource="{Binding Choices}"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                         SelectionMode="Multiple">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
@@ -585,7 +590,8 @@
                                 <TextBlock
                                     Margin="12,8"
                                     Opacity="0.8"
-                                    Text="{Binding}" />
+                                    Text="{Binding}"
+                                    TextWrapping="Wrap" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
@@ -607,6 +613,7 @@
                             Grid.Row="1"
                             ItemContainerStyle="{StaticResource AnswerListViewItemStyle}"
                             ItemsSource="{Binding Choices}"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                             SelectionMode="Multiple">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Loaded">
@@ -632,7 +639,8 @@
                                         <TextBlock
                                             Margin="12,8"
                                             Opacity="0.8"
-                                            Text="{Binding}" />
+                                            Text="{Binding}"
+                                            TextWrapping="Wrap" />
                                         <Border
                                             Name="SelectedIndicator"
                                             Grid.Column="2"
@@ -686,7 +694,8 @@
                         Grid.Row="1"
                         dd:DragDrop.IsDragSource="True"
                         dd:DragDrop.IsDropTarget="True"
-                        ItemsSource="{Binding Items}">
+                        ItemsSource="{Binding Items}"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <ListViewItem Margin="0,-0.7" Cursor="Hand">
@@ -697,7 +706,11 @@
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
 
-                                        <Canvas Margin="16,12,14,0">
+                                        <Canvas
+                                            Width="16"
+                                            Height="10"
+                                            Margin="16,0,12,0"
+                                            VerticalAlignment="Center">
                                             <Ellipse
                                                 Width="4"
                                                 Height="4"
@@ -735,7 +748,8 @@
                                             Grid.Column="2"
                                             Margin="12,8"
                                             Opacity="0.8"
-                                            Text="{Binding}" />
+                                            Text="{Binding}"
+                                            TextWrapping="Wrap" />
                                     </Grid>
                                 </ListViewItem>
                             </DataTemplate>
@@ -754,7 +768,10 @@
 
                         <ele:AnswerHeader />
 
-                        <ItemsControl Grid.Row="1" ItemsSource="{Binding CorrectItemsOrder}">
+                        <ItemsControl
+                            Grid.Row="1"
+                            ItemsSource="{Binding CorrectItemsOrder}"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <ListViewItem IsEnabled="False">
@@ -771,7 +788,11 @@
                                                 CornerRadius="4"
                                                 Opacity="0.25" />
 
-                                            <Canvas Margin="16,12,14,0">
+                                            <Canvas
+                                                Width="16"
+                                                Height="10"
+                                                Margin="16,0,12,0"
+                                                VerticalAlignment="Center">
                                                 <Ellipse
                                                     Width="4"
                                                     Height="4"
@@ -809,7 +830,8 @@
                                                 Grid.Column="2"
                                                 Margin="12,8"
                                                 Opacity="0.8"
-                                                Text="{Binding}" />
+                                                Text="{Binding}"
+                                                TextWrapping="Wrap" />
                                         </Grid>
                                     </ListViewItem>
 
@@ -875,7 +897,8 @@
                                         Grid.Column="2"
                                         Margin="0,8"
                                         Opacity="0.8"
-                                        Text="{Binding Text}" />
+                                        Text="{Binding Text}"
+                                        TextWrapping="Wrap" />
 
                                     <CheckBox Grid.Column="4" IsChecked="{Binding IsTrue, Mode=TwoWay}" />
                                     <CheckBox Grid.Column="6" IsChecked="{Binding IsFalse, Mode=TwoWay}" />
@@ -957,7 +980,8 @@
                                             Grid.Column="2"
                                             Margin="0,8"
                                             Opacity="0.8"
-                                            Text="{Binding Text}" />
+                                            Text="{Binding Text}"
+                                            TextWrapping="Wrap" />
 
                                         <CheckBox
                                             Grid.Column="4"

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace CSharpQuiz.Helpers;
 
@@ -26,34 +28,38 @@ public class UnknownTypes
     }
 
 
-    public static string ToString(
-        object? obj)
+    public static string ToString(object? obj)
     {
-        if (obj is null)
-            return "null";
+        if (obj is IEnumerable<object> enumerable)
+            return EnumerableToString(enumerable, 1);
 
-        Type type = obj.GetType();
-        if (type.IsPrimitive || obj is string || obj is decimal)
-            return obj.ToString()!;
-
-        if (obj is Array array)
-            return EnumerableToString(array);
-
-        return type.Name;
+        return obj?.ToString() ?? "null";
     }
 
-    static string EnumerableToString(
-        Array array)
+    static string EnumerableToString<T>(IEnumerable<T> enumerable, int indentationLevel)
     {
-        string result = "[";
-        for (int i = 0; i < array.Length; i++)
+        var sb = new StringBuilder();
+        sb.Append("[\n");
+
+        bool isFirst = true;
+        foreach (var element in enumerable)
         {
-            result += ToString(array.GetValue(i));
-            if (i < array.Length - 1)
-                result += ", ";
-        }
-        result += "]";
+            if (!isFirst)
+                sb.Append(",\n");
 
-        return result;
+            sb.Append(Indent(indentationLevel));
+            if (element is IEnumerable<object> enumerableElement)
+                sb.Append(EnumerableToString(enumerableElement, indentationLevel + 1));
+            else
+                sb.Append(element?.ToString() ?? "null");
+
+            isFirst = false;
+        }
+
+        sb.Append($"\n{Indent(indentationLevel - 1)}]");
+        return sb.ToString();
     }
+
+    static string Indent(int level) =>
+        new(' ', level * 4);
 }

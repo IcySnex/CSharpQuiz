@@ -31,6 +31,7 @@
             <conv:IsTrueOrFalseItemCorrect x:Key="IsTrueOrFalseItemCorrect" />
             <conv:UnknownTypesToString x:Key="UnknownTypesToString" />
             <conv:IsCodingQuestionCorrect x:Key="IsCodingQuestionCorrect" />
+            <conv:AddTo x:Key="AddTo" />
 
             <!--  MultiConverters  -->
             <mconv:IsSingleChoiceQuestionCorrect x:Key="IsSingleChoiceQuestionCorrect" />
@@ -102,6 +103,26 @@
                 </Setter>
             </Style>
 
+            <Style TargetType="{x:Type GridSplitter}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Grid
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Background="Transparent">
+                                <Rectangle
+                                    Height="3"
+                                    Fill="{DynamicResource TextFillColorPrimaryBrush}"
+                                    Opacity="0.3"
+                                    RadiusX="2"
+                                    RadiusY="2" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
             <DrawingImage x:Key="CheckDrawing">
                 <DrawingImage.Drawing>
                     <GeometryDrawing Geometry="F1 M24,24z M0,0z M4,12.6111L8.92308,17.5 20,6.5">
@@ -158,7 +179,7 @@
                         Op="Line"
                         Pattern="'(?:(?:[^'\\]|\\.)*?)'" />
 
-                    <syn:KeywordRule Foreground="#7a9eff" Keywords="abstract,as,base,break,case,catch,class,const,continue,default,delegate,do,else,enum,event,explicit,extern,false,finally,fixed,for,foreach,goto,if,implicit,in,interface,internal,is,lock,namespace,new,null,operator,out,override,params,private,protected,public,readonly,ref,return,sealed,sizeof,stackalloc,static,struct,switch,this,throw,true,try,typeof,unchecked,unsafe,using,virtual,void,volatile,while" />
+                    <syn:KeywordRule Foreground="#7a9eff" Keywords="abstract,as,base,break,case,catch,class,const,continue,default,delegate,do,else,enum,event,explicit,extern,false,finally,fixed,for,foreach,goto,if,implicit,in,interface,internal,is,lock,namespace,new,null,operator,out,override,params,private,protected,public,readonly,ref,return,sealed,sizeof,stackalloc,static,struct,switch,this,throw,true,try,typeof,unchecked,unsafe,using,virtual,void,volatile,while,from,where,orderby,ascending,descending,select,group,by,join,equals,into,let" />
                     <syn:KeywordRule Foreground="#abc3ff" Keywords="bool,byte,char,decimal,double,float,int,long,object,sbyte,short,string,uint,ulong,ushort,var" />
 
                     <syn:RegexRule
@@ -1029,17 +1050,33 @@
 
 
             <DataTemplate DataType="{x:Type que:CodingQuestion}">
-                <Grid>
+                <Grid Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=ScrollViewer}, Converter={StaticResource AddTo}, ConverterParameter=-50}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="4" />
-                        <RowDefinition Height="85" />
+                        <RowDefinition Height="1*" MinHeight="120" />
+                        <RowDefinition Height="19" />
+                        <RowDefinition Height="0*" MinHeight="65" />
                     </Grid.RowDefinitions>
 
                     <ele:QuestionHeader />
 
-                    <ui:DynamicScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto">
+                    <ScrollViewer
+                        Name="CodingContainer"
+                        Grid.Row="1"
+                        HorizontalScrollBarVisibility="Auto">
+                        <ScrollViewer.OpacityMask>
+                            <VisualBrush>
+                                <VisualBrush.Visual>
+                                    <Rectangle
+                                        Width="{Binding ActualWidth, ElementName=CodingContainer}"
+                                        Height="{Binding ActualHeight, ElementName=CodingContainer}"
+                                        Fill="Black"
+                                        RadiusX="5"
+                                        RadiusY="5" />
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </ScrollViewer.OpacityMask>
+
                         <TextBox
                             VerticalAlignment="Stretch"
                             syn:SyntaxBox.Enable="True"
@@ -1056,11 +1093,11 @@
                             FontSize="16"
                             Foreground="#ffffff"
                             Text="{Binding Code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    </ui:DynamicScrollViewer>
+                    </ScrollViewer>
 
                     <Grid
                         Grid.Row="1"
-                        Margin="7,2,2,7"
+                        Margin="7,2,25,7"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top">
                         <Grid.ColumnDefinitions>
@@ -1104,12 +1141,18 @@
                         </ui:Button>
                     </Grid>
 
+                    <GridSplitter
+                        Grid.Row="2"
+                        Height="12"
+                        Margin="8,0"
+                        HorizontalAlignment="Stretch" />
+
                     <Border
-                        Grid.Row="5"
+                        Grid.Row="3"
                         Background="#202020"
                         BorderThickness="0"
                         CornerRadius="4">
-                        <ui:DynamicScrollViewer HorizontalScrollBarVisibility="Auto">
+                        <ScrollViewer Background="Blue" HorizontalScrollBarVisibility="Auto">
                             <TextBlock
                                 Margin="8,4"
                                 VerticalAlignment="Center"
@@ -1118,17 +1161,19 @@
                                 <Run Text="{Binding OutputKind, Mode=OneWay, TargetNullValue='Teste dein Programm, indem du auf Starten in der rechten oberen Ecke drückst oder setze alles auf Anfang, indem du auf Zurücksetzen drückst', FallbackValue='Teste dein Programm, indem du auf Starten in der rechten oberen Ecke drückst oder setze alles auf Anfang, indem du auf Zurücksetzen drückst'}" /><Run Text=":" />
                                 <Run Foreground="#C5FFFFFF" Text="{Binding Output, Mode=OneWay, TargetNullValue='', FallbackValue=''}" />
                             </TextBlock>
-                        </ui:DynamicScrollViewer>
+                        </ScrollViewer>
                     </Border>
                 </Grid>
             </DataTemplate>
 
             <DataTemplate x:Key="CodingAnswerTemplate" DataType="{x:Type que:CodingQuestion}">
                 <ui:Card Margin="0,0,0,4" Padding="12">
-                    <Grid>
+                    <Grid Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=ScrollViewer}, Converter={StaticResource AddTo}, ConverterParameter=-140}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
+                            <RowDefinition Height="1*" MinHeight="120" />
+                            <RowDefinition Height="19" />
+                            <RowDefinition Height="0*" MinHeight="65" />
                         </Grid.RowDefinitions>
 
                         <ele:AnswerHeader />
@@ -1139,13 +1184,21 @@
                                 <ColumnDefinition Width="8" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="4" />
-                                <RowDefinition Height="85" />
-                            </Grid.RowDefinitions>
 
-                            <ui:DynamicScrollViewer HorizontalScrollBarVisibility="Auto">
+                            <ui:PassiveScrollViewer Name="OwnCodingContainer" HorizontalScrollBarVisibility="Auto">
+                                <ui:PassiveScrollViewer.OpacityMask>
+                                    <VisualBrush>
+                                        <VisualBrush.Visual>
+                                            <Rectangle
+                                                Width="{Binding ActualWidth, ElementName=OwnCodingContainer}"
+                                                Height="{Binding ActualHeight, ElementName=OwnCodingContainer}"
+                                                Fill="Black"
+                                                RadiusX="5"
+                                                RadiusY="5" />
+                                        </VisualBrush.Visual>
+                                    </VisualBrush>
+                                </ui:PassiveScrollViewer.OpacityMask>
+
                                 <TextBox
                                     VerticalAlignment="Stretch"
                                     syn:SyntaxBox.Enable="True"
@@ -1163,9 +1216,9 @@
                                     Foreground="#ffffff"
                                     IsReadOnly="True"
                                     Text="{Binding Code}" />
-                            </ui:DynamicScrollViewer>
+                            </ui:PassiveScrollViewer>
                             <Grid
-                                Margin="7,2,2,7"
+                                Margin="7,2,25,7"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Top">
                                 <Rectangle
@@ -1190,7 +1243,23 @@
                                 </Border>
                             </Grid>
 
-                            <ui:DynamicScrollViewer Grid.Column="2" HorizontalScrollBarVisibility="Auto">
+                            <ui:PassiveScrollViewer
+                                Name="SolutionCodingContainer"
+                                Grid.Column="2"
+                                HorizontalScrollBarVisibility="Auto">
+                                <ui:PassiveScrollViewer.OpacityMask>
+                                    <VisualBrush>
+                                        <VisualBrush.Visual>
+                                            <Rectangle
+                                                Width="{Binding ActualWidth, ElementName=SolutionCodingContainer}"
+                                                Height="{Binding ActualHeight, ElementName=SolutionCodingContainer}"
+                                                Fill="Black"
+                                                RadiusX="5"
+                                                RadiusY="5" />
+                                        </VisualBrush.Visual>
+                                    </VisualBrush>
+                                </ui:PassiveScrollViewer.OpacityMask>
+
                                 <TextBox
                                     VerticalAlignment="Stretch"
                                     syn:SyntaxBox.Enable="True"
@@ -1207,10 +1276,10 @@
                                     FontSize="16"
                                     IsReadOnly="True"
                                     Text="{Binding Solution, Mode=OneTime}" />
-                            </ui:DynamicScrollViewer>
+                            </ui:PassiveScrollViewer>
                             <Grid
                                 Grid.Column="2"
-                                Margin="7,2,2,7"
+                                Margin="7,2,25,7"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Top">
                                 <Rectangle
@@ -1234,26 +1303,31 @@
                                         Text="Musterlösung" />
                                 </Border>
                             </Grid>
-
-                            <Border
-                                Name="OutputConsole"
-                                Grid.Row="2"
-                                Grid.ColumnSpan="3"
-                                Background="#4B3033"
-                                BorderThickness="0"
-                                CornerRadius="4">
-                                <ui:DynamicScrollViewer HorizontalScrollBarVisibility="Auto">
-                                    <TextBlock
-                                        Margin="8,4"
-                                        VerticalAlignment="Center"
-                                        Foreground="#5DFFFFFF"
-                                        TextWrapping="NoWrap">
-                                        <Run Text="{Binding OutputKind, Mode=OneWay, TargetNullValue='Programm wurde noch nicht ausgeführt', FallbackValue='Programm wurde noch nicht ausgeführt'}" /><Run Text=":" />
-                                        <Run Foreground="#C5FFFFFF" Text="{Binding Output, Mode=OneWay, TargetNullValue='', FallbackValue=''}" />
-                                    </TextBlock>
-                                </ui:DynamicScrollViewer>
-                            </Border>
                         </Grid>
+
+                        <GridSplitter
+                            Grid.Row="2"
+                            Height="12"
+                            Margin="8,0"
+                            HorizontalAlignment="Stretch" />
+
+                        <Border
+                            Name="OutputConsole"
+                            Grid.Row="3"
+                            Background="#4B3033"
+                            BorderThickness="0"
+                            CornerRadius="4">
+                            <ui:PassiveScrollViewer HorizontalScrollBarVisibility="Auto">
+                                <TextBlock
+                                    Margin="8,4"
+                                    VerticalAlignment="Center"
+                                    Foreground="#5DFFFFFF"
+                                    TextWrapping="NoWrap">
+                                    <Run Text="{Binding OutputKind, Mode=OneWay, TargetNullValue='Programm wurde noch nicht ausgeführt', FallbackValue='Programm wurde noch nicht ausgeführt'}" /><Run Text=":" />
+                                    <Run Foreground="#C5FFFFFF" Text="{Binding Output, Mode=OneWay, TargetNullValue='', FallbackValue=''}" />
+                                </TextBlock>
+                            </ui:PassiveScrollViewer>
+                        </Border>
                     </Grid>
                 </ui:Card>
 

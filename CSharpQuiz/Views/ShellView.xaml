@@ -7,10 +7,10 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:v="clr-namespace:CSharpQuiz.Views"
     Title="C-Sharp Quiz"
-    Width="900"
-    Height="480"
+    Width="950"
+    Height="535"
     MinWidth="675"
-    MinHeight="450"
+    MinHeight="535"
     ExtendsContentIntoTitleBar="True"
     Icon="{StaticResource IconImage}"
     mc:Ignorable="d">

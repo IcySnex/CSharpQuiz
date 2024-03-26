@@ -14,6 +14,7 @@ using Wpf.Ui.Controls;
 using Wpf.Ui.Extensions;
 using System.Linq;
 using CSharpQuiz.Shared;
+using CSharpQuiz.Views.Dialogs;
 
 namespace CSharpQuiz.ViewModels;
 
@@ -384,7 +385,7 @@ public partial class QuizViewModel : ObservableObject
 
         logger.LogInformation($"Quiz wurde beendet.");
 
-        EvaluateResult();
+        await EvaluateResultAsync();
     }
 
     [RelayCommand]
@@ -425,7 +426,7 @@ public partial class QuizViewModel : ObservableObject
     }
 
 
-    void EvaluateResult()
+    async Task EvaluateResultAsync()
     {
         foreach (Question question in Questions)
         {
@@ -439,6 +440,10 @@ public partial class QuizViewModel : ObservableObject
         }
 
         CurrentView = new ResultView(this);
+        await Task.Delay(300);
+
+        ResultOverviewDialog dialog = new(ReachedPoints, Points, CorrectAnswersCount, Questions.Count, HintCount, TimeEvolved);
+        await dialogService.ShowAsync(dialog, default);
 
         logger.LogInformation($"Quiz Ergebnisse wurden ausgewertet.");
     }

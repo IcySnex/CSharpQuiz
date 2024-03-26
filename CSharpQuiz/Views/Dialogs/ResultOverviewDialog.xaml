@@ -56,7 +56,7 @@
 
         <Rectangle
             Height="3"
-            Margin="0,12"
+            Margin="24"
             HorizontalAlignment="Stretch"
             Fill="{DynamicResource TextFillColorPrimaryBrush}"
             Opacity="0.3"

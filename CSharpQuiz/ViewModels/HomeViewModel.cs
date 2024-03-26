@@ -19,8 +19,10 @@ public partial class HomeViewModel
 
 
     [RelayCommand]
-    void Start()
-    {
+    void StartQuiz() =>
         navigation.Navigate("Quiz");
-    }
+
+    [RelayCommand]
+    void GiveFeedback() =>
+        navigation.Navigate("Feedback");
 }

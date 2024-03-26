@@ -61,7 +61,7 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ContentControl}">
                             <ui:Card
-                                Margin="4"
+                                Margin="0,0,0,4"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch">
                                 <Grid>
@@ -80,13 +80,13 @@
 
                                     <StackPanel Grid.Column="1">
                                         <ui:TextBlock
-                                            Margin="0"
+                                            FontSize="15"
                                             FontTypography="BodyStrong"
                                             Foreground="{DynamicResource TextFillColorPrimaryBrush}"
                                             Text="{TemplateBinding Uid}"
                                             TextWrapping="WrapWithOverflow" />
                                         <ui:TextBlock
-                                            Appearance="Secondary"
+                                            Appearance="Tertiary"
                                             Foreground="{DynamicResource TextFillColorSecondaryBrush}"
                                             Text="{TemplateBinding ContentStringFormat}"
                                             TextWrapping="WrapWithOverflow" />
@@ -96,6 +96,91 @@
                                         Grid.Column="2"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center" />
+                                </Grid>
+                            </ui:Card>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="FeedbackCardStyle" TargetType="{x:Type ContentControl}">
+                <Setter Property="Focusable" Value="False" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ContentControl}">
+                            <ui:Card
+                                Margin="0,0,0,8"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="12" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel>
+                                        <ui:TextBlock
+                                            FontSize="15"
+                                            FontTypography="BodyStrong"
+                                            Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                                            Text="{TemplateBinding Uid}"
+                                            TextWrapping="Wrap" />
+                                        <ui:TextBlock
+                                            Appearance="Tertiary"
+                                            Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                            Text="{TemplateBinding ContentStringFormat}"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+
+                                    <ContentPresenter
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center" />
+                                </Grid>
+                            </ui:Card>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="FeedbackVerticalCardStyle" TargetType="{x:Type ContentControl}">
+                <Setter Property="Focusable" Value="False" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ContentControl}">
+                            <ui:Card
+                                Margin="0,0,0,8"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="12" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <StackPanel>
+                                        <ui:TextBlock
+                                            FontSize="15"
+                                            FontTypography="BodyStrong"
+                                            Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                                            Text="{TemplateBinding Uid}"
+                                            TextWrapping="Wrap" />
+                                        <ui:TextBlock
+                                            Appearance="Tertiary"
+                                            Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                            Text="{TemplateBinding ContentStringFormat}"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+
+                                    <ui:PassiveScrollViewer
+                                        Grid.Row="2"
+                                        MaxHeight="100"
+                                        HorizontalAlignment="Stretch"
+                                        IsTabStop="False">
+                                        <ContentPresenter HorizontalAlignment="Stretch" />
+                                    </ui:PassiveScrollViewer>
                                 </Grid>
                             </ui:Card>
                         </ControlTemplate>

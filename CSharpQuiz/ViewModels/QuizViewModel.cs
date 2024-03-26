@@ -15,6 +15,7 @@ using Wpf.Ui.Extensions;
 using System.Linq;
 using CSharpQuiz.Shared;
 using CSharpQuiz.Views.Dialogs;
+using CSharpQuiz.Services;
 
 namespace CSharpQuiz.ViewModels;
 
@@ -22,13 +23,16 @@ public partial class QuizViewModel : ObservableObject
 {
     readonly ILogger<QuizViewModel> logger;
     readonly ContentDialogService dialogService;
+    readonly Navigation navigation;
 
     public QuizViewModel(
         ILogger<QuizViewModel> logger,
-        ContentDialogService dialogService)
+        ContentDialogService dialogService,
+        Navigation navigation)
     {
         this.logger = logger;
-        this.dialogService = dialogService; ;
+        this.dialogService = dialogService;
+        this.navigation = navigation;
 
         timeEvolvedTimer.Tick += (s, e) =>
         {
@@ -402,6 +406,8 @@ public partial class QuizViewModel : ObservableObject
         CurrentView = new WelcomeView(this);
 
         logger.LogInformation($"Quiz wurde zurück gesetzt.");
+
+        navigation.Navigate("Startseite");
     }
 
 

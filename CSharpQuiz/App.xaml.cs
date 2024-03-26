@@ -33,11 +33,13 @@ public partial class App : Application
                 services.AddSingleton<ContentDialogService>();
                 services.AddSingleton<Navigation>();
                 services.AddSingleton<DynamicRuntime>();
+                services.AddSingleton<GoogleForms>();
                 services.AddSingleton<AppStartupHandler>();
 
                 // ViewModels
                 services.AddSingleton<HomeViewModel>();
                 services.AddSingleton<QuizViewModel>();
+                services.AddSingleton<FeedbackViewModel>();
                 services.AddSingleton<SettingsViewModel>();
 
                 // Main Window

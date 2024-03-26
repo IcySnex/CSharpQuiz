@@ -1,0 +1,142 @@
+﻿<Page
+    x:Class="CSharpQuiz.Views.FeedbackView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hlp="clr-namespace:CSharpQuiz.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="FeedbackView"
+    d:DesignHeight="1050"
+    d:DesignWidth="800"
+    ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+    ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    ScrollViewer.CanContentScroll="False"
+    mc:Ignorable="d">
+
+    <ui:PassiveScrollViewer>
+        <Grid Margin="12">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                Margin="0,0,0,12"
+                Style="{StaticResource Header}"
+                Text="Feedback" />
+
+            <ui:Card Grid.Row="1" Padding="12">
+                <TextBlock TextWrapping="Wrap">
+                    <Run Text="Hier kannst du mir Feedback zu meiner Präsentation &amp; diesem Quiz Programm geben:" />
+                    <LineBreak />
+                    <Run Text="Dein Feedback hilft mir mich zu bessern bei zukünftigen Präsentationen und anderen Programmierprojekten." />
+                </TextBlock>
+            </ui:Card>
+
+            <StackPanel Grid.Row="2" Margin="12">
+                <ContentControl
+                    Uid="Struktur der Präsentation"
+                    ContentStringFormat="Wie gut waren Aufbau, die Reihenfolge der Themen &amp; die Struktur?"
+                    Style="{StaticResource FeedbackCardStyle}">
+                    <ui:RatingControl Value="{Binding StructurOfPresentation, Mode=TwoWay}">
+                        <ui:RatingControl.LayoutTransform>
+                            <ScaleTransform CenterX="0" CenterY="0" ScaleX="1.3" ScaleY="1.3" />
+                        </ui:RatingControl.LayoutTransform>
+                    </ui:RatingControl>
+                </ContentControl>
+
+                <ContentControl
+                    Uid="Inhalt der Präsentation"
+                    ContentStringFormat="Wurden relevante Themen behandelt &amp; waren sie verständlich?"
+                    Style="{StaticResource FeedbackCardStyle}">
+                    <ui:RatingControl Value="{Binding ContentOfPresentation, Mode=TwoWay}">
+                        <ui:RatingControl.LayoutTransform>
+                            <ScaleTransform CenterX="0" CenterY="0" ScaleX="1.3" ScaleY="1.3" />
+                        </ui:RatingControl.LayoutTransform>
+                    </ui:RatingControl>
+                </ContentControl>
+
+                <ContentControl
+                    Uid="Programmierbeispiele in der Präsentation"
+                    ContentStringFormat="Waren die verwendeten Programmierbeispiele nützlich und verständlich?"
+                    Style="{StaticResource FeedbackCardStyle}">
+                    <ui:ThumbRate State="{Binding CodeExamplesInPresentation, Mode=TwoWay}" />
+                </ContentControl>
+
+                <ContentControl
+                    Uid="Quiz-Programm"
+                    ContentStringFormat="Wie sehr hat dir das Quiz-Proramm gefallen &amp; hat es Spaß gemacht?"
+                    Style="{StaticResource FeedbackCardStyle}">
+                    <ui:RatingControl Value="{Binding QuizProgram, Mode=TwoWay}">
+                        <ui:RatingControl.LayoutTransform>
+                            <ScaleTransform CenterX="0" CenterY="0" ScaleX="1.3" ScaleY="1.3" />
+                        </ui:RatingControl.LayoutTransform>
+                    </ui:RatingControl>
+                </ContentControl>
+
+                <ContentControl
+                    Uid="Nutzerfreundlichkeit des Quiz-Programm"
+                    ContentStringFormat="War die Bedienung des Quiz-Programms leicht &amp; die UI ordentlich?"
+                    Style="{StaticResource FeedbackCardStyle}">
+                    <ui:RatingControl Value="{Binding UsabilityOfQuizProgram, Mode=TwoWay}">
+                        <ui:RatingControl.LayoutTransform>
+                            <ScaleTransform CenterX="0" CenterY="0" ScaleX="1.3" ScaleY="1.3" />
+                        </ui:RatingControl.LayoutTransform>
+                    </ui:RatingControl>
+                </ContentControl>
+
+                <ContentControl
+                    Uid="Schwierigkeit des Quizes"
+                    ContentStringFormat="Fandest du das Quiz zum Schluss zu schwer?"
+                    Style="{StaticResource FeedbackCardStyle}">
+                    <ui:ThumbRate State="{Binding DifficultyOfQuiz, Mode=TwoWay}" />
+                </ContentControl>
+
+                <ContentControl
+                    Uid="C# Wissen"
+                    ContentStringFormat="Weißt du nun mehr über die Programmiersprache C#?"
+                    Style="{StaticResource FeedbackCardStyle}">
+                    <ui:ThumbRate State="{Binding CSharpKnowledge, Mode=TwoWay}" />
+                </ContentControl>
+
+                <ContentControl
+                    Uid="Sonstiges zur Präsentation"
+                    ContentStringFormat="Hast du noch sonstige Dinge zu sagen, wie z.B. etwas, was dir besonders gefallen oder gar nicht gefallen hat?"
+                    Style="{StaticResource FeedbackVerticalCardStyle}">
+                    <TextBox
+                        AcceptsReturn="True"
+                        Text="{Binding MiscToPresentation, Mode=TwoWay}"
+                        TextWrapping="Wrap" />
+                </ContentControl>
+
+                <ContentControl
+                    Uid="Sonstiges zum Quiz-Prgoramm"
+                    ContentStringFormat="Hast du noch sonstige Dinge zu sagen, wie z.B. etwas, was dir besonders gefallen oder gar nicht gefallen hat?"
+                    Style="{StaticResource FeedbackVerticalCardStyle}">
+                    <TextBox
+                        AcceptsReturn="True"
+                        Text="{Binding MiscToQuizProgram, Mode=TwoWay}"
+                        TextWrapping="Wrap" />
+                </ContentControl>
+
+                <Rectangle
+                    Height="3"
+                    Margin="24,12,24,24"
+                    HorizontalAlignment="Stretch"
+                    Fill="{DynamicResource TextFillColorPrimaryBrush}"
+                    Opacity="0.3"
+                    RadiusX="2"
+                    RadiusY="2" />
+
+                <ui:Button
+                    HorizontalAlignment="Stretch"
+                    Appearance="Primary"
+                    Command="{Binding SendCommand}"
+                    Content="Feedback senden" />
+            </StackPanel>
+        </Grid>
+    </ui:PassiveScrollViewer>
+</Page>

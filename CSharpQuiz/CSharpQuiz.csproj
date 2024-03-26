@@ -33,6 +33,9 @@
 	  <Compile Update="Views\Elements\QuestionHeader.xaml.cs">
 	    <SubType>Code</SubType>
 	  </Compile>
+	  <Compile Update="Views\FeedbackView.xaml.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
 	  <Compile Update="Views\Questions\ResultView.xaml.cs">
 	    <SubType>Code</SubType>
 	  </Compile>

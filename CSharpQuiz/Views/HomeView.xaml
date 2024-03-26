@@ -43,13 +43,25 @@
                 Opacity="0.75"
                 Text="Eine moderne, objektorientierte Programmiersprache" />
 
-            <ui:Button
-                Margin="0,24,0,0"
-                Padding="24,12"
-                HorizontalAlignment="Center"
-                Appearance="Primary"
-                Command="{Binding StartCommand}"
-                Content="Starte das Quiz" />
+            <Grid Margin="0,24,0,0" HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <ui:Button
+                    Padding="24,12"
+                    Appearance="Primary"
+                    Command="{Binding StartQuizCommand}"
+                    Content="Starte das Quiz" />
+                <ui:Button
+                    Grid.Column="2"
+                    Padding="24,12"
+                    Appearance="Light"
+                    Command="{Binding GiveFeedbackCommand}"
+                    Content="Gebe mir Feedback" />
+            </Grid>
         </StackPanel>
     </Grid>
 </Page>

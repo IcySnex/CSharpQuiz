@@ -52,6 +52,14 @@
                         <ui:SymbolIcon Symbol="Question24" />
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
+                <ui:NavigationViewItem
+                    Content="Feedback"
+                    TargetPageType="{x:Type v:FeedbackView}"
+                    ToolTip="Gebe Feedback zur Präsentation">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:SymbolIcon Symbol="ThumbLike24" />
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
             </ui:NavigationView.MenuItems>
 
             <ui:NavigationView.FooterMenuItems>
@@ -70,6 +78,5 @@
             x:Name="DialogPresenter"
             Grid.RowSpan="2"
             x:FieldModifier="public" />
-
     </Grid>
 </ui:FluentWindow>

@@ -1,21 +1,21 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CSharpQuiz.Questions;
+using CSharpQuiz.Services;
+using CSharpQuiz.Shared;
+using CSharpQuiz.Views.Dialogs;
 using CSharpQuiz.Views.Questions;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Extensions;
-using System.Linq;
-using CSharpQuiz.Shared;
-using CSharpQuiz.Views.Dialogs;
-using CSharpQuiz.Services;
 
 namespace CSharpQuiz.ViewModels;
 
@@ -148,6 +148,19 @@ public partial class QuizViewModel : ObservableObject
                     "Der Vorteil der .NET-Plattform ist, dass es Plattformunabhängigkeit ermöglicht",
                     "Die Laufzeitumgebung von .NET Anwendungen nennt man \"Common Language Runtime\" (CLR)",
                     "Die \"Common Language Runtime\" (CLR) lässt sich nicht mit der \"Java Virtual Machine\" (JVM) vergleichen"),
+            new SingleChoiceQuestion(
+                text: "Was ist kein allgemeiner Datentyp in C#?",
+                hint: "Allgemeine Datentypen speichern immer einen bestimmten Wert, wie z.B. eine Zahl oder ein Wort.",
+                points: 1,
+                correctAnswer: "function",
+                    "int",
+                    "string",
+                    "bool",
+                    "short",
+                    "byte",
+                    "function",
+                    "decimal",
+                    "float"),
             new CodingQuestion(
                 text: "Addiere die Beträge der gegebene Zahlen",
                 hint: "Dieses Problem ist relativ simpel:\nÜberprüfe zuerst, ob die beiden Zahlen negativ sind und falls so, multipliziere sie mit -1, damit sie nicht mehr negativ sind (Pro-Tipp: Du kannst sogar eine kleine Helfer Methode schreiben, damit du dich nicht wiederholen musst).",
@@ -241,7 +254,7 @@ public partial class QuizViewModel : ObservableObject
             new CodingQuestion(
                 text: "Filtere die Bücher nach Autor/Verfügbarkeit & sortiere nach Preis",
                 hint: "Die Aufgabe scheint ziemlich groß & schwer zu sein, aber mithilfe von LINQ ist sie relativ einfach:\nNutze den Syntax 'from buch in bücher' um mit LINQ zu starten.\nDann kannst du mit 'where' überprüfen ob der Autor der selbe ist, wie der gegebene Parameter. Zudem kannst du hier gleich nach der Verfügbarkeit filtern in dem du den Boolean-Operator '&&' verwendest.\nAnschließend nur noch mit 'orderby' nach dem Preis sortieren und das wars schon :)",
-                points: 8,
+                points: 9,
                 defaultMethod: "FiltereBücher",
                 argSets: CreateFiltereBücherArgSets(),
                 expectedDelegate: (Buch[] bücher, string autor) => bücher.Where(buch => buch.Autor == autor && buch.IstVerfügbar).OrderBy(buch => buch.Preis),

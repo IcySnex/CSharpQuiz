@@ -41,16 +41,16 @@ public partial class FeedbackViewModel : ObservableObject
 
     [ObservableProperty]
     double quizProgram = 0;
-    
+
     [ObservableProperty]
     double usabilityOfQuizProgram = 0;
 
     [ObservableProperty]
     ThumbRateState difficultyOfQuiz = ThumbRateState.None;
-    
+
     [ObservableProperty]
     ThumbRateState cSharpKnowledge = ThumbRateState.None;
-    
+
     [ObservableProperty]
     string miscToPresentation = string.Empty;
 
@@ -98,8 +98,7 @@ public partial class FeedbackViewModel : ObservableObject
         }
     }
 
-
-    void AddToFormData(
+    static void AddToFormData(
         Dictionary<string, string> formData,
         string entry,
         double value)
@@ -108,7 +107,7 @@ public partial class FeedbackViewModel : ObservableObject
             formData.Add($"entry.{entry}", (value * 2).ToString());
     }
 
-    void AddToFormData(
+    static void AddToFormData(
         Dictionary<string, string> formData,
         string entry,
         ThumbRateState value)
@@ -124,7 +123,7 @@ public partial class FeedbackViewModel : ObservableObject
         }
     }
 
-    void AddToFormData(
+    static void AddToFormData(
         Dictionary<string, string> formData,
         string entry,
         string value)

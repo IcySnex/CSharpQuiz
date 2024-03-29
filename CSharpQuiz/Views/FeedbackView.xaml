@@ -108,6 +108,7 @@
                     Style="{StaticResource FeedbackVerticalCardStyle}">
                     <TextBox
                         AcceptsReturn="True"
+                        MaxLength="200"
                         Text="{Binding MiscToPresentation, Mode=TwoWay}"
                         TextWrapping="Wrap" />
                 </ContentControl>
@@ -118,6 +119,7 @@
                     Style="{StaticResource FeedbackVerticalCardStyle}">
                     <TextBox
                         AcceptsReturn="True"
+                        MaxLength="200"
                         Text="{Binding MiscToQuizProgram, Mode=TwoWay}"
                         TextWrapping="Wrap" />
                 </ContentControl>

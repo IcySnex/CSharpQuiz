@@ -12,17 +12,13 @@ public class GoogleForms(
 
     readonly HttpClient client = new();
 
-
     public async Task SubmitAsync(
         string id,
         Dictionary<string, string> formData)
     {
-        logger.LogInformation("FormData wird zu url encoded...");
-        FormUrlEncodedContent encodedContent = new(formData);
+        logger.LogInformation("Google Forms Einreichung wird gesendet...");
 
-        HttpResponseMessage response = await client.PostAsync($"https://docs.google.com/forms/d/e/{id}/formResponse", encodedContent);
+        HttpResponseMessage response = await client.PostAsync($"https://docs.google.com/forms/d/e/{id}/formResponse", new FormUrlEncodedContent(formData));
         response.EnsureSuccessStatusCode();
-
-        logger.LogInformation("Google Forms Einreichung abgesendet.");
     }
 }

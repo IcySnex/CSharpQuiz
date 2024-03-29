@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using Wpf.Ui.Controls;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace CSharpQuiz.Views.Dialogs;
 
@@ -26,7 +25,7 @@ public partial class ResultOverviewDialog : ContentDialog
 
         double basicScore = reachedPoints / points;
         double correctAnswersBonus = (double)correctAnswersCount / questionCount * 0.5;
-        double hintPenalty = Math.Min((double)hintCount / questionCount, 0.3);
+        double hintPenalty = Math.Min((double)hintCount / questionCount, 0.15);
         double finalScore = Math.Max(Math.Min(basicScore + correctAnswersBonus - hintPenalty, 1.0), 0.0);
 
         Title = finalScore switch

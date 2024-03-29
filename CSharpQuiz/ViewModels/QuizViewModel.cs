@@ -430,7 +430,7 @@ public partial class QuizViewModel : ObservableObject
         if (await dialogService.ShowSimpleDialogAsync(new()
         {
             Title = "Bist du dir sicher?",
-            Content = "Verwende Tipps nur, wenn du wirklich verzweifelt bist und nicht weiter weißt.",
+            Content = "Verwende Tipps nur, wenn du wirklich verzweifelt bist und nicht weiter weißt.\nZu viele Tipps wirken sich negativ auf die Bewertung aus.",
             CloseButtonText = "Abbrechen",
             PrimaryButtonText = "Fortfahren"
         }) != ContentDialogResult.Primary)
